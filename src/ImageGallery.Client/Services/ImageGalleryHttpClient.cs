@@ -47,6 +47,26 @@ namespace ImageGallery.Client.Services
             return _httpClient;
         }
 
+        public async Task<HttpClient> GetClient(string apiUri)
+        {
+            var currentContext = _httpContextAccessor.HttpContext;
+
+            // get access token
+            var accessToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+            if (!string.IsNullOrWhiteSpace(accessToken))
+            {
+                _httpClient.SetBearerToken(accessToken);
+            }
+
+            _httpClient.BaseAddress = new Uri(apiUri);
+            _httpClient.DefaultRequestHeaders.Accept.Clear();
+            _httpClient.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+
+            return _httpClient;
+        }
+
         private async Task<string> RenewTokens()
         {
             // get the current HttpContext to access the tokens
