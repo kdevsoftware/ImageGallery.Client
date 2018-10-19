@@ -1,0 +1,31 @@
+node('master') {
+    
+    stage('Git checkout') {
+        git branch: 'Auth', credentialsId: 'gihub-key', url: 'git@github.com:stuartshay/ImageGallery.Client.git'
+    }
+    
+    stage('License Check') {
+        docker.image('node:9.3').inside  {
+            sh "npm install -g license-checker"
+            sh "rm -rf licenses.json licenses.html"
+            sh "cd src/ImageGallery.Client && npm install && license-checker --json > licenses.json"
+            def license = readFile('src/ImageGallery.Client/licenses.json')
+            
+            sh """cat <<EOF >licenses.html
+<html>
+            <head>
+            </head>
+            <body>
+            <pre>$license</pre>
+            </body>
+            </html>
+EOF"""
+        }
+    }
+    
+    stage('Publish') {
+        archiveArtifacts '**/licenses.json, **/licenses.html'
+        publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: '', reportFiles: 'licenses.html', reportName: 'License Check Report', reportTitles: ''])
+
+    }
+}
