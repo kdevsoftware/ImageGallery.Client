@@ -54,33 +54,40 @@ node('master') {
     </table>
 
     <script>
-        var dataReport = $license;
-        var packageNames = [];
-        var htmlReport = '<tr>'
-            + '<th>Licenses</th>'
-            + '<th>Repository</th>'
-            + '<th>Publisher</th>'
-            + '<th>Email</th>'
-        '</tr>';
+        fetch("licenses.json")
+            .then(response => response.json())
+            .then(json => makeReport(json));
 
-        for (var key in dataReport) {
-            if (!dataReport.hasOwnProperty(key)) continue;
-            
-            var packageName = key.slice(0, key.lastIndexOf("@"));
-            if (packageNames.includes(packageName)) continue;
-            
-            packageNames.push(packageName);
-            var obj = dataReport[key];
-            htmlReport += ' <tr>'
-            + '<td>' + obj.licenses + '</td>'
-            + '<td>' + obj.repository + '</td>'
-            + '<td>' + obj.publisher + '</td>'
-            + '<td>' + obj.email + '</td>'
-            + '</tr>';
+        function makeReport(dataReport){
+            var packageNames = [];
+            var htmlReport = '<tr>' +
+                '<th>Package Name</th>' +
+                '<th>Licenses</th>' +
+                '<th>Repository</th>' +
+                '<th>Publisher</th>'
+            '</tr>';
+
+            for (var key in dataReport) {
+                if (!dataReport.hasOwnProperty(key)) continue;
+
+                var packageName = key.slice(0, key.lastIndexOf("@"));
+                if (packageNames.includes(packageName)) continue;
+
+                packageNames.push(packageName);
+                var obj = dataReport[key];
+                var publisher = obj.email ?  obj.publisher + ' (' + obj.email + ') ' : obj.publisher;
+                htmlReport += ' <tr>' +
+                    '<td>' + packageName + '</td>' +
+                    '<td>' + obj.licenses + '</td>' +
+                    '<td>' + obj.repository + '</td>' +
+                    '<td>' + publisher + '</td>' +
+                    '</tr>';
+            }
+
+            var licenseReport = document.getElementById("licenseReport");
+            licenseReport.innerHTML = htmlReport;
         }
-
-        var licenseReport = document.getElementById("licenseReport");
-        licenseReport.innerHTML = htmlReport;
+        
     </script>
 
 </body>

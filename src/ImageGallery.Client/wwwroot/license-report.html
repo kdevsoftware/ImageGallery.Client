@@ -1,5 +1,5 @@
 <html>
-    <title>License Report</title>
+
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
@@ -47,10 +47,10 @@
         function makeReport(dataReport){
             var packageNames = [];
             var htmlReport = '<tr>' +
+                '<th>Package Name</th>' +
                 '<th>Licenses</th>' +
                 '<th>Repository</th>' +
-                '<th>Publisher</th>' +
-                '<th>Email</th>'
+                '<th>Publisher</th>'
             '</tr>';
 
             for (var key in dataReport) {
@@ -61,11 +61,12 @@
 
                 packageNames.push(packageName);
                 var obj = dataReport[key];
+                var publisher = obj.email ?  obj.publisher + ' (' + obj.email + ') ' : obj.publisher;
                 htmlReport += ' <tr>' +
+                    '<td>' + packageName + '</td>' +
                     '<td>' + obj.licenses + '</td>' +
                     '<td>' + obj.repository + '</td>' +
-                    '<td>' + obj.publisher + '</td>' +
-                    '<td>' + obj.email + '</td>' +
+                    '<td>' + publisher + '</td>' +
                     '</tr>';
             }
 
