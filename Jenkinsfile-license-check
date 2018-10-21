@@ -17,30 +17,32 @@ node('master') {
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-        .collapsible {
-            background-color: #777;
-            color: white;
-            cursor: pointer;
-            padding: 18px;
+        #licenseReport {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
             width: 100%;
-            border: none;
+        }
+
+        #licenseReport td,
+        #licenseReport th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #licenseReport tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #licenseReport tr:hover {
+            background-color: #ddd;
+        }
+
+        #licenseReport th {
+            padding-top: 12px;
+            padding-bottom: 12px;
             text-align: left;
-            outline: none;
-            font-size: 15px;
-            border-bottom: 1px solid;
-        }
-
-        .active,
-        .collapsible:hover {
-            background-color: #555;
-        }
-
-        .content {
-            padding: 0 18px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.2s ease-out;
-            background-color: #f1f1f1;
+            background-color: #37a1c1;
+            color: white;
         }
     </style>
 </head>
@@ -48,46 +50,37 @@ node('master') {
 <body>
     <h2>License Report</h2>
 
-    <div id="licenseReport">
-
-    </div>
+    <table id="licenseReport">
+    </table>
 
     <script>
         var dataReport = $license;
-        
-        var htmlReport = '';
+        var packageNames = [];
+        var htmlReport = '<tr>'
+            + '<th>Licenses</th>'
+            + '<th>Repository</th>'
+            + '<th>Publisher</th>'
+            + '<th>Email</th>'
+        '</tr>';
+
         for (var key in dataReport) {
-            // skip loop if the property is from prototype
             if (!dataReport.hasOwnProperty(key)) continue;
             
-            htmlReport += '<button class="collapsible">' + key + '</button><div class="content">';
+            var packageName = key.slice(0, key.lastIndexOf("@"));
+            if (packageNames.includes(packageName)) continue;
+            
+            packageNames.push(packageName);
             var obj = dataReport[key];
-            for (var prop in obj) {
-                // skip loop if the property is from prototype
-                if (!obj.hasOwnProperty(prop)) continue;
-
-                // your code
-                htmlReport += '<p> ' + prop + ': ' + obj[prop] + '</p>'
-            }
-
-            htmlReport += '</div>';
+            htmlReport += ' <tr>'
+            + '<td>' + obj.licenses + '</td>'
+            + '<td>' + obj.repository + '</td>'
+            + '<td>' + obj.publisher + '</td>'
+            + '<td>' + obj.email + '</td>'
+            + '</tr>';
         }
+
         var licenseReport = document.getElementById("licenseReport");
         licenseReport.innerHTML = htmlReport;
-        var coll = document.getElementsByClassName("collapsible");
-        var i;
-
-        for (i = 0; i < coll.length; i++) {
-            coll[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var content = this.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
-        }
     </script>
 
 </body>

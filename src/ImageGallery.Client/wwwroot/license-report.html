@@ -1,0 +1,80 @@
+<html>
+    <title>License Report</title>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #licenseReport {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #licenseReport td,
+        #licenseReport th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #licenseReport tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #licenseReport tr:hover {
+            background-color: #ddd;
+        }
+
+        #licenseReport th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #37a1c1;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>License Report</h2>
+
+    <table id="licenseReport">
+    </table>
+
+    <script>
+        fetch("licenses.json")
+            .then(response => response.json())
+            .then(json => makeReport(json));
+
+        function makeReport(dataReport){
+            var packageNames = [];
+            var htmlReport = '<tr>' +
+                '<th>Licenses</th>' +
+                '<th>Repository</th>' +
+                '<th>Publisher</th>' +
+                '<th>Email</th>'
+            '</tr>';
+
+            for (var key in dataReport) {
+                if (!dataReport.hasOwnProperty(key)) continue;
+
+                var packageName = key.slice(0, key.lastIndexOf("@"));
+                if (packageNames.includes(packageName)) continue;
+
+                packageNames.push(packageName);
+                var obj = dataReport[key];
+                htmlReport += ' <tr>' +
+                    '<td>' + obj.licenses + '</td>' +
+                    '<td>' + obj.repository + '</td>' +
+                    '<td>' + obj.publisher + '</td>' +
+                    '<td>' + obj.email + '</td>' +
+                    '</tr>';
+            }
+
+            var licenseReport = document.getElementById("licenseReport");
+            licenseReport.innerHTML = htmlReport;
+        }
+        
+    </script>
+
+</body>
+
+</html>
