@@ -8,7 +8,7 @@ node('master') {
         docker.image('node:9.3').inside  {
             sh "npm install -g license-checker"
             sh "rm -rf licenses.json licenses.html"
-            sh "cd src/ImageGallery.Client && npm install && license-checker --json > licenses.json"
+            sh "cd src/ImageGallery.Client && npm install && license-checker --json > licenses.json && license-checker --csv > licenses.csv"
             def license = readFile('src/ImageGallery.Client/licenses.json')
             
             sh """cat <<EOF >licenses.html
@@ -97,8 +97,12 @@ EOF"""
     }
     
     stage('Publish') {
-        archiveArtifacts '**/licenses.json, **/licenses.html'
+        archiveArtifacts '**/licenses.json, **/licenses.csv, **/licenses.html'
         publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: false, reportDir: '', reportFiles: 'licenses.html', reportName: 'License Check Report', reportTitles: ''])
 
+    }
+
+    stage('Mail') {
+        emailext attachmentsPattern: '**/licenses.csv', body: '', subject: "Jenkins build status - ${currentBuild.fullDisplayName}", to: 'sshay@yahoo.com'
     }
 }
