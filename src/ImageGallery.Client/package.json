@@ -6,9 +6,10 @@
   "scripts": {
     "install": "napa",
     "postinstall": "modernizr -c modernizr-config.json -d wwwroot/app/modernizr.js",
-    "compile-app": "webpack --config webpack.config.js && npm run generate-license",
-    "compile-app-prod": "webpack --config webpack.config.js --env.prod  && npm run generate-license",
-    "generate-license": "node_modules/license-checker/bin/license-checker --json > wwwroot/licenses.json"
+    "compile-app": "webpack --config webpack.config.js",
+    "compile-app-prod": "webpack --config webpack.config.js --env.prod ",
+    "generate-license": "node_modules/license-checker/bin/license-checker --json > wwwroot/licenses.json",
+    "generate-license-csv": "node_modules/license-checker/bin/license-checker --csv > wwwroot/licenses.csv"
   },
   "dependencies": {
     "@agm/core": "1.0.0-beta.5",

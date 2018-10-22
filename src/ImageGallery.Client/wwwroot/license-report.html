@@ -35,16 +35,32 @@
 
 <body>
     <h2>License Report</h2>
-
+    <div id="result"></div>
     <table id="licenseReport">
     </table>
 
     <script>
-        fetch("licenses.json")
-            .then(response => response.json())
-            .then(json => makeReport(json));
+        var result = document.getElementById("result");
 
-        function makeReport(dataReport){
+        fetch("licenses.json")
+            .then(
+                function (response) {
+                    if (response.status !== 200) {
+                        result.innerHTML = 'Can not get licenses.json file! Please check it or run command: npm run generate-license';
+                        return;
+                    }
+
+                    // Examine the text in the response  
+                    response.json().then(function (data) {
+                        makeReport(data);
+                    });
+                }
+            )
+            .catch(function (err) {
+                result.innerHTML = 'Can not get licenses.json!';
+            });
+
+        function makeReport(dataReport) {
             var packageNames = [];
             var htmlReport = '<tr>' +
                 '<th>Package Name</th>' +
@@ -61,7 +77,7 @@
 
                 packageNames.push(packageName);
                 var obj = dataReport[key];
-                var publisher = obj.email ?  obj.publisher + ' (' + obj.email + ') ' : obj.publisher;
+                var publisher = obj.email ? obj.publisher + ' (' + obj.email + ') ' : obj.publisher;
                 htmlReport += ' <tr>' +
                     '<td>' + packageName + '</td>' +
                     '<td>' + obj.licenses + '</td>' +
@@ -73,7 +89,6 @@
             var licenseReport = document.getElementById("licenseReport");
             licenseReport.innerHTML = htmlReport;
         }
-        
     </script>
 
 </body>
