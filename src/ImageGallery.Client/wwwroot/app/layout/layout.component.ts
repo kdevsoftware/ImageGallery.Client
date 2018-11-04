@@ -5,7 +5,7 @@ import { RolesConstants } from '../roles.constants';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserManagementService } from '../services/user.service';
-
+import { IUserProfileViewModel } from '../shared/interfaces';
 
 @Component({
   selector: 'app-layout',
@@ -61,16 +61,16 @@ export class LayoutComponent implements OnInit, OnDestroy {
     let userInfo: any = this.authService.getUser();
     this.name = userInfo.given_name + ' ' + userInfo.family_name;
 
-    this.userManagementService.getUserInfo().subscribe(res => {
-      if (res.json()) {
-        this.form.controls.firstName.patchValue(res.json().firstName);
-        this.form.controls.lastName.patchValue(res.json().lastName);
-        this.form.controls.address.patchValue(res.json().address);
-        this.form.controls.address2.patchValue(res.json().address2);
-        this.form.controls.state.patchValue(res.json().state);
-        this.form.controls.city.patchValue(res.json().city);
-        this.form.controls.country.patchValue(res.json().country);
-      }
+    this.userManagementService.getUserInfo().subscribe((res: IUserProfileViewModel) => {
+        if (res) {
+            this.form.controls.firstName.patchValue(res.firstName);
+            this.form.controls.lastName.patchValue(res.lastName);
+            this.form.controls.address.patchValue(res.address);
+            this.form.controls.address2.patchValue(res.address2);
+            this.form.controls.state.patchValue(res.state);
+            this.form.controls.city.patchValue(res.city);
+            this.form.controls.country.patchValue(res.country);
+        }
     });
   }
 
