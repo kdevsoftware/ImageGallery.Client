@@ -1,5 +1,5 @@
 #### Base Stage
-FROM microsoft/dotnet:2.1.402-sdk AS base
+FROM microsoft/dotnet:2.1.403-sdk AS base
 
 # Declare constants
 ENV NVM_VERSION v0.33.8
