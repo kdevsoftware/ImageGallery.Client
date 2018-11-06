@@ -52,7 +52,7 @@ export function createTranslateLoader(http: HttpClient) {
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
-          return JSON.parse(sessionStorage.getItem('authorizationData'));
+            return sessionStorage.getItem('access_token');
         }
       }
     }),

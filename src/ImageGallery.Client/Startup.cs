@@ -152,6 +152,7 @@ namespace ImageGallery.Client
             Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
 
             Console.WriteLine($"ApiAttractionsUri: {config.ClientConfiguration.ApiAttractionsUri}");
+            Console.WriteLine($"ApiUserManagementUri: {config.ClientConfiguration.ApiUserManagementUri}");
 
             Console.WriteLine($"Authority: {config.OpenIdConnectConfiguration.Authority}");
             Console.WriteLine($"ClientId: {config.OpenIdConnectConfiguration.ClientId}");

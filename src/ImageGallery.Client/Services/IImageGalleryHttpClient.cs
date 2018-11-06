@@ -10,5 +10,7 @@ namespace ImageGallery.Client.Services
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         Task<HttpClient> GetClient();
+
+        Task<HttpClient> GetClient(string apiUri);
     }
 }

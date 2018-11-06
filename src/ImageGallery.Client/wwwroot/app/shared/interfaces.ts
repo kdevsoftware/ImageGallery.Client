@@ -44,3 +44,13 @@ export interface IAlbumViewModel {
     title: string;
     description: string;
 }
+
+export interface IUserProfileViewModel {
+    firstName: string;
+    lastName: string;
+    address: string;
+    address2: string;
+    city: string;
+    state: string;
+    country: string;
+}
