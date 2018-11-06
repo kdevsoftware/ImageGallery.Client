@@ -51,7 +51,7 @@ RUN npm run compile-app
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 #### RELEASE 
-FROM microsoft/dotnet:2.1.4-aspnetcore-runtime AS release
+FROM microsoft/dotnet:2.1.5-aspnetcore-runtime AS release
 
 COPY --from=publish /app/scripts .
 
