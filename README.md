@@ -30,6 +30,7 @@ L: Claire P: password
 ```
 Node v9.3.0
 NET Core SDK 2.1.4
+NET Core Runtime 2.1.5
 VS Code 1.19.1 or VS 2017 15.8.4
 ```
 

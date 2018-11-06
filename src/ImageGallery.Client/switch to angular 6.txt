@@ -1,4 +1,0 @@
-﻿1) ng4-loading-spinner to ngx-loading-spinner-fork as 
-said https://github.com/amitmahida92/ng4-loading-spinner/issues/39
-
-2) ng2-toastr to ngx-toastr
