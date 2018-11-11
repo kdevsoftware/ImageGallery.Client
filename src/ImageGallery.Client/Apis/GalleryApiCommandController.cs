@@ -134,7 +134,7 @@ namespace ImageGallery.Client.Apis
         [HttpPost]
         [Route("order")]
         [Authorize(Roles = "PayingUser")]
-        public async Task<IActionResult> AddImage(AddImageViewModel addImageViewModel)
+        public async Task<IActionResult> AddImage([FromForm] AddImageViewModel addImageViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
