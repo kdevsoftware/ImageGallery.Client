@@ -1,7 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
 
 import { IEditImageViewModel, IAddImageViewModel, IAlbumViewModel, } from './shared/interfaces';
