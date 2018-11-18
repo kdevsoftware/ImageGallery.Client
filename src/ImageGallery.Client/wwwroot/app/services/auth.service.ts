@@ -4,13 +4,14 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AuthService /*implements OnInit, OnDestroy*/ {
   isAuthorizedSubscription: Subscription;
   isAuthorized: boolean;
 
-  constructor(private oAuthService: OAuthService, private router: Router) {
+  constructor(private oAuthService: OAuthService, private router: Router, private httpClient: HttpClient) {
 
   }
 
@@ -58,8 +59,11 @@ export class AuthService /*implements OnInit, OnDestroy*/ {
   logout() {
     localStorage.removeItem('page');
     localStorage.removeItem('limit');
+    localStorage.removeItem('currentUser');
     console.log('[logout] AuthService');
-    this.oAuthService.logOut();
-    this.router.navigate(["/login"]);
+    this.httpClient.get(`/api/images/logout`).subscribe(res => {
+        this.oAuthService.logOut(true);
+        this.router.navigate(["/login"]);
+     });
   }
 }
