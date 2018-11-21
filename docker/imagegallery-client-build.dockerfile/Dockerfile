@@ -30,12 +30,9 @@ ENV PATH $NVM_DIR/versions/node/$NODE_VERSION/bin:$PATH
 RUN node -v
 RUN npm -v
 
-RUN npm install -g bower gulp \ 
-&& echo '{ "allow_root": true }' > /root/.bowerrc
+RUN npm install -g gulp \ 
 
 RUN gulp -v
-RUN npm bower -v
-
 
 # Copy Source
 COPY src /app/src
@@ -47,7 +44,7 @@ RUN dotnet setversion 2.1.2.${BUILD_NUMBER};
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 # Runtime Image Stage
-FROM microsoft/dotnet:2.1.2-aspnetcore-runtime
+FROM microsoft/dotnet:2.1.5-aspnetcore-runtime
 
 WORKDIR /publish
 COPY --from=build-env /publish .
