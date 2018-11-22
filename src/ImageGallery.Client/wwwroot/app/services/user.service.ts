@@ -32,6 +32,10 @@ export class UserManagementService {
             .catch(this.handleError);
     }
 
+    public updateUserInfo(userModel: IUserProfileViewModel) {
+       return this.httpClient.put<IUserProfileViewModel>('/api/UserProfile', userModel);
+    }
+
     resetPassword(email) {
         return this.http.post(`${this.apiEndpoint}/api/Account`, email);
     }
