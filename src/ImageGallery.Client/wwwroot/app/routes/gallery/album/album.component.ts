@@ -6,6 +6,7 @@ import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { setTimeout } from 'timers';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 
 @Component({
@@ -28,6 +29,10 @@ export class AlbumComponent implements OnInit {
     };
     perPage = [15, 30, 60, 90];
 
+    modalRef: BsModalRef;
+
+    private albumToDelete;
+
     constructor(
         private activatedRoute: ActivatedRoute,
         private authService: AuthService,
@@ -36,7 +41,8 @@ export class AlbumComponent implements OnInit {
         vcr: ViewContainerRef,
         private spinnerService: NgxLoadingSpinnerService,
         private changeDetectorRef: ChangeDetectorRef,
-        private router: Router
+        private router: Router,
+        private modalService: BsModalService
     ) {
         //this.toastr.setRootViewContainerRef(vcr);
     }
@@ -70,17 +76,28 @@ export class AlbumComponent implements OnInit {
         }, 1000);
     }
 
-    public deleteImage(imageId: string) {
-        this.galleryService.deleteImageViewModel(imageId)
-            .subscribe((response) => { },
-            (err: any) => {
-                this.toastr.error('Failed to delete image!', 'Oops!', { closeButton: true });
-                console.log(err);
-            },
-            () => {
-                this.toastr.success('Image has been deleted successfully!', 'Success!', { closeButton: true});
-                // this.albumIndexViewModel.images = this.albumIndexViewModel.images.filter(x => x.id != imageId);
-            });
+    public openDeleteModal(album, template, event) {
+      this.albumToDelete = album;
+      this.modalRef = this.modalService.show(template);
+
+      event.stopPropagation();
+    }
+
+    public daleteAlbum() {
+      this.spinnerService.show();
+
+      this.galleryService.deleteAlbumViewModel(this.albumToDelete.id)
+        .subscribe(
+          () => {
+            this.toastr.success('Album has been deleted successfully!', 'Success!', { closeButton: true });
+            this.getAlbumIndexViewModel();
+          },
+          () => this.toastr.error('Access is denied!', 'Oops!', { closeButton: true}),
+          () => {
+            this.modalRef.hide();
+            this.spinnerService.hide();
+          }
+        );
     }
 
     private getAlbumIndexViewModel(event?) {

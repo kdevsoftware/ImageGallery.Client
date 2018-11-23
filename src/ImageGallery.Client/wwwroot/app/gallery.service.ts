@@ -88,6 +88,12 @@ export class GalleryService {
             .catch(this.handleError);
     }
 
+    public deleteAlbumViewModel(id: string): Observable<Object> {
+      var self = this;
+      return this.httpClient.delete(`${this.albumUrl}/${id}`, { headers: self.generateBearerHeaaders() })
+          .catch(this.handleError);
+  }
+
     public postImageViewModel(model: IAddImageViewModel): Observable<Object> {
         let formData = new FormData();
         formData.append('Title', model.title);
