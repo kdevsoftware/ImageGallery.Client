@@ -38,7 +38,7 @@ namespace ImageGallery.Client.Apis
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient;
+            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
         }
 
         private ApplicationOptions ApplicationSettings { get; }

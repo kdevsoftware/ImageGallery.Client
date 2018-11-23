@@ -39,7 +39,7 @@ namespace ImageGallery.Client.Apis
         public GalleryApiCommandController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
         {
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient;
+            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
             ApplicationSettings = settings.Value;
         }
 
