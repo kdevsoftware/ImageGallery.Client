@@ -57,12 +57,21 @@ export class GalleryService {
         });
     }
 
-    public getAlbumViewModel(id: string, limit: number, page: number): Observable<IAlbumViewModel> {
+    public getAlbumViewModel(id: string, limit: number, page: number) {
         var headers = this.generateBearerHeaaders();
         headers.append("Content-Type", "application/json");
 
-        return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/images/list/${limit}/${page}?id=${id}`, { headers: this.generateBearerHeaaders() })
-            .catch(this.handleError);
+        return new Promise((resolve, reject) => {
+          this.httpClient.get(`${this.albumUrl}/images/list/${limit}/${page}?id=${id}`, { observe: 'response', headers: headers })
+            .subscribe(res => {
+                resolve({
+                    totalCount: res.headers.get('X-InlineCount'),
+                    images: res.body
+                });
+              }, error => {
+                  reject(error);
+              });
+        });
     }
 
     public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {

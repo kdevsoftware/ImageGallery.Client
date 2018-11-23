@@ -16,7 +16,35 @@
       </div>
     </div>
   </div>
+
+  <div class="row pagination" *ngIf="pagination.totalItems > 0">
+      <div class="col-md-3 col-sm-12 page-num-info">
+        <div class="inline">
+          <select [ngModel]="pagination.limit" (ngModelChange)="getAlbumViewModel($event)">
+          <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
+          </select>
+          per page
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 text-center pagination-container">
+        <pagination
+          [totalItems]="pagination.totalItems"
+          [itemsPerPage]="pagination.limit"
+          [maxSize]="5"
+          [(ngModel)]="pagination.page"
+          [boundaryLinks]="true"
+          [rotate]="false"
+          (pageChanged)="getAlbumViewModel($event)" class="pagination-sm">
+        </pagination>
+      </div>
+      <div class="col-md-3 col-sm-12 text-right">
+        Total Records: {{pagination.totalItems}}
+      </div>
+    </div>
+
   <div class="jumbotron" *ngIf="albumViewModel && albumViewModel.images.length === 0">
     <span>No Photos Exist for the Album</span>
   </div>
+
+  <ngx-loading-spinner> </ngx-loading-spinner>
 </div>
