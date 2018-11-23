@@ -136,15 +136,15 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
-        /// Get Image.
+        /// Get Image Properties 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
-        [Produces("application/json", Type = typeof(IEnumerable<EditImageViewModel>))]
-        [ProducesResponseType(typeof(IEnumerable<EditImageViewModel>), 200)]
-        public async Task<IActionResult> EditImage(Guid id)
+        [Produces("application/json", Type = typeof(IEnumerable<ImageViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<ImageViewModel>), 200)]
+        public async Task<IActionResult> GetImageProperties(Guid id)
         {
             // call the API
             var imagesRoute = $"{InternalImagesRoute}/{id}";
@@ -159,14 +159,17 @@ namespace ImageGallery.Client.Apis
                 var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var deserializedImage = JsonConvert.DeserializeObject<Image>(imageAsString);
 
-                var editImageViewModel = new EditImageViewModel
+                var imageViewModel = new ImageViewModel(ApplicationSettings.ImagesUri)
                 {
                     Id = deserializedImage.Id,
                     Title = deserializedImage.Title,
                     Category = deserializedImage.Category,
+                    FileName = deserializedImage.FileName,
+                    Height = deserializedImage.Height,
+                    Width = deserializedImage.Width,
                 };
 
-                return Ok(editImageViewModel);
+                return Ok(imageViewModel);
             }
 
             switch (response.StatusCode)
