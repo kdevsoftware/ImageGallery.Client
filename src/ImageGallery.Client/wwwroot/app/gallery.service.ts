@@ -1,11 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
 
-import { IEditImageViewModel, IAddImageViewModel, IAlbumViewModel, } from './shared/interfaces';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IEditImageViewModel, IAddImageViewModel, } from './shared/interfaces';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 
@@ -123,10 +122,10 @@ export class GalleryService {
 
     private handleError(error: any) {
         console.error('server error:', error);
-        if (error instanceof Response) {
+        if (error instanceof HttpErrorResponse) {
             let errMessage = '';
             try {
-                errMessage = error.json().error;
+                errMessage = error.error;
             } catch (err) {
                 errMessage = error.statusText;
             }

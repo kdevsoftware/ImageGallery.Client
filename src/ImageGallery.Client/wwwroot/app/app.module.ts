@@ -16,7 +16,6 @@ import { AuthService } from './services/auth.service';
 import { AuthenticationService } from './authentication.service';
 
 import { JwtModule } from '@auth0/angular-jwt';
-import { HttpModule } from '@angular/http';
 import { HasPayingUserRoleAuthenticationGuard } from './guards/hasPayingUserRoleAuthenticationGuard';
 import { AuthGuard } from './guards/authGuard';
 import { OAuthModule, OAuthService, JwksValidationHandler } from 'angular-oauth2-oidc';
@@ -34,7 +33,6 @@ export function createTranslateLoader(http: HttpClient) {
     AppComponent
   ],
   imports: [
-    HttpModule,
     HttpClientModule,
     BrowserAnimationsModule,
     CoreModule,

@@ -1,8 +1,7 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { SettingsService } from '../../../core/settings/settings.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { Http, Headers, RequestOptions } from '@angular/http';
 import { Router } from '@angular/router';
 
 import { ReCaptchaService, ReCaptchaParamsInterface } from '../../../reCaptchaCallback'
@@ -17,7 +16,6 @@ export class RegisterComponent implements AfterViewInit {
   passwordForm: FormGroup;
 
   constructor(public fb: FormBuilder
-    , private http: Http
     , private router: Router
     , private reCaptchaService: ReCaptchaService
     , public settings: SettingsService) {
@@ -86,15 +84,15 @@ export class RegisterComponent implements AfterViewInit {
 
     if (!this.valForm.valid || value.passwordGroup.password !== value.passwordGroup.confirmPassword) return;
 
-    let headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    let options = new RequestOptions({ headers: headers });
+    // let headers = new Headers();
+    // headers.append('Content-Type', 'application/json');
+    // let options = new RequestOptions({ headers: headers });
 
-    let body = {
-      Email: value.email,
-      Password: value.passwordGroup.password,
-      RecaptchaToken: value["ggl-recaptcha-input"]
-    };
+    // let body = {
+    //   Email: value.email,
+    //   Password: value.passwordGroup.password,
+    //   RecaptchaToken: value["ggl-recaptcha-input"]
+    // };
 
     console.error("No registration url was provided");
     /*
