@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace ImageGallery.Model
 {
     public class Image

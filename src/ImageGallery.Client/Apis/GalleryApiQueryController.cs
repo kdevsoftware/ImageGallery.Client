@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
@@ -19,7 +20,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [ApiController]
-    [Route("api/images")]
+    [Route(GalleryRoutes.GalleryRoute)]
     public class GalleryApiQueryController : BaseController
     {
         private const string InternalImagesRoute = "api/images";
@@ -38,7 +39,7 @@ namespace ImageGallery.Client.Apis
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient;
+            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
         }
 
         private ApplicationOptions ApplicationSettings { get; }
@@ -81,7 +82,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
@@ -132,19 +133,19 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
-        /// Get Image.
+        /// Get Image Properties.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
-        [Produces("application/json", Type = typeof(IEnumerable<EditImageViewModel>))]
-        [ProducesResponseType(typeof(IEnumerable<EditImageViewModel>), 200)]
-        public async Task<IActionResult> EditImage(Guid id)
+        [Produces("application/json", Type = typeof(IEnumerable<ImageViewModel>))]
+        [ProducesResponseType(typeof(IEnumerable<ImageViewModel>), 200)]
+        public async Task<IActionResult> GetImageProperties(Guid id)
         {
             // call the API
             var imagesRoute = $"{InternalImagesRoute}/{id}";
@@ -159,14 +160,17 @@ namespace ImageGallery.Client.Apis
                 var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var deserializedImage = JsonConvert.DeserializeObject<Image>(imageAsString);
 
-                var editImageViewModel = new EditImageViewModel
+                var imageViewModel = new ImageViewModel(ApplicationSettings.ImagesUri)
                 {
                     Id = deserializedImage.Id,
                     Title = deserializedImage.Title,
                     Category = deserializedImage.Category,
+                    FileName = deserializedImage.FileName,
+                    Height = deserializedImage.Height,
+                    Width = deserializedImage.Width,
                 };
 
-                return Ok(editImageViewModel);
+                return Ok(imageViewModel);
             }
 
             switch (response.StatusCode)
@@ -178,7 +182,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

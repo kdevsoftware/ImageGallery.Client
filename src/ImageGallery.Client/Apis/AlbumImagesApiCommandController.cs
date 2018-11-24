@@ -13,26 +13,26 @@ using Microsoft.Extensions.Options;
 namespace ImageGallery.Client.Apis
 {
     /// <summary>
-    ///
+    /// 
     /// </summary>
+    [ApiController]
     [Route(AlbumRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
-    [ApiController]
-    public class AlbumApiCommandController : BaseController
+    public class AlbumImagesApiCommandController : BaseController
     {
         private const string InternalAlbumsRoute = "api/albums";
 
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
 
-        private readonly ILogger<AlbumApiQueryController> _logger;
+        private readonly ILogger<AlbumImagesApiQueryController> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AlbumApiCommandController"/> class.
+        /// Initializes a new instance of the <see cref="AlbumImagesApiCommandController"/> class.
         /// </summary>
-        /// <param name="settings"></param>
         /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="settings"></param>
         /// <param name="logger"></param>
-        public AlbumApiCommandController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<AlbumApiQueryController> logger)
+        public AlbumImagesApiCommandController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumImagesApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
@@ -42,19 +42,23 @@ namespace ImageGallery.Client.Apis
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
-        /// Delete Album.
+        ///  Delete Image from Album.
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="imageId"></param>
+        /// <exception cref="Exception"></exception>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlbum(Guid id)
+        [HttpDelete("{id}/{imageId}")]
+        public async Task<IActionResult> Delete(Guid id, Guid imageId)
         {
-            _logger.LogInformation($"Delete image by Id {id}");
+            // TODO Add Rule to Validate Image is Album Owner
+            _logger.LogInformation($"Delete Album image  AlbumId:{id}|ImageId:{imageId}");
 
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
-            var response = await httpClient.DeleteAsync($"{InternalAlbumsRoute}/{id}").ConfigureAwait(false);
+            var requestUri = $"{InternalAlbumsRoute}/images/{id}?imageId={imageId}";
+            var response = await httpClient.DeleteAsync(requestUri).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
                 return Ok();
@@ -68,7 +72,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            return UnprocessableEntity(response.ReasonPhrase);
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
         }
     }
 }

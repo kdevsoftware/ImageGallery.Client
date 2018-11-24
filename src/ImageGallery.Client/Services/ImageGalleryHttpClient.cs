@@ -12,12 +12,20 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace ImageGallery.Client.Services
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class ImageGalleryHttpClient : IImageGalleryHttpClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         private readonly HttpClient _httpClient = new HttpClient();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageGalleryHttpClient"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="httpContextAccessor"></param>
         public ImageGalleryHttpClient(IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
         {
             ApplicationSettings = settings.Value;
@@ -47,6 +55,11 @@ namespace ImageGallery.Client.Services
             return _httpClient;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="apiUri"></param>
+        /// <returns></returns>
         public async Task<HttpClient> GetClient(string apiUri)
         {
             var currentContext = _httpContextAccessor.HttpContext;
@@ -67,6 +80,10 @@ namespace ImageGallery.Client.Services
             return _httpClient;
         }
 
+        /// <summary>
+        ///  Renew Tokens.
+        /// </summary>
+        /// <returns></returns>
         private async Task<string> RenewTokens()
         {
             // get the current HttpContext to access the tokens

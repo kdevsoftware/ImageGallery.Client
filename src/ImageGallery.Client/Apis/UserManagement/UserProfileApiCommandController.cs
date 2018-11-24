@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels.UserManagement;
@@ -15,6 +16,9 @@ using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis.UserManagement
 {
+    /// <summary>
+    /// User Properties.
+    /// </summary>
     [Authorize]
     [Route(UserManagementRoutes.UserProfile)]
     public class UserProfileApiCommandController : Controller
@@ -25,16 +29,27 @@ namespace ImageGallery.Client.Apis.UserManagement
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
         private readonly ILogger<UserProfileApiCommandController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserProfileApiCommandController"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="logger"></param>
         public UserProfileApiCommandController(
             IOptions<ApplicationOptions> settings,
             IImageGalleryHttpClient imageGalleryHttpClient,
             ILogger<UserProfileApiCommandController> logger)
         {
             _settings = settings;
-            _imageGalleryHttpClient = imageGalleryHttpClient;
+            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
             _logger = logger;
         }
 
+        /// <summary>
+        /// Update User Properties.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(typeof(UserProfileUpdateViewModel), 200)]
         public async Task<IActionResult> Put([FromBody] [Required] UserProfileUpdateViewModel model)

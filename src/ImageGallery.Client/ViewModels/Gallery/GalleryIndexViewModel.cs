@@ -9,7 +9,7 @@ namespace ImageGallery.Client.ViewModels
     public class GalleryIndexViewModel
     {
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="GalleryIndexViewModel"/> class.
         /// </summary>
         /// <param name="images"></param>
         /// <param name="imagesUri"></param>
