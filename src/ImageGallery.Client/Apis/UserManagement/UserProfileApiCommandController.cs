@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
@@ -21,7 +22,7 @@ namespace ImageGallery.Client.Apis.UserManagement
     /// </summary>
     [Authorize]
     [Route(UserManagementRoutes.UserProfile)]
-    public class UserProfileApiCommandController : Controller
+    public class UserProfileApiCommandController : BaseController
     {
         private const string InternalUserProfileRoute = "api/UserProfile";
 
@@ -84,7 +85,7 @@ namespace ImageGallery.Client.Apis.UserManagement
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

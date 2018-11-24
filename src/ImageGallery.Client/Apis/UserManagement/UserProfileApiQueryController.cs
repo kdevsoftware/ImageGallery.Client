@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
@@ -14,11 +15,11 @@ using Newtonsoft.Json;
 namespace ImageGallery.Client.Apis.UserManagement
 {
     /// <summary>
-    ///
+    /// User Profile Query Controller.
     /// </summary>
     [Authorize]
     [Route(UserManagementRoutes.UserProfile)]
-    public class UserProfileApiQueryController : Controller
+    public class UserProfileApiQueryController : BaseController
     {
         private const string InternalUserProfileRoute = "api/UserProfile";
 
@@ -74,7 +75,7 @@ namespace ImageGallery.Client.Apis.UserManagement
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

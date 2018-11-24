@@ -139,7 +139,7 @@ namespace ImageGallery.Client
     }
 
     /// <summary>
-    /// 
+    /// Service Collection Configuration Methods.
     /// </summary>
     internal static class ServiceCollectionExtensions
     {

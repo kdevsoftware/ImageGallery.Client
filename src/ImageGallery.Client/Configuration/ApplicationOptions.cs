@@ -1,22 +1,22 @@
 ﻿namespace ImageGallery.Client.Configuration
 {
     /// <summary>
-    ///
+    /// Application Configuration Options.
     /// </summary>
     public class ApplicationOptions
     {
         /// <summary>
-        ///
+        /// ImageGallery API Uri.
         /// </summary>
         public string ApiUri { get; set; }
 
         /// <summary>
-        ///
+        /// Image Base Url.
         /// </summary>
         public string ImagesUri { get; set; }
 
         /// <summary>
-        ///
+        ///  ClientConfiguration
         /// </summary>
         public ClientConfiguration ClientConfiguration { get; set; }
 
@@ -154,10 +154,9 @@
         public string RollingFilePath { get; set; }
 
         /// <summary>
-        ///  Serilog Console Logging
+        ///  Serilog Console Logging.
         /// </summary>
         public bool ConsoleEnabled { get; set; }
-
     }
 
     /// <summary>
@@ -166,7 +165,7 @@
     public class LogglyClientConfiguration
     {
         /// <summary>
-        ///
+        /// Loggly Configuration Key.
         /// </summary>
         public string LogglyKey { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ImageGallery.Client.ViewModels
+namespace ImageGallery.Client.ViewModels.Album
 {
     /// <summary>
     ///

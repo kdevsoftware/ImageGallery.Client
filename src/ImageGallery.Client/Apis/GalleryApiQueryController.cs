@@ -32,10 +32,10 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Initializes a new instance of the <see cref="GalleryApiQueryController"/> class.
         /// </summary>
-        /// <param name="settings"></param>
         /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="settings"></param>
         /// <param name="logger"></param>
-        public GalleryApiQueryController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiQueryController> logger)
+        public GalleryApiQueryController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<GalleryApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;

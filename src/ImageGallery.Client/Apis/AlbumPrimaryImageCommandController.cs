@@ -15,24 +15,24 @@ namespace ImageGallery.Client.Apis
     /// <summary>
     ///
     /// </summary>
+    [ApiController]
     [Route(AlbumRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
-    [ApiController]
-    public class AlbumApiCommandController : BaseController
+    public class AlbumPrimaryImageCommandController : BaseController
     {
         private const string InternalAlbumsRoute = "api/albums";
 
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
 
-        private readonly ILogger<AlbumApiCommandController> _logger;
+        private readonly ILogger<AlbumPrimaryImageCommandController> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AlbumApiCommandController"/> class.
+        /// Initializes a new instance of the <see cref="AlbumPrimaryImageCommandController"/> class.
         /// </summary>
         /// <param name="settings"></param>
         /// <param name="imageGalleryHttpClient"></param>
         /// <param name="logger"></param>
-        public AlbumApiCommandController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumApiCommandController> logger)
+        public AlbumPrimaryImageCommandController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumPrimaryImageCommandController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
@@ -42,19 +42,20 @@ namespace ImageGallery.Client.Apis
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
-        /// Delete Album.
+        /// Update Album Primary Image.
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="imageId"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAlbum(Guid id)
+        [HttpPut("primaryimage/{id}")]
+        public async Task<IActionResult> Put(Guid id, [FromQuery] Guid imageId)
         {
-            _logger.LogInformation($"Delete image by Id {id}");
+            await WriteOutIdentityInformation();
 
-            // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
-            var response = await httpClient.DeleteAsync($"{InternalAlbumsRoute}/{id}").ConfigureAwait(false);
+            var route = $"{InternalAlbumsRoute}/primaryImage/{id}?imageId={imageId}";
+            var response = await httpClient.PutAsync(route, null).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
                 return Ok();

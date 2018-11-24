@@ -37,7 +37,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="settings"></param>
         /// <param name="imageGalleryHttpClient"></param>
         /// <param name="logger"></param>
-        public GalleryApiCommandController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<GalleryApiCommandController> logger)
+        public GalleryApiCommandController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<GalleryApiCommandController> logger)
         {
             _logger = logger;
             _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));

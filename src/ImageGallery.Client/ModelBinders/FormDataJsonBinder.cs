@@ -5,8 +5,16 @@ using Newtonsoft.Json;
 
 namespace ImageGallery.Client.ModelBinders
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class FormDataJsonBinder : IModelBinder
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="bindingContext"></param>
+        /// <returns></returns>
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext == null)

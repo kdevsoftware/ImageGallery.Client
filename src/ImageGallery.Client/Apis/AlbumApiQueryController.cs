@@ -8,6 +8,7 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
+using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="settings"></param>
         /// <param name="imageGalleryHttpClient"></param>
         /// <param name="logger"></param>
-        public AlbumApiQueryController(IOptions<ApplicationOptions> settings, IImageGalleryHttpClient imageGalleryHttpClient, ILogger<AlbumApiQueryController> logger)
+        public AlbumApiQueryController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
@@ -57,9 +58,7 @@ namespace ImageGallery.Client.Apis
         {
             await WriteOutIdentityInformation();
 
-            // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
-
             var response = await httpClient.GetAsync(InternalAlbumsRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {InternalAlbumsRoute} return {response.StatusCode}.");
@@ -84,7 +83,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
@@ -134,7 +133,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
@@ -147,7 +146,6 @@ namespace ImageGallery.Client.Apis
         [ProducesResponseType(typeof(IEnumerable<AlbumViewModel>), 200)]
         public async Task<IActionResult> GetAlbum(Guid id)
         {
-            // call the API
             var albumsRoute = $"{InternalAlbumsRoute}/{id}";
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
@@ -180,7 +178,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

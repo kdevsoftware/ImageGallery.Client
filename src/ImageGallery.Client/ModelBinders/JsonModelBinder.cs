@@ -1,13 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace ImageGallery.Client.ModelBinders
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class JsonModelBinder : IModelBinder
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="bindingContext"></param>
+        /// <returns></returns>
         public Task BindModelAsync(ModelBindingContext bindingContext)
         {
             if (bindingContext == null)
