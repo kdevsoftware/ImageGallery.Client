@@ -9,6 +9,7 @@ import { IGalleryIndexViewModel } from '../../../shared/interfaces';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { take } from 'rxjs/operators';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 
 @Component({
     selector: 'app-album-view',
@@ -30,11 +31,15 @@ export class AlbumViewComponent implements OnInit {
 
     categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
+    modalRef: BsModalRef;
+    private imageToDelete;
+
     constructor(private readonly galleryService: GalleryService,
         private activatedRoute: ActivatedRoute,
         public toastr: ToastrService, 
         private spinnerService: NgxLoadingSpinnerService,
-        private changeDetectorRef: ChangeDetectorRef) {
+        private changeDetectorRef: ChangeDetectorRef,
+        private modalService: BsModalService) {
     }
 
     async ngOnInit() {
@@ -47,6 +52,30 @@ export class AlbumViewComponent implements OnInit {
           this.albumId = paramMap.params['id'];
           this.getAlbumViewModel();
         });
+    }
+
+    public openDeleteModal(image, template) {
+      this.imageToDelete = image;
+      this.modalRef = this.modalService.show(template);
+    }
+
+    public daleteImage() {
+      this.spinnerService.show();
+
+      this.galleryService.deleteImageFromAlbum(this.albumId, this.imageToDelete.id)
+        .subscribe(
+          () => {
+            this.toastr.success('Image has been deleted successfully!', 'Success!', { closeButton: true });
+            this.getAlbumViewModel();
+            this.modalRef.hide();
+            this.spinnerService.hide();
+          },
+          () => {
+            this.toastr.error('Access is denied!', 'Oops!', { closeButton: true});
+            this.modalRef.hide();
+            this.spinnerService.hide();
+          }
+        );
     }
 
     private getAlbumViewModel(event?) {
