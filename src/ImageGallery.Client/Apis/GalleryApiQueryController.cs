@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
@@ -19,7 +20,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [ApiController]
-    [Route("api/images")]
+    [Route(GalleryRoutes.GalleryRoute)]
     public class GalleryApiQueryController : BaseController
     {
         private const string InternalImagesRoute = "api/images";
@@ -81,7 +82,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
@@ -132,7 +133,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
@@ -181,7 +182,7 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

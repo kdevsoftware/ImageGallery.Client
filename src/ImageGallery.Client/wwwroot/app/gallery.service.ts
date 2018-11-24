@@ -96,7 +96,7 @@ export class GalleryService {
 
         var options = { headers: this.generateBearerHeaaders() }
 
-        return this.httpClient.post(`${this.baseUrl}/order`, formData, options)
+        return this.httpClient.post(`${this.baseUrl}/add`, formData, options)
             .catch(this.handleError);
     }
 

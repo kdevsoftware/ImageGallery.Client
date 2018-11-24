@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
@@ -21,7 +22,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [ApiController]
-    [Route("api/images")]
+    [Route(GalleryRoutes.GalleryRoute)]
     public class GalleryApiCommandController : BaseController
     {
         private const string InternalImagesRoute = "api/images";
@@ -74,13 +75,13 @@ namespace ImageGallery.Client.Apis
 
             var response = await httpClient.PutAsync(
                     $"{InternalImagesRoute}/{editImageViewModel.Id}",
-                    new StringContent(serializedImageForUpdate, System.Text.Encoding.Unicode, "application/json"))
+                    new StringContent(serializedImageForUpdate, Encoding.Unicode, "application/json"))
                 .ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
                 return Ok();
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
@@ -111,28 +112,16 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>
         /// Add Image.
         /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        [Route("add")]
-        [Authorize(Roles = "PayingUser")]
-        public IActionResult AddImage()
-        {
-            return Ok();
-        }
-
-        /// <summary>
-        /// Order Picture Frame.
-        /// </summary>
         /// <param name="addImageViewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        [Route("order")]
+        [Route("add")]
         [Authorize(Roles = "PayingUser")]
         public async Task<IActionResult> AddImage([FromForm] AddImageViewModel addImageViewModel)
         {
@@ -173,7 +162,25 @@ namespace ImageGallery.Client.Apis
             if (response.IsSuccessStatusCode)
                 return Ok();
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
+        }
+
+        /// <summary>
+        /// Update Image.
+        /// </summary>
+        /// <param name="updateImageViewModel"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("update")]
+        [Authorize(Roles = "PayingUser")]
+        public async Task<IActionResult> UpdateImage([FromForm] UpdateImageViewModel updateImageViewModel)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            await Task.Delay(1);
+
+            return Ok();
         }
     }
 }
