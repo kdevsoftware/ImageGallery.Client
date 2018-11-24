@@ -1,6 +1,6 @@
 ﻿<div class="container">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="/albums">Albums</a></li>
+    <li class="breadcrumb-item"><a routerLink="/albums">Albums</a></li>
     <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
   </ol>
   <h2 class="page-header">{{title}}</h2>
@@ -12,11 +12,59 @@
         </div>
         <div class="panel-footer">
           <h5 class="image-title">{{album.title}}</h5>
+          <div>
+              <a (click)="openDeleteModal(album, template)">Delete</a>
+            </div>
         </div>
       </div>
     </div>
   </div>
+
+  <div class="row pagination" *ngIf="pagination.totalItems > 0">
+      <div class="col-md-3 col-sm-12 page-num-info">
+        <div class="inline">
+          <select [ngModel]="pagination.limit" (ngModelChange)="getAlbumViewModel($event)">
+          <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
+          </select>
+          per page
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 text-center pagination-container">
+        <pagination
+          [totalItems]="pagination.totalItems"
+          [itemsPerPage]="pagination.limit"
+          [maxSize]="5"
+          [(ngModel)]="pagination.page"
+          [boundaryLinks]="true"
+          [rotate]="false"
+          (pageChanged)="getAlbumViewModel($event)" class="pagination-sm">
+        </pagination>
+      </div>
+      <div class="col-md-3 col-sm-12 text-right">
+        Total Records: {{pagination.totalItems}}
+      </div>
+    </div>
+
   <div class="jumbotron" *ngIf="albumViewModel && albumViewModel.images.length === 0">
     <span>No Photos Exist for the Album</span>
   </div>
+
+  <ngx-loading-spinner> </ngx-loading-spinner>
 </div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Confirm delete image</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+      <div>Are you sure want to delete image from album?</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="modalRef.hide()">Cancel</button>
+        <button class="btn btn-success" (click)="daleteImage()">Ok</button>
+    </div>
+  </ng-template>
+  

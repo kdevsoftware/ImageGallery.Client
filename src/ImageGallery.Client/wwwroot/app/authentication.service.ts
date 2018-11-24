@@ -1,11 +1,9 @@
 ﻿import { Injectable } from '@angular/core';
-import { Http, Headers, Response, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 
-import { HttpClient } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class AuthenticationService {
@@ -22,10 +20,10 @@ export class AuthenticationService {
 
     private handleError(error: any) {
         console.error('server error:', error);
-        if (error instanceof Response) {
+        if (error instanceof HttpErrorResponse) {
             let errMessage = '';
             try {
-                errMessage = error.json().error;
+                errMessage = error.error;
             } catch (err) {
                 errMessage = error.statusText;
             }

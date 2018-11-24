@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 
-import { Response } from '@angular/http';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
@@ -15,16 +13,15 @@ export class UserManagementService {
     private apiEndpoint = '';
 
     constructor(
-        private http: Http,
         private httpClient: HttpClient
     ) {
-        this.getConfig().subscribe(res => {
-            this.apiEndpoint = res.json().clientConfiguration.apiUserManagementUri;
+        this.getConfig().subscribe((res: any) => {
+            this.apiEndpoint = res.clientConfiguration.apiUserManagementUri;
         });
     }
 
     getConfig() {
-        return this.http.get('api/ClientAppSettings');
+        return this.httpClient.get('api/ClientAppSettings');
     }
 
     public getUserInfo() {
@@ -37,23 +34,23 @@ export class UserManagementService {
     }
 
     resetPassword(email) {
-        return this.http.post(`${this.apiEndpoint}/api/Account`, email);
+        return this.httpClient.post(`${this.apiEndpoint}/api/Account`, email);
     }
 
     validatePassword(password) {
-        return this.http.post(`${this.apiEndpoint}/api/Account/ValidatePassword`, password);
+        return this.httpClient.post(`${this.apiEndpoint}/api/Account/ValidatePassword`, password);
     }
 
     createPassword(password) {
-        return this.http.post(`${this.apiEndpoint}/api/Account/CreatePassword`, password);
+        return this.httpClient.post(`${this.apiEndpoint}/api/Account/CreatePassword`, password);
     }
 
     private handleError(error: any) {
         console.error('server error:', error);
-        if (error instanceof Response) {
+        if (error instanceof HttpErrorResponse) {
             let errMessage = '';
             try {
-                errMessage = error.json().error;
+                errMessage = error.error;
             } catch (err) {
                 errMessage = error.statusText;
             }

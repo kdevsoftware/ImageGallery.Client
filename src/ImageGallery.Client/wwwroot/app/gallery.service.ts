@@ -1,11 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
-import { Response } from '@angular/http';
 
 import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
 
-import { IEditImageViewModel, IAddImageViewModel, IAlbumViewModel, } from './shared/interfaces';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { IEditImageViewModel, IAddImageViewModel, } from './shared/interfaces';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 
@@ -57,12 +56,21 @@ export class GalleryService {
         });
     }
 
-    public getAlbumViewModel(id: string, limit: number, page: number): Observable<IAlbumViewModel> {
+    public getAlbumViewModel(id: string, limit: number, page: number) {
         var headers = this.generateBearerHeaaders();
         headers.append("Content-Type", "application/json");
 
-        return this.httpClient.get<IAlbumViewModel>(`${this.albumUrl}/images/list/${limit}/${page}?id=${id}`, { headers: this.generateBearerHeaaders() })
-            .catch(this.handleError);
+        return new Promise((resolve, reject) => {
+          this.httpClient.get(`${this.albumUrl}/images/list/${limit}/${page}?id=${id}`, { observe: 'response', headers: headers })
+            .subscribe(res => {
+                resolve({
+                    totalCount: res.headers.get('X-InlineCount'),
+                    images: res.body
+                });
+              }, error => {
+                  reject(error);
+              });
+        });
     }
 
     public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
@@ -88,6 +96,18 @@ export class GalleryService {
             .catch(this.handleError);
     }
 
+    public deleteImageFromAlbum(id: string, imageId: string): Observable<Object> {
+      var self = this;
+      return this.httpClient.delete(`${this.albumUrl}/${id}/${imageId}`, { headers: self.generateBearerHeaaders() })
+          .catch(this.handleError);
+  }
+
+    public deleteAlbumViewModel(id: string): Observable<Object> {
+      var self = this;
+      return this.httpClient.delete(`${this.albumUrl}/${id}`, { headers: self.generateBearerHeaaders() })
+          .catch(this.handleError);
+  }
+
     public postImageViewModel(model: IAddImageViewModel): Observable<Object> {
         let formData = new FormData();
         formData.append('Title', model.title);
@@ -108,10 +128,10 @@ export class GalleryService {
 
     private handleError(error: any) {
         console.error('server error:', error);
-        if (error instanceof Response) {
+        if (error instanceof HttpErrorResponse) {
             let errMessage = '';
             try {
-                errMessage = error.json().error;
+                errMessage = error.error;
             } catch (err) {
                 errMessage = error.statusText;
             }
