@@ -46,7 +46,7 @@ namespace ImageGallery.Client.Apis
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
-        /// Edit Image.
+        /// Edit Image Properties.
         /// </summary>
         /// <param name="editImageViewModel"></param>
         /// <returns></returns>
@@ -54,7 +54,7 @@ namespace ImageGallery.Client.Apis
         [Route("edit")]
         [Consumes("application/json")]
         [Authorize(Roles = "PayingUser")] /* TEST FREE USER VALIDATION */
-        public async Task<IActionResult> EditImage([FromBody] EditImageViewModel editImageViewModel)
+        public async Task<IActionResult> EditImagePropeties([FromBody] EditImageViewModel editImageViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

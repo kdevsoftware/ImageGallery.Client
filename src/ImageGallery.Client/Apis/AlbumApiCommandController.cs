@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using ImageGallery.Client.Apis.Base;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -13,10 +15,10 @@ namespace ImageGallery.Client.Apis
     /// <summary>
     ///
     /// </summary>
-    [Route("api/albums")]
+    [Route(AlbumRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
     [ApiController]
-    public class AlbumApiCommandController : ControllerBase
+    public class AlbumApiCommandController : BaseController
     {
         private const string InternalAlbumsRoute = "api/albums";
 

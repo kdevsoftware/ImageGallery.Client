@@ -208,13 +208,6 @@ namespace ImageGallery.Client.Controllers
             // create a TokenRevocationClient
             var revocationClient = new TokenRevocationClient(metaDataResponse.RevocationEndpoint, ApplicationSettings.OpenIdConnectConfiguration.ClientId, ApplicationSettings.OpenIdConnectConfiguration.ClientSecret);
 
-            /*
-             var x = revocationClient.ClientId;
-             var x1 = revocationClient.ClientSecret;
-             var x2 = revocationClient.AuthenticationStyle;
-             Console.WriteLine("ClientId:" + x + "ClientSecret:" + x1 + "AuthenticationStyle:" + x2);
-            */
-
             // get the access token to revoke
             var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 

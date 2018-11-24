@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Threading.Tasks;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels.UserManagement;
@@ -12,6 +13,9 @@ using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis.UserManagement
 {
+    /// <summary>
+    ///
+    /// </summary>
     [Authorize]
     [Route(UserManagementRoutes.UserProfile)]
     public class UserProfileApiQueryController : Controller
@@ -22,16 +26,26 @@ namespace ImageGallery.Client.Apis.UserManagement
         private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
         private readonly ILogger<UserProfileApiQueryController> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserProfileApiQueryController"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="logger"></param>
         public UserProfileApiQueryController(
             IOptions<ApplicationOptions> settings,
             IImageGalleryHttpClient imageGalleryHttpClient,
             ILogger<UserProfileApiQueryController> logger)
         {
             _settings = settings;
-            _imageGalleryHttpClient = imageGalleryHttpClient;
+            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
             _logger = logger;
         }
 
+        /// <summary>
+        /// Get User Properties.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(UserProfileViewModel), 200)]
         public async Task<IActionResult> Get()

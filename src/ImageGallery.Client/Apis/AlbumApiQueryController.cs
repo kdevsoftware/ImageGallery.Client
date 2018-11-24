@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.Services;
@@ -20,7 +21,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [ApiController]
-    [Route("api/albums")]
+    [Route(AlbumRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
     public class AlbumApiQueryController : BaseController
     {

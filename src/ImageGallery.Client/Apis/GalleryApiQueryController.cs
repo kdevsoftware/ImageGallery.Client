@@ -136,7 +136,7 @@ namespace ImageGallery.Client.Apis
         }
 
         /// <summary>
-        /// Get Image Properties 
+        /// Get Image Properties.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

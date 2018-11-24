@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
+using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
@@ -17,10 +18,10 @@ using Newtonsoft.Json;
 namespace ImageGallery.Client.Apis
 {
     /// <summary>
-    ///
+    /// Album Images Query Api.
     /// </summary>
     [ApiController]
-    [Route("api/albums")]
+    [Route(AlbumRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
     public class AlbumImagesApiQueryController : BaseController
     {
