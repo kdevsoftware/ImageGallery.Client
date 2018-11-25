@@ -5,7 +5,7 @@ namespace ImageGallery.Model
     /// <summary>
     ///
     /// </summary>
-    public class ImageForUpdate
+    public class ImageProperitesUpdate
     {
         /// <summary>
         ///
