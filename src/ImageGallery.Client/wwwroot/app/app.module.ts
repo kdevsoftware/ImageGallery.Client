@@ -1,8 +1,7 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // this is needed!
 import { NgModule, Inject } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateService, TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -13,7 +12,6 @@ import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
 import { AuthService } from './services/auth.service';
-import { AuthenticationService } from './authentication.service';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { HasPayingUserRoleAuthenticationGuard } from './guards/hasPayingUserRoleAuthenticationGuard';
@@ -22,6 +20,7 @@ import { OAuthModule, OAuthService, JwksValidationHandler } from 'angular-oauth2
 
 import { HttpXSRFInterceptorProvider } from './services/xsrfInterceptor.service';
 import { ModalModule } from 'ngx-bootstrap';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 // https://github.com/ocombe/ng2-translate/issues/218
 export function createTranslateLoader(http: HttpClient) {
@@ -55,7 +54,8 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     ToastrModule.forRoot(),
-    ModalModule.forRoot()
+    ModalModule.forRoot(),
+    ImageCropperModule
   ],
   providers: [
     { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
