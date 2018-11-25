@@ -13,7 +13,7 @@ using Microsoft.Extensions.Options;
 namespace ImageGallery.Client.Apis
 {
     /// <summary>
-    /// 
+    /// Album Images Api CommandController.
     /// </summary>
     [ApiController]
     [Route(AlbumRoutes.AlbumsRoute)]

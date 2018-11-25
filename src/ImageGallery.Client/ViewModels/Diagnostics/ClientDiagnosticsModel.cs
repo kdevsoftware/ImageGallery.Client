@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace ImageGallery.Client.ViewModels.Diagnostics
+﻿namespace ImageGallery.Client.ViewModels.Diagnostics
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class ClientDiagnosticsModel
     {
     }

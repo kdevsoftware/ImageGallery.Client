@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ImageGallery.Client.ViewModels.Diagnostics
 {
     /// <summary>
-    ///
+    /// Server Diagnostics Model.
     /// </summary>
     public class ServerDiagnostics
     {

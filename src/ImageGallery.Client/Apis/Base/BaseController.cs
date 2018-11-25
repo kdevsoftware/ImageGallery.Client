@@ -1,5 +1,10 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using ImageGallery.Client.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -28,6 +33,27 @@ namespace ImageGallery.Client.Apis.Base
             {
                 Debug.WriteLine($"Claim type: {claim.Type} - Claim value: {claim.Value}");
             }
+        }
+
+        /// <summary>
+        /// Generic Reflection Patch Name/Value.
+        /// Basic Use for Flat Objects.
+        /// </summary>
+        /// <typeparam name="TEntity">Entity.</typeparam>
+        /// <param name="entity"></param>
+        /// <param name="patchDtos"></param>
+        /// <returns></returns>
+        protected TEntity ApplyPatch<TEntity>(TEntity entity, List<PatchDto> patchDtos)
+            where TEntity : class
+        {
+            var nameValuePairProperties = patchDtos.ToDictionary(a => a.PropertyName, a => a.PropertyValue);
+            foreach (var property in nameValuePairProperties)
+            {
+                PropertyInfo propertyInfo = entity.GetType().GetProperty(property.Key, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                propertyInfo.SetValue(entity, Convert.ChangeType(property.Value, propertyInfo.PropertyType), null);
+            }
+
+            return entity;
         }
     }
 }
