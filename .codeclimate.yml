@@ -1,0 +1,10 @@
+engines:
+  fixme:
+    enabled: false
+  duplication:
+    enabled: false
+
+exclude_patterns:
+  - "tools/"
+  - "scripts/"
+  - "test/"
