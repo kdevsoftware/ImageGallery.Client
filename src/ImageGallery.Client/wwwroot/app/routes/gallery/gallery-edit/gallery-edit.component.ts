@@ -104,7 +104,7 @@ export class GalleryEditComponent implements OnInit {
       .subscribe((response: IEditImageViewModel) => {
         this.editImageViewModel = response;
         // todo: for test
-        // this.editImageViewModel.imageUrl = '../../../../assets/img/test.jpg';
+        this.editImageViewModel.imageUrl = '../../../../assets/img/test.jpg';
         this.spinnerService.hide();
       },
         (err: any) => {
