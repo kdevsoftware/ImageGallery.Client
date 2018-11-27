@@ -14,3 +14,6 @@ exclude_patterns:
   - "tools/"
   - "scripts/"
   - "test/"
+
+exclude_patterns:
+  - "**/modernizr.js"
