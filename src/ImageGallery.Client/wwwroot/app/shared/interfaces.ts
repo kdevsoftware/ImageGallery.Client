@@ -31,6 +31,7 @@ export interface IEditImageViewModel {
     id: string;
     title: string;
     category: string;
+    imageUrl: string;
 }
 
 export interface IAddImageViewModel {
