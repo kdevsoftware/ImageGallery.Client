@@ -217,6 +217,9 @@ namespace ImageGallery.Client.Apis
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            _logger.LogInformation($"Id:{updateImageViewModel.Id}");
+            _logger.LogInformation($"File.Length:{updateImageViewModel.File.Length}");
+
             await Task.Delay(1);
 
             return Ok();
