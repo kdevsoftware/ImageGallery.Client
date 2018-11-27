@@ -108,6 +108,17 @@ export class GalleryService {
           .catch(this.handleError);
   }
 
+  public cropImage(id: string, file: File): Observable<Object> {
+    const formData = new FormData();
+        formData.append('Id', id);
+        formData.append('File', file);
+
+        var options = { headers: this.generateBearerHeaaders() }
+
+        return this.httpClient.post(`${this.baseUrl}/update`, formData, options)
+            .catch(this.handleError);
+  }
+
     public postImageViewModel(model: IAddImageViewModel): Observable<Object> {
         let formData = new FormData();
         formData.append('Title', model.title);

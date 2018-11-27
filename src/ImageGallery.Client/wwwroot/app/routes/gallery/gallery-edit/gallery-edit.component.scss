@@ -1,1 +1,8 @@
-﻿
+﻿.crop .img-preview,
+.crop .crop-btn-container {
+  padding: 5px;
+}
+
+.crop .img-preview img {
+  width: 50%;
+}
