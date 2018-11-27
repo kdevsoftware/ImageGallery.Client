@@ -38,14 +38,6 @@ namespace ImageGallery.Client.Test.UI.Pages
                 SaveAsFile(filePath, format);
         }
 
-        public void Dispose()
-        {
-            if (_driver != null)
-            {
-                _driver.Dispose();
-            }
-        }
-
         protected IWebElement LoadElement(string propertyName)
         {
             var propertyInfo = GetType().GetProperty(
@@ -108,6 +100,23 @@ namespace ImageGallery.Client.Test.UI.Pages
                     return By.XPath(findsBy.Using);
                 default:
                     throw new ArgumentException("Invalid find criteria");
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _driver?.Dispose();
             }
         }
     }

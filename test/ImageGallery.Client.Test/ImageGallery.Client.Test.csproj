@@ -17,9 +17,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
-
-
-
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="2.1.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.4">
@@ -28,7 +25,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.4" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta009" />
-    <PackageReference Include="dotnet-setversion" Version="1.0.3" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.console" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
@@ -43,24 +39,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.3" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <AdditionalFiles Include="$(SolutionDir)/_stylecop/stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
-</PropertyGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\src\ImageGallery.Client\ImageGallery.Client.csproj" />
     <ProjectReference Include="..\..\src\ImageGallery.Model\ImageGallery.Model.csproj" />
   </ItemGroup>
+
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
+    <CodeAnalysisRuleSet>$(SolutionDir)_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
 </Project>

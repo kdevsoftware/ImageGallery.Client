@@ -51,11 +51,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
-
-
-
-
-    <PackageReference Include="dotnet-setversion" Version="1.0.3" />
     <PackageReference Include="Navigator.Common" Version="1.1.0.5" />
     <PackageReference Include="Selenium.Chrome.WebDriver" Version="2.43.0" />
     <PackageReference Include="Selenium.Firefox.WebDriver" Version="0.22.0" />
@@ -78,20 +73,18 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <DotNetCliToolReference Include="dotnet-setversion" Version="1.0.2" />
+
+
+  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
+    <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>$(SolutionDir)_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
-  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <AdditionalFiles Include="$(SolutionDir)/_stylecop/stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopeRules.ruleset</CodeAnalysisRuleSet>
-</PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 
@@ -57,7 +56,6 @@ namespace ImageGallery.Client.Test.UI.Pages
 
             return buttonIsAvailable;
         }
-
 
         public string GetValidationErrorText()
         {
