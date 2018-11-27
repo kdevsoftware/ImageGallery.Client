@@ -17,3 +17,28 @@
   display: flex;
   align-items: center;
 }
+
+.d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.primary-image {
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #5d9cec;
+}
+
+.primary-image.glyphicon-star-empty {
+  visibility: hidden;
+}
+
+.primary-image.glyphicon-star {
+  cursor: not-allowed;
+}
+
+.panel:hover .primary-image.glyphicon-star-empty {
+  visibility: visible;
+}
