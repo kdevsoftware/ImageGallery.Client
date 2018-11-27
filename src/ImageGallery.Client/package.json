@@ -87,7 +87,7 @@
     "angular-auth-oidc-client": "^8.0.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "sonarqube-scanner": "^2.1.2",
-    "webpack": "^4.26.0",
+    "webpack": "^4.26.1",
     "webpack-dev-middleware": "^3.4.0"
   }
 }
