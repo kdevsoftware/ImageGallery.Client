@@ -11,13 +11,13 @@
                 <p class="text-center pv">SIGN IN TO CONTINUE.</p>
                 <form [formGroup]="valForm" class="form-validate mb-lg" role="form" name="loginForm" novalidate="" (submit)="submitForm($event, valForm.value)">
                     <div class="form-group has-feedback">
-                        <input class="form-control" id="exampleInputLogin1" type="text" name="login" placeholder="Enter Login" autocomplete="off" formControlName="login" required="" />
+                        <input class="form-control" id="input_login" type="text" name="login" placeholder="Enter Login" autocomplete="off" formControlName="login" required="" />
                         <span class="fa fa-user form-control-feedback text-muted"></span>
                         <span class="text-danger"
                               *ngIf="valForm.controls['login'].hasError('required') && (valForm.controls['login'].dirty || valForm.controls['login'].touched)">This field is required</span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input class="form-control" id="exampleInputPassword1" type="password" name="password" placeholder="Password" formControlName="password" required="" />
+                        <input class="form-control" id="input_password" type="password" name="password" placeholder="Password" formControlName="password" required="" />
                         <span class="fa fa-lock form-control-feedback text-muted"></span>
                         <span class="text-danger"
                               *ngIf="valForm.controls['password'].hasError('required') && (valForm.controls['password'].dirty || valForm.controls['password'].touched)">This field is required</span>

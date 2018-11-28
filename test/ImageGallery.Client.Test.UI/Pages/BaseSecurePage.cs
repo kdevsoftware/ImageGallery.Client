@@ -15,14 +15,17 @@ namespace ImageGallery.Client.Test.UI.Pages
         {
         }
 
-        [FindsBy(How = How.Id, Using = "Username")]
+        [FindsBy(How = How.Id, Using = "input_login")]
         protected IWebElement UserName { get; set; }
 
-        [FindsBy(How = How.Id, Using = "Password")]
+        [FindsBy(How = How.Id, Using = "input_password")]
         protected IWebElement Password { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".btn.btn-primary")]
         protected IWebElement LoginButton { get; set; }
+
+        [FindsBy(How = How.CssSelector, Using = ".btn.btn-primary")]
+        protected IWebElement LogoutButton { get; set; }
 
         [FindsBy(How = How.LinkText, Using = "Google")]
         protected IWebElement LoginGoogleButton { get; set; }

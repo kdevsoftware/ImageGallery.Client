@@ -15,24 +15,24 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li>
-                    <a *ngIf="isAuthorized" [routerLink]="['/']">Home</a>
+                    <a *ngIf="isAuthorized" id="home" [routerLink]="['/']">Home</a>
                 </li>
                 <li>
-                    <a *ngIf="isAuthorized" [routerLink]="['/albums']">Albums</a>
+                    <a *ngIf="isAuthorized" id="albums" [routerLink]="['/albums']">Albums</a>
                 </li>
                 <li>
-                    <a *ngIf="(isAuthorized && hasPayingUserRole)" routerLink="/gallery-add">Add an image</a>
+                    <a *ngIf="(isAuthorized && hasPayingUserRole)" id="add_mage" routerLink="/gallery-add">Add an image</a>
                 </li>
                 <li>
-                    <a *ngIf="isAuthorized" routerLink="/about">About</a>
+                    <a *ngIf="isAuthorized" id="about" routerLink="/about">About</a>
                 </li>
                 <li>
-                    <a *ngIf="isAuthorized" href="#" (click)="logout()">Logout</a>
+                    <a *ngIf="isAuthorized" id="input_logout" href="#" (click)="logout()">Logout</a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a *ngIf="isAuthorized" href="#" (click)="openModal(template)">Welcome {{name}}</a>
+                    <a *ngIf="isAuthorized" id="user_properties" href="#" (click)="openModal(template)">Welcome {{name}}</a>
                 </li>
             </ul>
         </div>
