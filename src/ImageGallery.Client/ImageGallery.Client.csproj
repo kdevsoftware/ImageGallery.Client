@@ -231,16 +231,4 @@
     <TypeScriptCompile Include="wwwroot\app\vendor.ts" />
   </ItemGroup>
 
-  <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
 </Project>
