@@ -10,7 +10,7 @@ ARG BUILD_NUMBER=0
 ENV BUILD_NUMBER ${BUILD_NUMBER}
 
 ARG LOGGLY_TOKEN=0
-ENV LOGGLY_TOKEN ${BUILD_NUMBER}
+ENV LOGGLY_TOKEN ${LOGGLY_TOKEN}
 
 # Install Packages 
 RUN apt-get update && apt-get install -y \
@@ -40,7 +40,10 @@ COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
 WORKDIR /app/src/ImageGallery.Client
 
-RUN dotnet setversion 2.1.2.${BUILD_NUMBER};
+RUN dotnet tool install --global dotnet-setversion --version 2.0.0 
+RUN dotnet tool list -g
+#RUN dotnet setversion 2.1.2.${BUILD_NUMBER};
+
 RUN dotnet publish -o /publish -c Release -f netcoreapp2.1 -r debian.9-x64
 
 # Runtime Image Stage
