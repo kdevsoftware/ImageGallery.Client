@@ -40,6 +40,7 @@ COPY ImageGallery.Client.sln /app/ImageGallery.Client.sln
 
 WORKDIR /app/src/ImageGallery.Client
 
+RUN export PATH="$PATH:/root/.dotnet/tools"
 RUN dotnet tool install --global dotnet-setversion --version 2.0.0 
 RUN dotnet tool list -g
 #RUN dotnet setversion 2.1.2.${BUILD_NUMBER};
