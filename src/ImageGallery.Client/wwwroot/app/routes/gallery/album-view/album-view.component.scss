@@ -36,9 +36,9 @@
 }
 
 .primary-image.glyphicon-star {
-  cursor: not-allowed;
+  cursor: default;
 }
 
-.panel:hover .primary-image.glyphicon-star-empty {
+.primary-image-hover:hover .primary-image.glyphicon-star-empty {
   visibility: visible;
 }
