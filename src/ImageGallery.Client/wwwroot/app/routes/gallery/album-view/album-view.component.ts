@@ -33,6 +33,7 @@ export class AlbumViewComponent implements OnInit {
 
   modalRef: BsModalRef;
   private imageToDelete;
+  private editedTitle: boolean = false;
 
   constructor(
     private readonly galleryService: GalleryService,
@@ -54,6 +55,40 @@ export class AlbumViewComponent implements OnInit {
         this.getAlbumViewModel();
       });
   }
+
+  onEnterTitle(image: IImage, input: any, event: any) {
+    if (input.value !== image.title) {
+      this.spinnerService.show();
+
+      this.galleryService.patchImageTitle(image.id, 'title', input.value)
+        .subscribe(
+          () => {
+            this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
+            this.editedTitle = true;
+            event.target.blur();
+            this.spinnerService.hide();
+          },
+          () => {
+            this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+            this.editedTitle = false;
+            event.target.blur();
+            this.spinnerService.hide();
+          }
+        );
+    } else {
+      this.editedTitle = false;
+    }
+  }
+
+  onCancelEditTitle(image: IImage, input: any) {
+    if (this.editedTitle) {
+      image.title = input.value;
+      this.editedTitle = false;
+    } else {
+      input.value = image.title;
+    }
+  }
+
 
   public openDeleteModal(image, template) {
     this.imageToDelete = image;

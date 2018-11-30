@@ -11,7 +11,7 @@ export interface IImage {
 export interface IAlbum {
   id: string;
   title: string;
-  descritpion: string;
+  description: string;
 }
 
 export interface IRouteTypeModel {

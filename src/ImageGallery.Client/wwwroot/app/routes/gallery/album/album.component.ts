@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewContainerRef, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryService } from '../../../gallery.service';
-import { IAlbumIndexViewModel, IRouteTypeModel } from '../../../shared/interfaces';
+import { IAlbumIndexViewModel, IRouteTypeModel, IAlbum } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
@@ -30,8 +30,9 @@ export class AlbumComponent implements OnInit {
     perPage = [15, 30, 60, 90];
 
     modalRef: BsModalRef;
-
     private albumToDelete;
+    private editedTitle: boolean = false;
+    private editedDescription: boolean = false;
 
     constructor(
         private activatedRoute: ActivatedRoute,
@@ -75,6 +76,78 @@ export class AlbumComponent implements OnInit {
             this.changeDetectorRef.detectChanges();
         }, 1000);
     }
+
+    onClickProperty(event: any) {
+        event.stopPropagation();
+    }
+
+    onEnterTitle(album: IAlbum, inputTitle: any, event: any) {
+        if (inputTitle.value !== album.title) {
+            this.spinnerService.show();
+
+            this.galleryService.patchAlbumTitle(album.id, 'title', inputTitle.value)
+                .subscribe(
+                    () => {
+                        this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
+                        this.editedTitle = true;
+                        event.target.blur();
+                        this.spinnerService.hide();
+                    },
+                    () => {
+                        this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+                        this.editedTitle = false;
+                        event.target.blur();
+                        this.spinnerService.hide();
+                    }
+                );
+        } else {
+            this.editedTitle = false;
+        }
+    }
+
+    onCancelEditTitle(album: IAlbum, inputTitle: any) {
+        if (this.editedTitle) {
+            album.title = inputTitle.value;
+            this.editedTitle = false;
+        } else {
+            inputTitle.value = album.title;
+        }
+    }
+
+    onEnterDescr(album: IAlbum, inputDescr: any, event: any) {
+        if (inputDescr.value !== album.description) {
+            this.spinnerService.show();
+
+            this.galleryService.patchAlbumDescription(album.id, 'description', inputDescr.value)
+                .subscribe(
+                    () => {
+                        this.toastr.success('Description has been updated successfully!', 'Success!', { closeButton: true });
+                        this.editedDescription = true;
+                        event.target.blur();
+                        this.spinnerService.hide();
+                    },
+                    () => {
+                        this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+                        this.editedDescription = false;
+                        event.target.blur();
+                        this.spinnerService.hide();
+                    }
+                );
+        } else {
+            this.editedDescription = false;
+        }
+    }
+
+    onCancelEditDescr(album: IAlbum, inputDescr: any) {
+        if (this.editedDescription) {
+            album.description = inputDescr.value;
+        this.editedDescription = false;
+        } else {
+            inputDescr.value = album.description;
+        }
+    }
+    
+
 
     public openDeleteModal(album, template, event) {
       this.albumToDelete = album;

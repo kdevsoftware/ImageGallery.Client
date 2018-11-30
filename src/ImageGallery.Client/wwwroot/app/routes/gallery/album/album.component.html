@@ -7,8 +7,22 @@
           <img src="{{albumIndexViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
         </div>
         <div class="panel-footer">
-          <h5 class="image-title">{{album.title}}</h5>
-          <h5 class="image-title">{{album.description}}</h5>
+          <input
+          (click)="onClickProperty($event)"
+          (keyup.enter)="onEnterTitle(album, focusOnEditTitle, $event)"
+          (blur)="onCancelEditTitle(album, focusOnEditTitle)"
+          [value]="album.title"
+          type="text" 
+          class="title-descr-edit title-descr-edit-focus"
+          #focusOnEditTitle> 
+          <input
+          (click)="onClickProperty($event)"
+          (keyup.enter)="onEnterDescr(album, focusOnEditDescr, $event)"
+          (blur)="onCancelEditDescr(album, focusOnEditDescr)"
+          [value]="album.description"
+          type="text" 
+          class="title-descr-edit title-descr-edit-focus"
+          #focusOnEditDescr> 
           <div>
             <a (click)="openDeleteModal(album, template, $event)">Delete</a>
           </div>

@@ -90,6 +90,49 @@ export class GalleryService {
     return this.httpClient.post(`${this.baseUrl}/edit`, model, { headers: headers });
   }
 
+  public patchAlbumTitle(id: string, propertyName: string, propertyValue: string): Observable<Object> {
+    var headers = this.generateBearerHeaaders();
+    headers.append("Content-Type", "application/json-patch+json");
+
+    const model = [
+        {
+          propertyName: propertyName,
+          propertyValue: propertyValue
+        }
+      ];
+
+    return this.httpClient.patch(`${this.albumUrl}/${id}`, model, { headers: headers });
+}
+
+public patchAlbumDescription(id: string, propertyName: string, propertyValue: string): Observable<Object> {
+    var headers = this.generateBearerHeaaders();
+    headers.append("Content-Type", "application/json-patch+json");
+
+    const model = [
+        {
+          propertyName: propertyName,
+          propertyValue: propertyValue
+        }
+      ];
+
+    return this.httpClient.patch(`${this.albumUrl}/${id}`, model, { headers: headers });
+}
+
+public patchImageTitle(id: string, propertyName: string, propertyValue: string): Observable<Object> {
+    var headers = this.generateBearerHeaaders();
+    headers.append("Content-Type", "application/json-patch+json");
+
+    const model = [
+        {
+          propertyName: propertyName,
+          propertyValue: propertyValue
+        }
+      ];
+
+    return this.httpClient.patch(`${this.baseUrl}/${id}`, model, { headers: headers });
+}
+
+
   public deleteImageViewModel(id: string): Observable<Object> {
     var self = this;
     return this.httpClient.delete(`${this.baseUrl}/${id}`, { headers: self.generateBearerHeaaders() })
