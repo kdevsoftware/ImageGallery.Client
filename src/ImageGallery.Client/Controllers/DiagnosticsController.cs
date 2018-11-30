@@ -50,25 +50,11 @@ namespace ImageGallery.Client.Controllers
         [Produces("application/json", Type = typeof(ServerDiagnostics))]
         public ServerDiagnostics Get()
         {
-            var osNameAndVersion = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
-            var diagnostics = new ServerDiagnostics
-            {
-                MachineDate = DateTime.Now,
-                MachineName = Environment.MachineName,
-                MachineCulture =
-                    string.Format("{0} - {1}", CultureInfo.CurrentCulture.DisplayName, CultureInfo.CurrentCulture.Name),
-                Platform = osNameAndVersion.Trim(),
-                DnsHostName = Dns.GetHostName(),
-                WorkingDirectory = null,
-                ContentRootPath = _env.ContentRootPath,
-                WebRootPath = _env.WebRootPath,
-                ApplicationName = _env.ApplicationName,
-                EnvironmentName = _env.EnvironmentName,
-                Runtime = GetNetCoreVersion(),
-            };
-
-            diagnostics.MachineTimeZone = TimeZoneInfo.Local.IsDaylightSavingTime(diagnostics.MachineDate) ? TimeZoneInfo.Local.DaylightName : TimeZoneInfo.Local.StandardName;
-            diagnostics.ApplicationVersionNumber = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
+            var diagnostics = GetServerDiagnostics();
+            diagnostics.ContentRootPath = _env.ContentRootPath;
+            diagnostics.WebRootPath = _env.WebRootPath;
+            diagnostics.ApplicationName = _env.ApplicationName;
+            diagnostics.EnvironmentName = _env.EnvironmentName;
 
             var ipAddresses = Dns.GetHostAddressesAsync(diagnostics.DnsHostName).Result.Where(x => x.AddressFamily == AddressFamily.InterNetwork).ToList().Distinct();
 
@@ -80,6 +66,28 @@ namespace ImageGallery.Client.Controllers
             }
 
             diagnostics.IpAddressList = ipList;
+
+            return diagnostics;
+        }
+
+        private static ServerDiagnostics GetServerDiagnostics()
+        {
+            var osNameAndVersion = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
+
+            var diagnostics = new ServerDiagnostics
+            {
+                MachineDate = DateTime.Now,
+                MachineName = Environment.MachineName,
+                MachineCulture =
+                    string.Format("{0} - {1}", CultureInfo.CurrentCulture.DisplayName, CultureInfo.CurrentCulture.Name),
+                Platform = osNameAndVersion.Trim(),
+                DnsHostName = Dns.GetHostName(),
+                WorkingDirectory = null,
+                Runtime = GetNetCoreVersion(),
+            };
+
+            diagnostics.MachineTimeZone = TimeZoneInfo.Local.IsDaylightSavingTime(diagnostics.MachineDate) ? TimeZoneInfo.Local.DaylightName : TimeZoneInfo.Local.StandardName;
+            diagnostics.ApplicationVersionNumber = Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
 
             return diagnostics;
         }

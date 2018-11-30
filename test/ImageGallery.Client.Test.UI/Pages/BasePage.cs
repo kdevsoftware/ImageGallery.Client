@@ -13,7 +13,7 @@ namespace ImageGallery.Client.Test.UI.Pages
         /// </summary>
         protected const int DefaultTimeout = 10;
 
-        protected readonly IWebDriver _driver;
+        private readonly IWebDriver _driver;
 
         public BasePage(IWebDriver driver)
         {

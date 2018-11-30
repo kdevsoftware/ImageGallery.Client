@@ -15,7 +15,6 @@
     <TypeScriptCompileBlocked>True</TypeScriptCompileBlocked>
   </PropertyGroup>
 
-
   <ItemGroup>
     <Content Remove="wwwroot\app\app.component.ts" />
     <Content Remove="wwwroot\app\app.module.ts" />
@@ -169,14 +168,6 @@
     </ItemGroup>
   </Target>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\app\app.component.ts" />
     <TypeScriptCompile Include="wwwroot\app\app.module.ts" />
@@ -229,6 +220,18 @@
     <TypeScriptCompile Include="wwwroot\app\shared\interfaces.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\shared.module.ts" />
     <TypeScriptCompile Include="wwwroot\app\vendor.ts" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
 </Project>

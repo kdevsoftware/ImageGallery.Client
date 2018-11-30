@@ -19,7 +19,7 @@ using Newtonsoft.Json;
 namespace ImageGallery.Client.Apis
 {
     /// <summary>
-    ///
+    /// Album Api CommandController.
     /// </summary>
     [Route(AlbumRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
