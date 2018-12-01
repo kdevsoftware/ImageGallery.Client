@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.IO;
+using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
-using System;
-using System.IO;
 
 namespace ImageGallery.Client.Test.UI.Fixtures
 {

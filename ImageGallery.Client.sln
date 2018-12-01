@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Client.Test", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Client.Test.UI", "test\ImageGallery.Client.Test.UI\ImageGallery.Client.Test.UI.csproj", "{470667CD-88D4-462F-9242-D407EE6DC6B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGallery.Service", "ImageGallery.Service\ImageGallery.Service.csproj", "{8C4E1D83-D2A3-487E-A166-C973786F0178}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{470667CD-88D4-462F-9242-D407EE6DC6B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{470667CD-88D4-462F-9242-D407EE6DC6B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{470667CD-88D4-462F-9242-D407EE6DC6B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C4E1D83-D2A3-487E-A166-C973786F0178}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C4E1D83-D2A3-487E-A166-C973786F0178}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C4E1D83-D2A3-487E-A166-C973786F0178}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C4E1D83-D2A3-487E-A166-C973786F0178}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -46,6 +52,7 @@ Global
 		{F145FDDC-915C-4D68-846D-6E0935C8C0EB} = {A68B4FC4-7FD1-4584-8075-2F5A1C3B6373}
 		{5A9CC689-1554-4C44-8889-3E23654CFCAF} = {49B52D2E-9DCB-49F9-A4AE-F99D3C9852AA}
 		{470667CD-88D4-462F-9242-D407EE6DC6B6} = {49B52D2E-9DCB-49F9-A4AE-F99D3C9852AA}
+		{8C4E1D83-D2A3-487E-A166-C973786F0178} = {A68B4FC4-7FD1-4584-8075-2F5A1C3B6373}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0C774B9-E784-4231-8C30-94E6E325992A}

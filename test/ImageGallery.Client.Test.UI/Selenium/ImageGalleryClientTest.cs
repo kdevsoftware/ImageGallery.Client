@@ -23,7 +23,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         private const string LoginRequiredMessage = "The Username field is required.";
         private const string PasswordRequiredessage = "The Password field is required.";
         private const string InvalidLoginMessage = "Invalid username or password";
-        private const string LoginPageTitle = "Identity";
+        private const string LoginPageTitle = "- Image Gallery";
 
         private readonly IWebDriver _driver;
 
@@ -110,7 +110,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
                 galleryPage.LogoutAndWait();
                 TakeScreenshot(galleryPage);
 
-                //Assert.Contains(LoginPageTitle, galleryPage.Title);
+                Assert.Contains(LoginPageTitle, galleryPage.Title);
             }
         }
 
@@ -177,14 +177,21 @@ namespace ImageGallery.Client.Test.UI.Selenium
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(userName, password);
+
+                var initialRecords = galleryPage.GetTotalRecordsMessage();
+                _output.WriteLine($"Init Total Records|{initialRecords}");
+
                 galleryPage.AddImageToGallery(imageTitle, imageType, imageFullPath);
                 TakeScreenshot(galleryPage);
 
                 var successMessage = galleryPage.GetSuccessMessage();
                 Assert.Equal("Image has been added successfully!", successMessage);
 
-                //var totalRecordsActual = galleryPage.GetTotalRecordsMessage();
-                //Assert.Equal("Total Records: 1", totalRecordsActual);
+                var finalRecords = galleryPage.GetTotalRecordsMessage();
+
+
+                //Assert.Equal($"Total Records: {}", totalRecordsActual);
+
 
                 //galleryPage.DeleteImageByTitle(imageTitle);
                 //successMessage = galleryPage.GetSuccessMessage();
@@ -228,12 +235,6 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        public void Dispose()
-        {
-            _driver.Quit();
-            _driver?.Dispose();
-        }
-
         private string GetRole(GalleryPage galleryPage)
         {
             return galleryPage.IsAddImageButtonAvailable() ? "FreeUser" : "PayingUser";
@@ -250,6 +251,24 @@ namespace ImageGallery.Client.Test.UI.Selenium
         {
             var filePath = Path.Combine(_artifactsDirectory, $"Selenium_Smoke_Test_{DateTime.Now.Ticks}.png");
             page.SaveScreenshotAs(filePath, ScreenshotImageFormat.Png);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && _driver != null)
+            {
+                _driver.Quit();
+                _driver?.Dispose();
+            }
         }
     }
 }

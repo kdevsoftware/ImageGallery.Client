@@ -76,6 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\ImageGallery.Service\ImageGallery.Service.csproj" />
     <ProjectReference Include="..\ImageGallery.Model\ImageGallery.Model.csproj" />
   </ItemGroup>
 
