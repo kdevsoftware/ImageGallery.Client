@@ -9,11 +9,11 @@ namespace ImageGallery.Client.Test.UI.Pages
     public class BasePage : IDisposable
     {
         /// <summary>
-        /// Default load timeout for page controls is 10 seconds.
+        /// Default load timeout for page controls is 10 seconds
         /// </summary>
-        protected const int DefaultTimeout = 10;
+        protected const int DefaultTimeout = 30;
 
-        private readonly IWebDriver _driver;
+        protected readonly IWebDriver _driver;
 
         public BasePage(IWebDriver driver)
         {
@@ -25,6 +25,8 @@ namespace ImageGallery.Client.Test.UI.Pages
         {
             LoadPage(url);
         }
+
+        public string Title => _driver.Title;
 
         public void LoadPage(string url)
         {
@@ -38,24 +40,59 @@ namespace ImageGallery.Client.Test.UI.Pages
                 SaveAsFile(filePath, format);
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _driver?.Dispose();
+            }
+        }
+
         protected IWebElement LoadElement(string propertyName)
+        {
+            By locator = GetLocator(propertyName);
+            return WaitForElementToBePresented(locator);
+        }
+
+        protected By GetLocator(string propertyName)
         {
             var propertyInfo = GetType().GetProperty(
                 propertyName,
                 BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Public);
-            var findsByArray = propertyInfo.GetCustomAttributes(typeof(FindsByAttribute), true);
+            var findsByArray = propertyInfo.GetCustomAttributes(
+                typeof(FindsByAttribute),
+                true);
             if (findsByArray.Length == 0)
             {
                 return null;
             }
 
             var findsBy = findsByArray[0] as FindsByAttribute;
-            var findsByLocator = MapFindBy(findsBy);
-            IWebElement element = null;
+            return MapFindBy(findsBy);
+        }
+
+        protected IWebElement WaitForElementToBePresented(By findsByLocator)
+        {
+            IWebElement element;
             WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(DefaultTimeout));
             wait.IgnoreExceptionTypes(new Type[] { typeof(NoSuchElementException) });
             element = wait.Until(ExpectedConditions.ElementIsVisible(findsByLocator));
             return element;
+        }
+
+        protected void WaitForElementToBePresented(string propertyName)
+        {
+            By locator = GetLocator(propertyName);
+            WaitForElementToBePresented(locator);
         }
 
         protected IWebElement LoadClickableElement(string propertyName)
@@ -100,23 +137,6 @@ namespace ImageGallery.Client.Test.UI.Pages
                     return By.XPath(findsBy.Using);
                 default:
                     throw new ArgumentException("Invalid find criteria");
-            }
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _driver?.Dispose();
             }
         }
     }

@@ -23,6 +23,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         private const string LoginRequiredMessage = "The Username field is required.";
         private const string PasswordRequiredessage = "The Password field is required.";
         private const string InvalidLoginMessage = "Invalid username or password";
+        private const string LoginPageTitle = "Identity";
 
         private readonly IWebDriver _driver;
 
@@ -70,11 +71,18 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Fact]
         [Trait("Category", "UI")]
         public void BasicUserLogoutTest()
         {
-            Assert.True(false, "Incomplete TODO");
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+            {
+                galleryPage.Login(BasicUserName, BasicUserPassword);
+                galleryPage.LogoutAndWait();
+                TakeScreenshot(galleryPage);
+
+                // Assert.Contains(LoginPageTitle, galleryPage.Title);
+            }
         }
 
         [Fact]
@@ -92,11 +100,18 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Fact]
         [Trait("Category", "UI")]
         public void PrivilegedUserLogoutTest()
         {
-            Assert.True(false, "Incomplete TODO");
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+            {
+                galleryPage.Login(PrivilegedUserName, PrivilegedUserPassword);
+                galleryPage.LogoutAndWait();
+                TakeScreenshot(galleryPage);
+
+                //Assert.Contains(LoginPageTitle, galleryPage.Title);
+            }
         }
 
         [Fact]
@@ -130,36 +145,54 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Fact]
         [Trait("Category", "UI")]
         public void GetUsersTotalPhotosCountTest()
         {
-            var totalPhotos = BasicUserTotalPhotos;
+            var totalPhotosCount = BasicUserTotalPhotos;
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(BasicUserName, BasicUserPassword);
                 TakeScreenshot(galleryPage);
+                var totalRecordMessage = galleryPage.GetTotalRecordsMessage();
+                int photosCountNumericPart;
+                totalRecordMessage = totalRecordMessage.Substring(1 + totalRecordMessage.LastIndexOf(':'));
+                Assert.True(int.TryParse(totalRecordMessage, out photosCountNumericPart));
+                var totalPhotosActualCount = Convert.ToInt32(photosCountNumericPart);
+                Assert.Equal(totalPhotosCount, totalPhotosActualCount);
             }
-
-            Assert.True(false, "Incomplete TODO");
         }
 
-        [SkippableFact(Skip = "Incomplete TODO")]
+        [Theory]
         [Trait("Category", "UI")]
-        public void PrivilegedUserAddPhoto()
+        [InlineData("William", "password", @"Data\images\bears.jpg", "Bears", "Landscapes")]
+        public void PrivilegedUserAddPhoto(
+            string userName,
+            string password,
+            string imageFilePath,
+            string imageTitle,
+            string imageType)
         {
-            /* Use this Account */
-            string userName = "William";
-            string password = "password";
+            var imageFullPath = Path.Combine(GetBaseDirectory(), imageFilePath);
+            using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
+            {
+                galleryPage.Login(userName, password);
+                galleryPage.AddImageToGallery(imageTitle, imageType, imageFullPath);
+                TakeScreenshot(galleryPage);
 
-            // Get Total Photos
-            int totalPhotos = 1;
+                var successMessage = galleryPage.GetSuccessMessage();
+                Assert.Equal("Image has been added successfully!", successMessage);
 
-            // Add Photo bears.jpg
-            // Validate Total Photos = totalPhotos + 1
+                //var totalRecordsActual = galleryPage.GetTotalRecordsMessage();
+                //Assert.Equal("Total Records: 1", totalRecordsActual);
+
+                //galleryPage.DeleteImageByTitle(imageTitle);
+                //successMessage = galleryPage.GetSuccessMessage();
+                //Assert.Equal("Image has been deleted successfully!", successMessage);
+            }
         }
 
-        [SkippableTheory(Skip = "Ignore for Now")]
+        [Theory]
         [UserDataCsvData(FileName = "Data/users.csv")]
         [Trait("Category", "UI")]
         public void UserRolesTest(string userName, string password, string role)
@@ -174,7 +207,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             }
         }
 
-        [SkippableTheory(Skip = "Ignore for Now")]
+        [Theory]
         [ImageDataCsvData(FileName = "Data/images.csv")]
         [Trait("Category", "UI")]
         public void GalleryImageAddRemoveTest(

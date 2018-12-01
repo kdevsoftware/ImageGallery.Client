@@ -24,7 +24,7 @@ namespace ImageGallery.Client.Test.UI.Pages
         [FindsBy(How = How.CssSelector, Using = ".btn.btn-primary")]
         protected IWebElement LoginButton { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".btn.btn-primary")]
+        [FindsBy(How = How.Id, Using = "input_logout")]
         protected IWebElement LogoutButton { get; set; }
 
         [FindsBy(How = How.LinkText, Using = "Google")]
@@ -39,5 +39,13 @@ namespace ImageGallery.Client.Test.UI.Pages
             LoginButton = LoadElement(nameof(LoginButton));
             LoginButton.Click();
         }
+
+        public void LogoutAndWait()
+        {
+            LogoutButton = LoadClickableElement(nameof(LogoutButton));
+            LogoutButton.Click();
+            WaitForElementToBePresented(nameof(LoginButton));
+        }
+
     }
 }
