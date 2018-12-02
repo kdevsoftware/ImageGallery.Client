@@ -19,7 +19,7 @@ namespace ImageGallery.Client.Test.UI.Pages
         [FindsBy(How = How.LinkText, Using = "Add an image")]
         protected IWebElement AddImageLink { get; set; }
 
-        [FindsBy(How = How.CssSelector, Using = ".danger.validation-summary-errors")]
+        [FindsBy(How = How.Id, Using = "val_alert_message")]
         protected IWebElement ValidationErrorText { get; set; }
 
         [FindsBy(How = How.Name, Using = "title")]
@@ -69,8 +69,27 @@ namespace ImageGallery.Client.Test.UI.Pages
             return ValidationErrorText.Text;
         }
 
+        public string GetValidationLoginErrorText()
+        {
+            ValidationErrorText = LoadElement(nameof(ValidationLoginErrorText));
+            return ValidationErrorText.Text;
+        }
+
+        public string GetValidationPasswordErrorText()
+        {
+            ValidationErrorText = LoadElement(nameof(ValidationPasswordErrorText));
+            return ValidationErrorText.Text;
+        }
+
+        public string GetValidationErrorText(string text)
+        {
+            ValidationErrorText = LoadElement(nameof(ValidationErrorText));
+            return ValidationErrorText.Text;
+        }
+
         public void AddImageToGallery(string imageTitle, string imageType, string imageFilePath)
         {
+            // TODO : Check Image File Path is Valid
             AddImageLink = LoadClickableElement(nameof(AddImageLink));
             AddImageLink.Click();
 
@@ -86,10 +105,14 @@ namespace ImageGallery.Client.Test.UI.Pages
             SubmitImageButton.Click();
         }
 
-        public void DeleteImageByTitle(string imageTitle)
+        public void DeleteImageByTitle(string imageTitle, string imageId)
         {
+
             var deleteButton = _driver.FindElement(
                 By.XPath($"//div[div[text()= '{imageTitle}']]/div/a[text() = 'Delete']"));
+
+            // Find Link Delete - lnk_delete_{ { image.id} }
+
             deleteButton.Click();
         }
 
@@ -99,10 +122,10 @@ namespace ImageGallery.Client.Test.UI.Pages
             return SuccessMessageSpan.Text;
         }
 
-        public string GetTotalRecords()
+        public int GetTotalRecords()
         {
             TotalRecords = LoadElement(nameof(TotalRecords));
-            return TotalRecords.Text.Trim();
+            return int.Parse(TotalRecords.Text.Trim());
         }
 
         public string GetTotalRecordsMessage()

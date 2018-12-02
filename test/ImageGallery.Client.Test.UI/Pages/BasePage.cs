@@ -9,15 +9,16 @@ namespace ImageGallery.Client.Test.UI.Pages
     public class BasePage : IDisposable
     {
         /// <summary>
-        /// Default load timeout for page controls is 10 seconds
+        /// Default load timeout for page controls is 10 seconds.
         /// </summary>
-        protected const int DefaultTimeout = 30;
+        protected const int DefaultTimeout = 300000000;
 
         protected readonly IWebDriver _driver;
 
         public BasePage(IWebDriver driver)
         {
             _driver = driver;
+
         }
 
         public BasePage(IWebDriver driver, string url)

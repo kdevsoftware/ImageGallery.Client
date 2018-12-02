@@ -16,7 +16,7 @@
                     <h5>{{image.category}}</h5>
                     <div>
                         <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
-                        <a (click)="deleteImage(image.id)">Delete</a>
+                        <a id="lnk_delete_{{image.id}}" (click)="deleteImage(image.id)">Delete</a>
                     </div>
                 </div>
             </div>

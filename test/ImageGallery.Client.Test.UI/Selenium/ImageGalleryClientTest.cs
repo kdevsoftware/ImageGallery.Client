@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using ImageGallery.Client.Test.UI.Fixtures;
 using ImageGallery.Client.Test.UI.Fixtures.TestData;
 using ImageGallery.Client.Test.UI.Pages;
@@ -20,10 +21,13 @@ namespace ImageGallery.Client.Test.UI.Selenium
         private const string PrivilegedUserPassword = "password";
 
         private const string IncorrectPassword = "WRONG_PASSWORD";
-        private const string LoginRequiredMessage = "The Username field is required.";
-        private const string PasswordRequiredessage = "The Password field is required.";
-        private const string InvalidLoginMessage = "Invalid username or password";
+        private const string LoginRequiredMessage = "This field is required";
+        private const string PasswordRequiredessage = "This field is required";
+        private const string InvalidLoginMessage = "Invalid request";
         private const string LoginPageTitle = "- Image Gallery";
+
+        private const int ReplayLoopCount = 10000;
+        private const int ReplayLoopDelaySeconds = 100;
 
         private readonly IWebDriver _driver;
 
@@ -123,10 +127,14 @@ namespace ImageGallery.Client.Test.UI.Selenium
                 galleryPage.Login(string.Empty, string.Empty);
                 TakeScreenshot(galleryPage);
 
-                var validationText = galleryPage.GetValidationErrorText();
+                var loginValidationText = galleryPage.GetValidationLoginErrorText();
+                _output.WriteLine($"Login VaidationText:{loginValidationText}");
 
-                Assert.Contains(LoginRequiredMessage, validationText);
-                Assert.Contains(PasswordRequiredessage, validationText);
+                var passwordValidationText = galleryPage.GetValidationLoginErrorText();
+                _output.WriteLine($"Password VaidationText:{passwordValidationText}");
+
+                Assert.Contains(LoginRequiredMessage, loginValidationText);
+                Assert.Contains(PasswordRequiredessage, passwordValidationText);
             }
         }
 
@@ -140,6 +148,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
                 TakeScreenshot(galleryPage);
 
                 var validationText = galleryPage.GetValidationErrorText();
+                _output.WriteLine($"VaidationText:{validationText}");
 
                 Assert.Equal(InvalidLoginMessage, validationText);
             }
@@ -168,7 +177,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         [Theory]
         [Trait("Category", "UI")]
         [InlineData("William", "password", @"Data\images\bears.jpg", "Bears", "Landscapes")]
-        public void PrivilegedUserAddPhoto(
+        public async void PrivilegedUserAddPhoto(
             string userName,
             string password,
             string imageFilePath,
@@ -180,21 +189,24 @@ namespace ImageGallery.Client.Test.UI.Selenium
             {
                 galleryPage.Login(userName, password);
 
-                var initialRecords = galleryPage.GetTotalRecords();
-                _output.WriteLine($"Init Total Records|{initialRecords}");
+                for (int i = 0; i < ReplayLoopCount; i++)
+                {
+                    var initialRecords = galleryPage.GetTotalRecords();
+                    _output.WriteLine($"Init Total Records|{initialRecords}");
 
-                galleryPage.AddImageToGallery(imageTitle, imageType, imageFullPath);
-                TakeScreenshot(galleryPage);
+                    var addImageTitle = $"{imageTitle}_{DateTime.Now.Millisecond}";
+                    galleryPage.AddImageToGallery(addImageTitle, imageType, imageFullPath);
+                    TakeScreenshot(galleryPage);
 
-                var successMessage = galleryPage.GetSuccessMessage();
-                Assert.Equal("Image has been added successfully!", successMessage);
+                    var successMessage = galleryPage.GetSuccessMessage();
+                    Assert.Equal("Image has been added successfully!", successMessage);
 
-                var finalRecords = galleryPage.GetTotalRecords();
-                Assert.Equal(initialRecords + 1, finalRecords);
+                    var finalRecords = galleryPage.GetTotalRecords();
+                    _output.WriteLine($"Final Total Records|{finalRecords}");
+                    Assert.Equal(initialRecords + 1, finalRecords);
 
-                //galleryPage.DeleteImageByTitle(imageTitle);
-                //successMessage = galleryPage.GetSuccessMessage();
-                //Assert.Equal("Image has been deleted successfully!", successMessage);
+                    await Task.Delay(ReplayLoopDelaySeconds * 1000);
+                }
             }
         }
 
@@ -229,10 +241,26 @@ namespace ImageGallery.Client.Test.UI.Selenium
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
                 galleryPage.Login(userName, password);
+                _output.WriteLine($"Login|{userName}");
+
+                var initialRecords = galleryPage.GetTotalRecords();
+                _output.WriteLine($"Init Total Records|{initialRecords}");
+
+                imageTitle = $"{imageTitle}_{DateTime.Now.Millisecond}";
                 galleryPage.AddImageToGallery(imageTitle, imageType, imageFullPath);
+
                 TakeScreenshot(galleryPage);
+
                 var successMessage = galleryPage.GetSuccessMessage();
                 Assert.Equal("Image has been added successfully!", successMessage);
+
+                var finalRecords = galleryPage.GetTotalRecords();
+                _output.WriteLine($"Final Total Records|{finalRecords}");
+                Assert.Equal(initialRecords + 1, finalRecords);
+
+                //galleryPage.DeleteImageByTitle(imageTitle);
+                //successMessage = galleryPage.GetSuccessMessage();
+                //Assert.Equal("Image has been deleted successfully!", successMessage);
             }
         }
 

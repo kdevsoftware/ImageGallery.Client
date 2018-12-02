@@ -18,8 +18,14 @@ namespace ImageGallery.Client.Test.UI.Pages
         [FindsBy(How = How.Id, Using = "input_login")]
         protected IWebElement UserName { get; set; }
 
+        [FindsBy(How = How.Id, Using = "val_alert_login")]
+        protected IWebElement ValidationLoginErrorText { get; set; }
+
         [FindsBy(How = How.Id, Using = "input_password")]
         protected IWebElement Password { get; set; }
+
+        [FindsBy(How = How.Id, Using = "val_alert_password")]
+        protected IWebElement ValidationPasswordErrorText { get; set; }
 
         [FindsBy(How = How.CssSelector, Using = ".btn.btn-primary")]
         protected IWebElement LoginButton { get; set; }

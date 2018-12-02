@@ -4,7 +4,7 @@ Chris|password|FreeUser|HasPhotos
 Francisco|password|FreeUser|HasPhotos
 Lisa|password|FreeUser|HasPhotos
 Susan|password|FreeUser|NoPhotos
-Steve|password|PayingUser|HasPhotos
+Steve|password|PayingUser|NoPhotos
 William|password|PayingUser|HasPhotos
 Peter|password|PayingUser|HasPhotos
 Mary|password|PayingUser|HasPhotos
