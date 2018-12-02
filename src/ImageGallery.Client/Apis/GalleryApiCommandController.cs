@@ -11,7 +11,9 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
+using ImageGallery.Model.Models.Images;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -123,7 +125,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="patchDtos"></param>
         /// <returns></returns>
         [HttpPatch("{id}", Name = "PatchImage")]
-        public async Task<IActionResult> PatchImage(Guid id, [FromBody] List<PatchDto> patchDtos)
+        public async Task<IActionResult> PatchImageProperties(Guid id, [FromBody] List<PatchDto> patchDtos)
         {
             if (id == Guid.Empty)
             {
@@ -174,18 +176,7 @@ namespace ImageGallery.Client.Apis
                 Category = addImageViewModel.Category,
             };
 
-            // take the first (only) file in the Files list
-            var imageFile = addImageViewModel.File;
-
-            if (imageFile.Length > 0)
-            {
-                using (var fileStream = imageFile.OpenReadStream())
-                using (var ms = new MemoryStream())
-                {
-                    fileStream.CopyTo(ms);
-                    imageForCreation.Bytes = ms.ToArray();
-                }
-            }
+            imageForCreation.Bytes = FormFileBytes(addImageViewModel.File);
 
             // serialize it
             var serializedImageForCreation = JsonConvert.SerializeObject(imageForCreation);
@@ -220,9 +211,47 @@ namespace ImageGallery.Client.Apis
             _logger.LogInformation($"Id:{updateImageViewModel.Id}");
             _logger.LogInformation($"File.Length:{updateImageViewModel.File.Length}");
 
-            await Task.Delay(1);
+            // Create an ImageForUpdate instance
+            var imageForUpdate = new ImageUpdate
+            {
+                Id = updateImageViewModel.Id,
+                Bytes = FormFileBytes(updateImageViewModel.File),
+            };
 
-            return Ok();
+            // serialize it
+            var serializedImageForCreation = JsonConvert.SerializeObject(imageForUpdate);
+
+            // call the API
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+
+            var response = await httpClient.PutAsync(
+                    InternalImagesRoute,
+                    new StringContent(serializedImageForCreation, Encoding.Unicode, "application/json"))
+                .ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+                return Ok();
+
+            return UnprocessableEntity(response.ReasonPhrase);
+        }
+
+        private byte[] FormFileBytes(IFormFile file)
+        {
+            byte[] bytes = null;
+
+            if (file.Length <= 0)
+            {
+                return bytes;
+            }
+
+            using (var fileStream = file.OpenReadStream())
+            using (var ms = new MemoryStream())
+            {
+                fileStream.CopyTo(ms);
+                bytes = ms.ToArray();
+            }
+
+            return bytes;
         }
     }
 }

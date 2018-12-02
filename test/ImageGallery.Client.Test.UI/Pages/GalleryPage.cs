@@ -40,6 +40,9 @@ namespace ImageGallery.Client.Test.UI.Pages
         [FindsBy(How = How.CssSelector, Using = ".col-md-3.col-sm-12.text-right")]
         protected IWebElement TotalRecordNumberLabel { get; set; }
 
+        [FindsBy(How = How.Id, Using = "lbl_totalRecords")]
+        protected IWebElement TotalRecords { get; set; }
+
         public bool IsAddImageButtonAvailable()
         {
             bool buttonIsAvailable;
@@ -96,11 +99,16 @@ namespace ImageGallery.Client.Test.UI.Pages
             return SuccessMessageSpan.Text;
         }
 
+        public string GetTotalRecords()
+        {
+            TotalRecords = LoadElement(nameof(TotalRecords));
+            return TotalRecords.Text.Trim();
+        }
+
         public string GetTotalRecordsMessage()
         {
             TotalRecordNumberLabel = LoadElement(nameof(TotalRecordNumberLabel));
             return TotalRecordNumberLabel.Text.Trim();
         }
-
     }
 }

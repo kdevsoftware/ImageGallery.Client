@@ -154,7 +154,9 @@ namespace ImageGallery.Client.Test.UI.Selenium
             {
                 galleryPage.Login(BasicUserName, BasicUserPassword);
                 TakeScreenshot(galleryPage);
+
                 var totalRecordMessage = galleryPage.GetTotalRecordsMessage();
+
                 int photosCountNumericPart;
                 totalRecordMessage = totalRecordMessage.Substring(1 + totalRecordMessage.LastIndexOf(':'));
                 Assert.True(int.TryParse(totalRecordMessage, out photosCountNumericPart));
@@ -178,7 +180,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
             {
                 galleryPage.Login(userName, password);
 
-                var initialRecords = galleryPage.GetTotalRecordsMessage();
+                var initialRecords = galleryPage.GetTotalRecords();
                 _output.WriteLine($"Init Total Records|{initialRecords}");
 
                 galleryPage.AddImageToGallery(imageTitle, imageType, imageFullPath);
@@ -187,11 +189,8 @@ namespace ImageGallery.Client.Test.UI.Selenium
                 var successMessage = galleryPage.GetSuccessMessage();
                 Assert.Equal("Image has been added successfully!", successMessage);
 
-                var finalRecords = galleryPage.GetTotalRecordsMessage();
-
-
-                //Assert.Equal($"Total Records: {}", totalRecordsActual);
-
+                var finalRecords = galleryPage.GetTotalRecords();
+                Assert.Equal(initialRecords + 1, finalRecords);
 
                 //galleryPage.DeleteImageByTitle(imageTitle);
                 //successMessage = galleryPage.GetSuccessMessage();
@@ -209,6 +208,8 @@ namespace ImageGallery.Client.Test.UI.Selenium
                 galleryPage.Login(userName, password);
                 TakeScreenshot(galleryPage);
                 string actualRole = GetRole(galleryPage);
+
+                _output.WriteLine($"UserName:{userName}|Role:{role}|ActualRole:{actualRole}");
 
                 Assert.Equal(role, actualRole);
             }
@@ -237,7 +238,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
 
         private string GetRole(GalleryPage galleryPage)
         {
-            return galleryPage.IsAddImageButtonAvailable() ? "FreeUser" : "PayingUser";
+            return galleryPage.IsAddImageButtonAvailable() ? "PayingUser" : "FreeUser";
         }
 
         private string GetBaseDirectory()
