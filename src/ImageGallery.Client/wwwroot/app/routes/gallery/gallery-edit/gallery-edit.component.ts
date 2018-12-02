@@ -9,6 +9,7 @@ import { IEditImageViewModel } from '../../../shared/interfaces';
 import { ToastrService } from 'ngx-toastr';
 import { ImageCroppedEvent } from 'ngx-image-cropper/src/image-cropper.component';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
+import { StorageService } from '../../../services/storage.service';
 
 @Component({
   selector: 'app-gallery-edit',
@@ -32,7 +33,8 @@ export class GalleryEditComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     public toastr: ToastrService,
-    private spinnerService: NgxLoadingSpinnerService) { }
+    private spinnerService: NgxLoadingSpinnerService,
+    public storage: StorageService) { }
 
   async ngOnInit() {
     console.log(`[ngOnInit] app-gallery-edit`);
@@ -48,14 +50,14 @@ export class GalleryEditComponent implements OnInit {
     console.log(`[onSubmit] app-gallery-edit`);
 
     this.galleryService.postEditImageViewModel(this.editImageViewModel)
-      .subscribe((response) => { },
+      .subscribe(() => { },
         (err: any) => {
           this.toastr.error('Failed to edit image!', 'Oops!', { closeButton: true });
           console.log(err);
         },
         () => {
           console.log('postEditImageViewModel() posted EditImageViewModel');
-          localStorage.setItem('isEdited', 'yes');
+          this.storage.set('isEdited', 'yes');
           this.router.navigate(['/']);
         });
   }

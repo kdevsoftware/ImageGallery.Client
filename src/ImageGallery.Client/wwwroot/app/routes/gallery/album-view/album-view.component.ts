@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 
 import 'rxjs/add/operator/first';
@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { take } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
+import { StorageService } from '../../../services/storage.service';
 
 @Component({
   selector: 'app-album-view',
@@ -40,14 +41,14 @@ export class AlbumViewComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     public toastr: ToastrService,
     private spinnerService: NgxLoadingSpinnerService,
-    private changeDetectorRef: ChangeDetectorRef,
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    public storage: StorageService) {
   }
 
   async ngOnInit() {
-    this.title = localStorage.getItem('album-title');
-    this.pagination.limit = localStorage.getItem('album-view-limit') ? parseInt(localStorage.getItem('album-view-limit')) : 15;
-    this.pagination.page = localStorage.getItem('album-view-page') ? parseInt(localStorage.getItem('album-view-page')) : 1;
+    this.title = this.storage.get('album-title');
+    this.pagination.limit = this.storage.get('album-view-limit') ? parseInt(this.storage.get('album-view-limit')) : 15;
+    this.pagination.page = 1;
     this.activatedRoute.paramMap
       .pipe(take(1))
       .subscribe((paramMap: any) => {
@@ -147,18 +148,12 @@ export class AlbumViewComponent implements OnInit {
     if (typeof event == 'string') {
       this.pagination.limit = parseInt(event);
       this.pagination.page = 1;
-      localStorage.setItem('album-view-limit', this.pagination.limit.toString());
-      localStorage.setItem('album-view-page', this.pagination.page.toString());
+      this.storage.set('album-view-limit', this.pagination.limit.toString());
     } else if (typeof event == 'object') {
       this.pagination.limit = event.itemsPerPage;
       this.pagination.page = event.page;
-      localStorage.setItem('album-view-limit', this.pagination.limit.toString());
-      localStorage.setItem('album-view-page', this.pagination.page.toString());
+      this.storage.set('album-view-limit', this.pagination.limit.toString());
     }
-    setTimeout(() => {
-      this.pagination.page = localStorage.getItem('album-view-page') ? parseInt(localStorage.getItem('album-view-page')) : 1;
-      this.changeDetectorRef.detectChanges();
-    }, 1000);
 
     this.galleryService.getAlbumViewModel(this.albumId, this.pagination.limit, this.pagination.page)
       .then((response: any) => {
