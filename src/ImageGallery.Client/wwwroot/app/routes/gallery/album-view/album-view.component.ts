@@ -11,6 +11,7 @@ import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { take } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { StorageService } from '../../../services/storage.service';
+import { TitleService } from '../../../services/title.service';
 
 @Component({
   selector: 'app-album-view',
@@ -42,10 +43,12 @@ export class AlbumViewComponent implements OnInit {
     public toastr: ToastrService,
     private spinnerService: NgxLoadingSpinnerService,
     private modalService: BsModalService,
-    public storage: StorageService) {
+    public storage: StorageService,
+    private titleService: TitleService) {
   }
 
   async ngOnInit() {
+    this.titleService.set('Album View');
     this.title = this.storage.get('album-title');
     this.pagination.limit = this.storage.get('album-view-limit') ? parseInt(this.storage.get('album-view-limit')) : 15;
     this.pagination.page = 1;

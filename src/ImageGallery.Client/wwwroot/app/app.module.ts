@@ -13,6 +13,7 @@ import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
 import { AuthService } from './services/auth.service';
 import { StorageService } from './services/storage.service';
+import { TitleService } from './services/title.service';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { HasPayingUserRoleAuthenticationGuard } from './guards/hasPayingUserRoleAuthenticationGuard';
@@ -62,6 +63,7 @@ export function createTranslateLoader(http: HttpClient) {
     { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
     AuthService,
     StorageService,
+    TitleService,
     HasPayingUserRoleAuthenticationGuard,
     AuthGuard,
     { provide: 'Window', useValue: window },
