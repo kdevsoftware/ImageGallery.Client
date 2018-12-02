@@ -12,6 +12,7 @@ import { LayoutModule } from './layout/layout.module';
 import { SharedModule } from './shared/shared.module';
 import { RoutesModule } from './routes/routes.module';
 import { AuthService } from './services/auth.service';
+import { StorageService } from './services/storage.service';
 
 import { JwtModule } from '@auth0/angular-jwt';
 import { HasPayingUserRoleAuthenticationGuard } from './guards/hasPayingUserRoleAuthenticationGuard';
@@ -49,7 +50,7 @@ export function createTranslateLoader(http: HttpClient) {
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
-            return sessionStorage.getItem('access_token');
+          return sessionStorage.getItem('access_token');
         }
       }
     }),
@@ -60,6 +61,7 @@ export function createTranslateLoader(http: HttpClient) {
   providers: [
     { provide: 'ORIGIN_URL', useFactory: getBaseUrl },
     AuthService,
+    StorageService,
     HasPayingUserRoleAuthenticationGuard,
     AuthGuard,
     { provide: 'Window', useValue: window },

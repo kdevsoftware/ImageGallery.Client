@@ -7,6 +7,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserManagementService } from '../services/user.service';
 import { IUserProfileViewModel } from '../shared/interfaces';
 import { ToastrService } from 'ngx-toastr';
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-layout',
@@ -27,7 +28,12 @@ export class LayoutComponent implements OnInit, OnDestroy {
   modalRef: BsModalRef;
   form: FormGroup;
 
-  constructor(private authService: AuthService, private modalService: BsModalService, private userManagementService: UserManagementService, private toastr: ToastrService) {
+  constructor(
+    private authService: AuthService,
+    private modalService: BsModalService,
+    private userManagementService: UserManagementService,
+    private toastr: ToastrService,
+    private strage: StorageService) {
     this.form = new FormGroup({
       firstName: new FormControl(['', Validators.required]),
       lastName: new FormControl(['', Validators.required]),
@@ -42,7 +48,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   ngOnInit() {
     console.log(`[ngOnInit]`);
     this.type = 'album';
-    this.userType = localStorage.getItem('currentUser');
+    this.userType = this.strage.get('currentUser');
     console.log("currentUser", this.userType);
 
     this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(

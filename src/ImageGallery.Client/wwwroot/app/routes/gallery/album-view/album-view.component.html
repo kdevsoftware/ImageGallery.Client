@@ -12,13 +12,8 @@
         </div>
         <div class="panel-footer">
           <div class="d-flex">
-            <input
-            (keyup.enter)="onEnterTitle(album, focusOnEditTitle, $event)"
-            (blur)="onCancelEditTitle(album, focusOnEditTitle)"
-            [value]="album.title"
-            type="text" 
-            class="title-edit title-edit-focus"
-            #focusOnEditTitle> 
+            <input (keyup.enter)="onEnterTitle(album, focusOnEditTitle, $event)" (blur)="onCancelEditTitle(album, focusOnEditTitle)"
+              [value]="album.title" type="text" class="title-edit title-edit-focus" #focusOnEditTitle>
             <div class="primary-image-hover">
               <span class="primary-image glyphicon" aria-hidden="true" (click)="updatePrimaryImage(album)" [ngClass]="{'glyphicon-star': album.isPrimaryImage, 'glyphicon-star-empty': !album.isPrimaryImage}"></span>
             </div>
