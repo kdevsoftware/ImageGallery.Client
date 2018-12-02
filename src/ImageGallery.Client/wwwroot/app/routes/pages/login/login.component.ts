@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SettingsService } from '../../../core/settings/settings.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CustomValidators } from 'ng2-validation';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
+import { StorageService } from '../../../services/storage.service';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +12,14 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   valForm: FormGroup;
-  private alertMessage: string;
+  alertMessage: string;
 
-  constructor(public settings: SettingsService, private oauthService: OAuthService, fb: FormBuilder, private router: Router) {
-    console.log("login.component.ts");
+  constructor(
+    public settings: SettingsService,
+    private oauthService: OAuthService,
+    fb: FormBuilder,
+    private router: Router,
+    public storage: StorageService) {
     //oath
     if (oauthService.hasValidAccessToken()) {
       this.router.navigate(["home"]);
@@ -27,6 +31,8 @@ export class LoginComponent implements OnInit {
       'password': [null, Validators.required]
     });
   }
+
+  ngOnInit() { }
 
   submitForm($ev, value: any) {
     $ev.preventDefault();
@@ -45,13 +51,12 @@ export class LoginComponent implements OnInit {
       .fetchTokenUsingPasswordFlowAndLoadUserProfile(login, password)
       .then((res) => {
         console.log(res);
-        localStorage.setItem('currentUser', res['subscriptionlevel']);
+
+        this.storage.set('currentUser', res['subscriptionlevel']);
         this.router.navigate(['/']);
       })
-      .catch((err) => {
+      .catch(() => {
         this.alertMessage = "Invalid request";
       });
   }
-
-  ngOnInit() {}
 }

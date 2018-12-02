@@ -2,6 +2,7 @@
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using ImageGallery.Client.Test.UI.Constant;
 using ImageGallery.Client.Test.UI.Fixtures;
 using ImageGallery.Client.Test.UI.Fixtures.TestData;
 using ImageGallery.Client.Test.UI.Pages;
@@ -14,20 +15,9 @@ namespace ImageGallery.Client.Test.UI.Selenium
 {
     public class ImageGalleryClientTest : IClassFixture<ConfigFixture>, IDisposable
     {
-        private const string BasicUserName = "Frank";
-        private const string BasicUserPassword = "password";
-        private const int BasicUserTotalPhotos = 6;
-        private const string PrivilegedUserName = "Claire";
-        private const string PrivilegedUserPassword = "password";
-
-        private const string IncorrectPassword = "WRONG_PASSWORD";
-        private const string LoginRequiredMessage = "This field is required";
-        private const string PasswordRequiredessage = "This field is required";
-        private const string InvalidLoginMessage = "Invalid request";
-        private const string LoginPageTitle = "- Image Gallery";
-
-        private const int ReplayLoopCount = 10000;
-        private const int ReplayLoopDelaySeconds = 100;
+        private const int ReplayLoopCount = 1;
+        private const int ReplayLoopDelaySeconds = 1;
+        // Validate Replay w/Not Exceed Driver Timeout
 
         private readonly IWebDriver _driver;
 
@@ -66,7 +56,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         {
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
-                galleryPage.Login(BasicUserName, BasicUserPassword);
+                galleryPage.Login(LoginConstants.BasicUserName, LoginConstants.BasicUserPassword);
                 TakeScreenshot(galleryPage);
 
                 Assert.False(
@@ -81,7 +71,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         {
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
-                galleryPage.Login(BasicUserName, BasicUserPassword);
+                galleryPage.Login(LoginConstants.BasicUserName, LoginConstants.BasicUserPassword);
                 galleryPage.LogoutAndWait();
                 TakeScreenshot(galleryPage);
 
@@ -95,7 +85,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         {
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
-                galleryPage.Login(PrivilegedUserName, PrivilegedUserPassword);
+                galleryPage.Login(LoginConstants.PrivilegedUserName, LoginConstants.PrivilegedUserPassword);
                 TakeScreenshot(galleryPage);
 
                 Assert.True(
@@ -110,11 +100,11 @@ namespace ImageGallery.Client.Test.UI.Selenium
         {
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
-                galleryPage.Login(PrivilegedUserName, PrivilegedUserPassword);
+                galleryPage.Login(LoginConstants.PrivilegedUserName, LoginConstants.PrivilegedUserPassword);
                 galleryPage.LogoutAndWait();
                 TakeScreenshot(galleryPage);
 
-                Assert.Contains(LoginPageTitle, galleryPage.Title);
+                Assert.Contains(LoginConstants.LoginPageTitle, galleryPage.Title);
             }
         }
 
@@ -133,8 +123,8 @@ namespace ImageGallery.Client.Test.UI.Selenium
                 var passwordValidationText = galleryPage.GetValidationLoginErrorText();
                 _output.WriteLine($"Password VaidationText:{passwordValidationText}");
 
-                Assert.Contains(LoginRequiredMessage, loginValidationText);
-                Assert.Contains(PasswordRequiredessage, passwordValidationText);
+                Assert.Contains(LoginConstants.LoginRequiredMessage, loginValidationText);
+                Assert.Contains(LoginConstants.PasswordRequiredessage, passwordValidationText);
             }
         }
 
@@ -144,13 +134,13 @@ namespace ImageGallery.Client.Test.UI.Selenium
         {
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
-                galleryPage.Login(BasicUserName, IncorrectPassword);
+                galleryPage.Login(LoginConstants.BasicUserName, LoginConstants.IncorrectPassword);
                 TakeScreenshot(galleryPage);
 
                 var validationText = galleryPage.GetValidationErrorText();
                 _output.WriteLine($"VaidationText:{validationText}");
 
-                Assert.Equal(InvalidLoginMessage, validationText);
+                Assert.Equal(LoginConstants.InvalidLoginMessage, validationText);
             }
         }
 
@@ -158,10 +148,10 @@ namespace ImageGallery.Client.Test.UI.Selenium
         [Trait("Category", "UI")]
         public void GetUsersTotalPhotosCountTest()
         {
-            var totalPhotosCount = BasicUserTotalPhotos;
+            var totalPhotosCount = LoginConstants.BasicUserTotalPhotos;
             using (var galleryPage = new GalleryPage(_driver, _applicationUrl))
             {
-                galleryPage.Login(BasicUserName, BasicUserPassword);
+                galleryPage.Login(LoginConstants.BasicUserName, LoginConstants.BasicUserPassword);
                 TakeScreenshot(galleryPage);
 
                 var totalRecordMessage = galleryPage.GetTotalRecordsMessage();
@@ -177,7 +167,7 @@ namespace ImageGallery.Client.Test.UI.Selenium
         [Theory]
         [Trait("Category", "UI")]
         [InlineData("William", "password", @"Data\images\bears.jpg", "Bears", "Landscapes")]
-        public async void PrivilegedUserAddPhoto(
+        public async Task PrivilegedUserAddPhoto(
             string userName,
             string password,
             string imageFilePath,

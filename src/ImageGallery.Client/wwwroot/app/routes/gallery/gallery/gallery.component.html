@@ -1,85 +1,80 @@
 <div class="container">
     <div class="row" *ngIf="galleryIndexViewModel">
-        <div class="col-md-4" *ngFor="let image of galleryIndexViewModel.images; let i = index">
-            <div class="panel panel-default" [class.panel-warning]="albums[i]">
-                <div class="panel-body text-center">
-                    <img src="{{galleryIndexViewModel.imagesUri + image.fileName}}" width="{{image.width}}" height="{{image.height}}">
-                </div>
-                <div class="panel-footer">
-                    <div class="d-flex">
-                        <div class="d-flex flex-10">
-                            <h5 class="mr-1 image-title">{{image.title}}</h5>
-                            <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png" (click)="showModal(image, template)"/>
-                        </div>
-                        <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
-                    </div>
-                    <h5>{{image.category}}</h5>
-                    <div>
-                        <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
-                        <a id="lnk_delete_{{image.id}}" (click)="deleteImage(image.id)">Delete</a>
-                    </div>
-                </div>
+      <div class="col-md-4" *ngFor="let image of galleryIndexViewModel.images; let i = index">
+        <div class="panel panel-default" [class.panel-warning]="albums[i]">
+          <div class="panel-body text-center">
+            <img src="{{galleryIndexViewModel.imagesUri + image.fileName}}" width="{{image.width}}" height="{{image.height}}">
+          </div>
+          <div class="panel-footer">
+            <div class="d-flex">
+              <div class="d-flex flex-10">
+                <h5 class="mr-1 image-title">{{image.title}}</h5>
+                <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png"
+                  (click)="showModal(image, template)" />
+              </div>
+              <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
             </div>
+            <h5>{{image.category}}</h5>
+            <div>
+              <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
+              <a id="lnk_delete_{{image.id}}" (click)="deleteImage(image.id)">Delete</a>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-<div class="row pagination" *ngIf="pagination.totalItems > 0">
+  </div>
+  
+  <div class="row pagination" *ngIf="pagination.totalItems > 0">
     <div class="col-md-3 col-sm-12 page-num-info">
-        <div class="inline">
-            <select [ngModel]="pagination.limit" (ngModelChange)="getGalleryIndexViewModel($event)">
-            <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
-            </select>
-            per page
-        </div>
+      <div class="inline">
+        <select [ngModel]="limit" (ngModelChange)="updateLimit($event)">
+          <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
+        </select>
+        per page
+      </div>
     </div>
     <div class="col-md-6 col-sm-12 text-center pagination-container">
-        <pagination
-            [totalItems]="pagination.totalItems"
-            [itemsPerPage]="pagination.limit"
-            [maxSize]="5"
-            [(ngModel)]="pagination.page"
-            [boundaryLinks]="true"
-            [rotate]="false"
-            (pageChanged)="getGalleryIndexViewModel($event)" class="pagination-sm">
-        </pagination>
+      <pagination [totalItems]="pagination.totalItems" [itemsPerPage]="limit" [maxSize]="5" [(ngModel)]="page"
+        [boundaryLinks]="true" [rotate]="false" (pageChanged)="getGalleryIndexViewModel($event)" class="pagination-sm">
+      </pagination>
     </div>
     <div class="col-md-3 col-sm-12 text-right">
-        Total Records: <span id="lbl_totalRecords">{{pagination.totalItems}}</span>
+      Total Records: <span id="lbl_totalRecords">{{pagination.totalItems}}</span>
     </div>
-</div>
-
-<div class="no-message" *ngIf="pagination.totalItems == 0">There are No Images in your Gallery</div>
-
-<ngx-loading-spinner> </ngx-loading-spinner>
-
-<ng-template #template>
+  </div>
+  
+  <div class="no-message" *ngIf="pagination.totalItems == 0">There are No Images in your Gallery</div>
+  
+  <ngx-loading-spinner> </ngx-loading-spinner>
+  
+  <ng-template #template>
     <div class="modal-header">
-        <h4 class="modal-title pull-left">Flickr List Modal</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <h4 class="modal-title pull-left">Flickr List Modal</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
         <span aria-hidden="true">&times;</span>
-        </button>
+      </button>
     </div>
     <div class="modal-body">
-        <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Key</th>
-                        <th>Feature Key</th>
-                        <th>Catalog</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let f of flickrList">
-                        <td>{{f.title}}</td>
-                        <td>{{f.key}}</td>
-                        <td>{{f.featureKey}}</td>
-                        <td>{{f.catalog}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Key</th>
+              <th>Feature Key</th>
+              <th>Catalog</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let f of flickrList">
+              <td>{{f.title}}</td>
+              <td>{{f.key}}</td>
+              <td>{{f.featureKey}}</td>
+              <td>{{f.catalog}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-</ng-template>
+  </ng-template>

@@ -1,4 +1,4 @@
-import { Injectable, Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -7,19 +7,20 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
-export class AuthService /*implements OnInit, OnDestroy*/ {
+export class AuthService {
   isAuthorizedSubscription: Subscription;
   isAuthorized: boolean;
 
-  constructor(private oAuthService: OAuthService, private router: Router, private httpClient: HttpClient) {
-
-  }
+  constructor(
+    private oAuthService: OAuthService,
+    private router: Router,
+    private httpClient: HttpClient) { }
 
   checkUserRole(role: string): Observable<boolean> {
     var self = this;
     return new Observable((observer) => {
 
-      console.log("checkUserRole next value");
+      console.log('checkUserRole next value');
       // observable execution
       observer.next(innerCheckUserRole());
     });
@@ -30,7 +31,7 @@ export class AuthService /*implements OnInit, OnDestroy*/ {
 
       if (!hasvalidToken || !claims || !claims.role) return false;
 
-      var roleSplitted = claims.role.split(",");
+      var roleSplitted = claims.role.split(',');
       return !!roleSplitted.find((item) => { return !!item && item.trim().toLowerCase() === role.toLowerCase(); });
     }
   }
@@ -42,7 +43,7 @@ export class AuthService /*implements OnInit, OnDestroy*/ {
   getIsAuthorized(): Observable<boolean> {
     var self = this;
     return new Observable((observer) => {
-      console.log("getIsAuthorized next value");
+      console.log('getIsAuthorized next value');
       observer.next(self.oAuthService.hasValidAccessToken());
     });
   }
@@ -57,13 +58,13 @@ export class AuthService /*implements OnInit, OnDestroy*/ {
   }
 
   logout() {
-    localStorage.removeItem('page');
-    localStorage.removeItem('limit');
+    localStorage.removeItem('album-title');
+    localStorage.removeItem('albums');
     localStorage.removeItem('currentUser');
-    console.log('[logout] AuthService');
+
     this.httpClient.get(`/api/images/logout`).subscribe(res => {
-        this.oAuthService.logOut(true);
-        this.router.navigate(["/login"]);
-     });
+      this.oAuthService.logOut(true);
+      this.router.navigate(['/login']);
+    });
   }
 }

@@ -112,6 +112,7 @@ namespace ImageGallery.Client.Test.UI.Pages
                 By.XPath($"//div[div[text()= '{imageTitle}']]/div/a[text() = 'Delete']"));
 
             // Find Link Delete - lnk_delete_{ { image.id} }
+            // TODO - USE last() in XPath
 
             deleteButton.Click();
         }

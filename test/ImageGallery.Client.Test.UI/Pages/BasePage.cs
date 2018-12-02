@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using ImageGallery.Client.Test.UI.Constant;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
@@ -8,17 +9,11 @@ namespace ImageGallery.Client.Test.UI.Pages
 {
     public class BasePage : IDisposable
     {
-        /// <summary>
-        /// Default load timeout for page controls is 10 seconds.
-        /// </summary>
-        protected const int DefaultTimeout = 300000000;
-
         protected readonly IWebDriver _driver;
 
         public BasePage(IWebDriver driver)
         {
             _driver = driver;
-
         }
 
         public BasePage(IWebDriver driver, string url)
@@ -84,7 +79,7 @@ namespace ImageGallery.Client.Test.UI.Pages
         protected IWebElement WaitForElementToBePresented(By findsByLocator)
         {
             IWebElement element;
-            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(DefaultTimeout));
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(DriverConstants.DefaultTimeoutSeconds));
             wait.IgnoreExceptionTypes(new Type[] { typeof(NoSuchElementException) });
             element = wait.Until(ExpectedConditions.ElementIsVisible(findsByLocator));
             return element;
@@ -110,7 +105,7 @@ namespace ImageGallery.Client.Test.UI.Pages
             var findsBy = findsByArray[0] as FindsByAttribute;
             var findsByLocator = MapFindBy(findsBy);
             IWebElement element = null;
-            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(DefaultTimeout));
+            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(DriverConstants.DefaultTimeoutSeconds));
             wait.IgnoreExceptionTypes(new Type[] { typeof(NoSuchElementException) });
             element = wait.Until(ExpectedConditions.ElementToBeClickable(findsByLocator));
             return element;
