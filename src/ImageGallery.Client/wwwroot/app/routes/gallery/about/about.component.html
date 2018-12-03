@@ -7,7 +7,7 @@
   <div class="topMarginDefault bottomMarginDefault" style="margin-top: 30px; background-color: #e7e7e7; padding: 10px;">
     <div *ngFor="let claim of (userData | keys)">
       <strong>{{claim.key}}: </strong>
-      <span>{{claim.value}}</span>
+      <span id="lbl_claim_{{claim.key}}">{{claim.value}}</span>
     </div>
   </div>
 
