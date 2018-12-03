@@ -10,6 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ImageCroppedEvent } from 'ngx-image-cropper/src/image-cropper.component';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { StorageService } from '../../../services/storage.service';
+import { TitleService } from '../../../services/title.service';
 
 @Component({
   selector: 'app-gallery-edit',
@@ -34,10 +35,11 @@ export class GalleryEditComponent implements OnInit {
     private router: Router,
     public toastr: ToastrService,
     private spinnerService: NgxLoadingSpinnerService,
-    public storage: StorageService) { }
+    public storage: StorageService,
+    private titleService: TitleService) { }
 
   async ngOnInit() {
-    console.log(`[ngOnInit] app-gallery-edit`);
+    this.titleService.set('Gallery Edit Image');
 
     const imageId = await this.getImageIdAsync();
 

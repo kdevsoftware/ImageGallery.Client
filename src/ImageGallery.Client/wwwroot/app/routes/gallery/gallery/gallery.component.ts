@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { StorageService } from '../../../services/storage.service';
+import { TitleService } from '../../../services/title.service';
 
 
 @Component({
@@ -39,11 +40,14 @@ export class GalleryComponent implements OnInit {
     public toastr: ToastrService,
     public storage: StorageService,
     private spinnerService: NgxLoadingSpinnerService,
-    private modalService: BsModalService) {
+    private modalService: BsModalService,
+    private titleService: TitleService) {
     this.savedAlbums = JSON.parse(this.storage.get('albums')) ? JSON.parse(this.storage.get('albums')) : [];
   }
 
   ngOnInit() {
+    this.titleService.set('Gallery');
+    
     this.type = this.activatedRoute.snapshot.params.type;
     this.authService.getIsAuthorized().subscribe(
       (isAuthorized: boolean) => {

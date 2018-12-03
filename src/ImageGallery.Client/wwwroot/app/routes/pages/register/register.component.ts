@@ -2,9 +2,9 @@ import { Component, AfterViewInit } from '@angular/core';
 import { SettingsService } from '../../../core/settings/settings.service';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
-import { Router } from '@angular/router';
 
 import { ReCaptchaService, ReCaptchaParamsInterface } from '../../../reCaptchaCallback'
+import { TitleService } from '../../../services/title.service';
 
 @Component({
   selector: 'app-register',
@@ -15,10 +15,11 @@ export class RegisterComponent implements AfterViewInit {
   valForm: FormGroup;
   passwordForm: FormGroup;
 
-  constructor(public fb: FormBuilder
-    , private router: Router
-    , private reCaptchaService: ReCaptchaService
-    , public settings: SettingsService) {
+  constructor(
+    public fb: FormBuilder,
+    private reCaptchaService: ReCaptchaService,
+    public settings: SettingsService,
+    private titleService: TitleService) {
 
     let password = new FormControl('', Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9]{6,10}$')]));
     let certainPassword = new FormControl('', CustomValidators.equalTo(password));
@@ -41,6 +42,7 @@ export class RegisterComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.reCaptchaConfig();
+    this.titleService.set('Recover');
   }
 
   private reCaptchaConfig() {

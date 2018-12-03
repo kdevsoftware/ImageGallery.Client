@@ -6,6 +6,7 @@ import { HasPayingUserRoleAuthenticationGuard } from '../../../guards/hasPayingU
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { StorageService } from '../../../services/storage.service';
+import { TitleService } from '../../../services/title.service';
 
 
 @Component({
@@ -24,10 +25,11 @@ export class GalleryAddComponent implements OnInit {
     private readonly galleryService: GalleryService,
     private router: Router,
     private toastr: ToastrService,
-    private strage: StorageService) { }
+    private strage: StorageService,
+    private titleService: TitleService) { }
 
   ngOnInit() {
-    console.log(`[ngOnInit] app-gallery-add`);
+    this.titleService.set('Gallery Add Image');
   }
 
   onUpload(event: EventTarget) {

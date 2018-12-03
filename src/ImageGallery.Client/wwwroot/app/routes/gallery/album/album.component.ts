@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { StorageService } from '../../../services/storage.service';
+import { TitleService } from '../../../services/title.service';
 
 
 @Component({
@@ -38,9 +39,11 @@ export class AlbumComponent implements OnInit {
     public storage: StorageService,
     private spinnerService: NgxLoadingSpinnerService,
     private router: Router,
-    private modalService: BsModalService) {}
+    private modalService: BsModalService,
+    private titleService: TitleService) {}
 
   ngOnInit() {
+    this.titleService.set('Albums');
     this.type = this.activatedRoute.snapshot.params.type;
 
     this.authService.getIsAuthorized().subscribe(

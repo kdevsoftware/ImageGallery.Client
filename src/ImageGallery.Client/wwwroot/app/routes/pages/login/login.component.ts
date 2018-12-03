@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
 import { StorageService } from '../../../services/storage.service';
+import { TitleService } from '../../../services/title.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,8 @@ export class LoginComponent implements OnInit {
     private oauthService: OAuthService,
     fb: FormBuilder,
     private router: Router,
-    public storage: StorageService) {
+    public storage: StorageService,
+    private titleService: TitleService) {
     //oath
     if (oauthService.hasValidAccessToken()) {
       this.router.navigate(["home"]);
@@ -32,7 +34,9 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.titleService.set('Login');
+  }
 
   submitForm($ev, value: any) {
     $ev.preventDefault();
