@@ -30,7 +30,7 @@ export class StorageService {
 
   private getUserKey(key) {
     const user: any = this.authService.getUser();
-    const userName = user.given_name;
+    const userName = user.sub;
     return userName + '_' + key;
   }
 }
