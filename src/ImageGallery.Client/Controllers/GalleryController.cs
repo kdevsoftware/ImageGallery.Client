@@ -26,7 +26,7 @@ namespace ImageGallery.Client.Controllers
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
-        /// 
+        /// Gallery Index Page.
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()

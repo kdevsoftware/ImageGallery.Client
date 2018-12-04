@@ -1,4 +1,5 @@
 ﻿using ImageGallery.Client.Filters.Base;
+using ImageGallery.Service.Helpers;
 
 namespace ImageGallery.Client.Filters
 {
@@ -10,6 +11,13 @@ namespace ImageGallery.Client.Filters
         /// <summary>
         /// Photo Category Type.
         /// </summary>
+        [QueryString]
         public string Category { get; set; }
+
+        /// <summary>
+        /// Title Search Filter.
+        /// </summary>
+        [QueryString]
+        public string Search { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using ImageGallery.Client.Filters;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
+using ImageGallery.Service.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -105,7 +106,9 @@ namespace ImageGallery.Client.Apis
             // call the API
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
-            var route = $"{InternalImagesRoute}/{limit}/{page}";
+            var queryFilter = query.ToQueryString();
+            var route = $"{InternalImagesRoute}/{limit}/{page}{queryFilter}";
+
             var response = await httpClient.GetAsync(route).ConfigureAwait(false);
             string inlinecount = response.Headers.GetValues("x-inlinecount").FirstOrDefault();
 

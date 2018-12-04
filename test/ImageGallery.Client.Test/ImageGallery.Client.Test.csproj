@@ -42,6 +42,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\ImageGallery.Client\ImageGallery.Client.csproj" />
     <ProjectReference Include="..\..\src\ImageGallery.Model\ImageGallery.Model.csproj" />
+    <ProjectReference Include="..\..\src\ImageGallery.Service\ImageGallery.Service.csproj" />
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">

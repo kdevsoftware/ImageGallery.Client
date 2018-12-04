@@ -116,7 +116,8 @@ namespace ImageGallery.Client
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    options.SwaggerEndpoint("/swagger/v1/swagger.json", "ImageGallery.Client V1");
+                    var swaggerApi = "/swagger/v1/swagger.json";
+                    options.SwaggerEndpoint(swaggerApi, "ImageGallery.Client V1");
                     options.ConfigureOAuth2(config.SwaggerUiConfiguration.ClientId, string.Empty, string.Empty, "Swagger UI");
                 });
             }
