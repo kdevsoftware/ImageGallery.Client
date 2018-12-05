@@ -8,7 +8,8 @@
           <div class="panel-footer">
             <div class="d-flex">
               <div class="d-flex flex-10">
-                <h5 class="mr-1 image-title">{{image.title}}</h5>
+                <input (keyup.enter)="onEnterTitle(image, focusOnEditTitle, $event)" (blur)="onCancelEditTitle(image, focusOnEditTitle)"
+                [value]="image.title" type="text" class="property-edit property-edit-focus" #focusOnEditTitle>
                 <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png"
                   (click)="showModal(image, template)" />
               </div>
@@ -16,8 +17,8 @@
             </div>
             <h5>{{image.category}}</h5>
             <div>
-              <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
-              <a id="lnk_delete_{{image.id}}" (click)="deleteImage(image.id)">Delete</a>
+              <a [routerLink]="['/gallery-edit', image.id]" class="crud-btn-pointer">Edit</a> |
+              <a id="lnk_delete_{{image.id}}" (click)="deleteImage(image.id)" class="crud-btn-pointer">Delete</a>
             </div>
           </div>
         </div>

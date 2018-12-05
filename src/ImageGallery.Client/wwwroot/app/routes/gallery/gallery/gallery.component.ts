@@ -1,7 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GalleryService } from '../../../gallery.service';
-import { IGalleryIndexViewModel, IRouteTypeModel } from '../../../shared/interfaces';
+import { IGalleryIndexViewModel, IRouteTypeModel, IImage } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
@@ -32,6 +32,7 @@ export class GalleryComponent implements OnInit {
 
   modalRef: BsModalRef;
   flickrList = [];
+  private editedTitle: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,7 +48,7 @@ export class GalleryComponent implements OnInit {
 
   ngOnInit() {
     this.titleService.set('Gallery');
-    
+
     this.type = this.activatedRoute.snapshot.params.type;
     this.authService.getIsAuthorized().subscribe(
       (isAuthorized: boolean) => {
@@ -68,6 +69,41 @@ export class GalleryComponent implements OnInit {
     } else if (this.storage.get('isAdded') == 'yes') {
       this.toastr.success('Image has been added successfully!', 'Success!', { closeButton: true });
       this.storage.remove('isAdded');
+    }
+  }
+
+  onEnterTitle(image: IImage, input: any, event: any) {
+    if (input.value !== image.title) {
+      this.galleryService.patchImageTitle(image.id, 'title', input.value)
+        .subscribe(
+          () => {
+            this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
+            this.editedTitle = true;
+            event.target.blur();
+          },
+          (err) => {
+            if (err.status === 500) {
+              this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
+              this.editedTitle = false;
+              event.target.blur();
+            } else {
+              this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+              this.editedTitle = false;
+              event.target.blur();
+            }
+          }
+        );
+    } else {
+      this.editedTitle = false;
+    }
+  }
+
+  onCancelEditTitle(image: IImage, input: any) {
+    if (this.editedTitle) {
+      image.title = input.value;
+      this.editedTitle = false;
+    } else {
+      input.value = image.title;
     }
   }
 

@@ -13,13 +13,13 @@
         <div class="panel-footer">
           <div class="d-flex">
             <input (keyup.enter)="onEnterTitle(album, focusOnEditTitle, $event)" (blur)="onCancelEditTitle(album, focusOnEditTitle)"
-              [value]="album.title" type="text" class="title-edit title-edit-focus" #focusOnEditTitle>
+              [value]="album.title" type="text" class="property-edit property-edit-focus" #focusOnEditTitle>
             <div class="primary-image-hover">
               <span class="primary-image glyphicon" aria-hidden="true" (click)="updatePrimaryImage(album)" [ngClass]="{'glyphicon-star': album.isPrimaryImage, 'glyphicon-star-empty': !album.isPrimaryImage}"></span>
             </div>
           </div>
           <div>
-            <a (click)="openDeleteModal(album, template)">Delete</a>
+            <a (click)="openDeleteModal(album, template)" class="crud-btn-pointer">Delete</a>
           </div>
         </div>
       </div>
@@ -64,6 +64,6 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modalRef.hide()">Cancel</button>
-    <button class="btn btn-success" (click)="daleteImage()">Ok</button>
+    <button class="btn btn-success" (click)="deleteImage()">Ok</button>
   </div>
 </ng-template>

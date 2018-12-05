@@ -3,16 +3,17 @@
   <div class="row" *ngIf="albumIndexViewModel">
     <div class="col-md-4" *ngFor="let album of albumIndexViewModel.albums">
       <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage" (click)="goToAlbumView(album)">
+        <div *ngIf="isEditMode" (click)="onTransparAreaClick()" class="transpar-area"></div>
         <div class="panel-body text-center">
           <img src="{{albumIndexViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
         </div>
         <div class="panel-footer">
           <input (click)="onClickProperty($event)" (keyup.enter)="onEnterTitle(album, focusOnEditTitle, $event)" (blur)="onCancelEditTitle(album, focusOnEditTitle)"
-            [value]="album.title" type="text" class="title-descr-edit title-descr-edit-focus" #focusOnEditTitle>
+            [value]="album.title" type="text" class="property-edit property-edit-focus" #focusOnEditTitle>
           <input (click)="onClickProperty($event)" (keyup.enter)="onEnterDescr(album, focusOnEditDescr, $event)" (blur)="onCancelEditDescr(album, focusOnEditDescr)"
-            [value]="album.description" type="text" class="title-descr-edit title-descr-edit-focus" #focusOnEditDescr>
+            [value]="album.description" type="text" class="property-edit property-edit-focus" #focusOnEditDescr>
           <div>
-            <a (click)="openDeleteModal(album, template, $event)">Delete</a>
+            <a (click)="openDeleteModal(album, template, $event)" class="crud-btn-pointer">Delete</a>
           </div>
         </div>
       </div>
@@ -55,6 +56,6 @@
   </div>
   <div class="modal-footer">
     <button class="btn btn-secondary" (click)="modalRef.hide()">Cancel</button>
-    <button class="btn btn-success" (click)="daleteAlbum()">Ok</button>
+    <button class="btn btn-success" (click)="deleteAlbum()">Ok</button>
   </div>
 </ng-template>
