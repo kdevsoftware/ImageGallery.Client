@@ -30,6 +30,7 @@ export class AlbumComponent implements OnInit {
   private albumToDelete;
   private editedTitle: boolean = false;
   private editedDescription: boolean = false;
+  private isEditMode: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -40,7 +41,7 @@ export class AlbumComponent implements OnInit {
     private spinnerService: NgxLoadingSpinnerService,
     private router: Router,
     private modalService: BsModalService,
-    private titleService: TitleService) {}
+    private titleService: TitleService) { }
 
   ngOnInit() {
     this.titleService.set('Albums');
@@ -53,7 +54,7 @@ export class AlbumComponent implements OnInit {
           const page = this.storage.getPerUser('album-page');
           this.pagination.limit = limit ? parseInt(limit) : 15;
           this.pagination.page = page ? parseInt(page) : 1;
-          this.loadAlbumModdel(this.pagination.limit, this.pagination.page);
+          this.loadAlbumModel(this.pagination.limit, this.pagination.page);
         }
       }
     );
@@ -72,25 +73,28 @@ export class AlbumComponent implements OnInit {
 
   onClickProperty(event: any) {
     event.stopPropagation();
+    this.isEditMode = true;
   }
 
   onEnterTitle(album: IAlbum, inputTitle: any, event: any) {
     if (inputTitle.value !== album.title) {
-      this.spinnerService.show();
-
       this.galleryService.patchAlbumTitle(album.id, 'title', inputTitle.value)
         .subscribe(
           () => {
             this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
             this.editedTitle = true;
             event.target.blur();
-            this.spinnerService.hide();
           },
-          () => {
-            this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-            this.editedTitle = false;
-            event.target.blur();
-            this.spinnerService.hide();
+          (err) => {
+            if (err.status === 500) {
+              this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
+              this.editedTitle = false;
+              event.target.blur();
+            } else {
+              this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+              this.editedTitle = false;
+              event.target.blur();
+            }
           }
         );
     } else {
@@ -105,25 +109,28 @@ export class AlbumComponent implements OnInit {
     } else {
       inputTitle.value = album.title;
     }
+    this.isEditMode = false;
   }
 
   onEnterDescr(album: IAlbum, inputDescr: any, event: any) {
     if (inputDescr.value !== album.description) {
-      this.spinnerService.show();
-
       this.galleryService.patchAlbumDescription(album.id, 'description', inputDescr.value)
         .subscribe(
           () => {
             this.toastr.success('Description has been updated successfully!', 'Success!', { closeButton: true });
             this.editedDescription = true;
             event.target.blur();
-            this.spinnerService.hide();
           },
-          () => {
-            this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-            this.editedDescription = false;
-            event.target.blur();
-            this.spinnerService.hide();
+          (err) => {
+            if (err.status === 500) {
+              this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
+              this.editedDescription = false;
+              event.target.blur();
+            } else {
+              this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+              this.editedDescription = false;
+              event.target.blur();
+            }
           }
         );
     } else {
@@ -138,6 +145,11 @@ export class AlbumComponent implements OnInit {
     } else {
       inputDescr.value = album.description;
     }
+    this.isEditMode = false;
+  }
+
+  onTransparAreaClick() {
+    this.isEditMode = false;
   }
 
   public openDeleteModal(album, template, event) {
@@ -147,14 +159,14 @@ export class AlbumComponent implements OnInit {
     event.stopPropagation();
   }
 
-  public daleteAlbum() {
+  public deleteAlbum() {
     this.spinnerService.show();
 
     this.galleryService.deleteAlbumViewModel(this.albumToDelete.id)
       .subscribe(
         () => {
           this.toastr.success('Album has been deleted successfully!', 'Success!', { closeButton: true });
-          this.loadAlbumModdel(this.pagination.limit, this.pagination.page);
+          this.loadAlbumModel(this.pagination.limit, this.pagination.page);
         },
         () => this.toastr.error('Access is denied!', 'Oops!', { closeButton: true }),
         () => {
@@ -169,7 +181,7 @@ export class AlbumComponent implements OnInit {
 
     if (page !== this.pagination.page) {
       this.storage.setPerUser('album-page', page.toString());
-      this.loadAlbumModdel(this.pagination.limit, page);
+      this.loadAlbumModel(this.pagination.limit, page);
     }
   }
 
@@ -181,12 +193,12 @@ export class AlbumComponent implements OnInit {
     this.storage.setPerUser('album-limit', limit.toString());
 
     if (this.pagination.page === 1) {
-      this.loadAlbumModdel(limit, this.pagination.page);
+      this.loadAlbumModel(limit, this.pagination.page);
     } else {
       setTimeout(() => {
         this.pagination.page = 1;
         this.storage.setPerUser('album-page', this.pagination.page.toString());
-        this.loadAlbumModdel(limit, this.pagination.page);
+        this.loadAlbumModel(limit, this.pagination.page);
       });
     }
   }
@@ -200,7 +212,7 @@ export class AlbumComponent implements OnInit {
     this.router.navigate(['album-view', album.id]);
   }
 
-  private loadAlbumModdel(limit, page) {
+  private loadAlbumModel(limit, page) {
     this.spinnerService.show();
 
     this.galleryService.getAlbumIndexViewModel(limit, page)
