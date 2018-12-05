@@ -12,7 +12,7 @@ namespace ImageGallery.Client.ViewModels.Album
         /// </summary>
         /// <param name="albums"></param>
         /// <param name="imagesUri"></param>
-        public AlbumIndexViewModel(List<Model.Album> albums, string imagesUri)
+        public AlbumIndexViewModel(List<Model.Models.Albums.Album> albums, string imagesUri)
         {
             Albums = albums;
             ImagesUri = imagesUri;
@@ -21,7 +21,7 @@ namespace ImageGallery.Client.ViewModels.Album
         /// <summary>
         ///
         /// </summary>
-        public IEnumerable<Model.Album> Albums { get; private set; }
+        public IEnumerable<Model.Models.Albums.Album> Albums { get; private set; }
 
         /// <summary>
         ///

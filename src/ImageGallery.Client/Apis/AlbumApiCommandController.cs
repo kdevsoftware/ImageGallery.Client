@@ -9,7 +9,7 @@ using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
-using ImageGallery.Model;
+using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -50,8 +50,8 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Patch Album Name/Value.
         /// </summary>
-        /// <param name="id">Album Id</param>
-        /// <param name="patchDtos">Name/Vaule Collection</param>
+        /// <param name="id">Album Id.</param>
+        /// <param name="patchDtos">Name/Vaule Collection.</param>
         /// <returns></returns>
         [HttpPatch("{id}", Name = "PatchAlbum")]
         public async Task<IActionResult> PatchAlbum(Guid id, [FromBody] List<PatchDto> patchDtos)
@@ -69,7 +69,7 @@ namespace ImageGallery.Client.Apis
             if (response.IsSuccessStatusCode)
             {
                 var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var deserializedAlbum = JsonConvert.DeserializeObject<ImageProperitesUpdate>(imageAsString);
+                var deserializedAlbum = JsonConvert.DeserializeObject<AlbumProperitesUpdate>(imageAsString);
 
                 var result = ApplyPatch(deserializedAlbum, patchDtos);
                 var serializedAlbumForUpdate = JsonConvert.SerializeObject(result);

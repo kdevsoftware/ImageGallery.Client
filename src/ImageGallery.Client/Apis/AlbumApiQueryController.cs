@@ -10,6 +10,7 @@ using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Model;
+using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

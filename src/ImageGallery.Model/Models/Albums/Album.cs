@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImageGallery.Model
+namespace ImageGallery.Model.Models.Albums
 {
     public class Album
     {
