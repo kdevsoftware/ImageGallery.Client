@@ -1,8 +1,14 @@
-engines:
+version: "2" 
+
+plugins:
   fixme:
     enabled: false
   duplication:
     enabled: false
+  eslint:
+    enabled: true
+  csslint:
+    enabled: true
 
 
 exclude_patterns:
