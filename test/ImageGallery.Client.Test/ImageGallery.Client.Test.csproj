@@ -53,6 +53,10 @@
     <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Serivces\" />
+  </ItemGroup>
+
   <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
     <CodeAnalysisRuleSet>$(SolutionDir)_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>

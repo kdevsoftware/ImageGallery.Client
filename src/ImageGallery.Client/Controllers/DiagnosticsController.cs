@@ -56,7 +56,7 @@ namespace ImageGallery.Client.Controllers
             diagnostics.ApplicationName = _env.ApplicationName;
             diagnostics.EnvironmentName = _env.EnvironmentName;
 
-            var ipAddresses = Dns.GetHostAddressesAsync(diagnostics.DnsHostName).Result.Where(x => x.AddressFamily == AddressFamily.InterNetwork).ToList().Distinct();
+            var ipAddresses = Dns.GetHostAddressesAsync(diagnostics.DnsHostName).Result.Where(x => x.AddressFamily == AddressFamily.InterNetwork).AsEnumerable().Distinct();
 
             var enumerable = ipAddresses as IPAddress[] ?? ipAddresses.ToArray();
             var ipList = new List<string>(enumerable.Count());
