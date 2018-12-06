@@ -1,4 +1,6 @@
-﻿namespace ImageGallery.Model
+﻿using ImageGallery.Model.Models.Images;
+
+namespace ImageGallery.Model
 {
     public class AlbumImage : Image
     {
