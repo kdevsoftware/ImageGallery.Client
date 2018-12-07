@@ -16,7 +16,7 @@
         public string ImagesUri { get; set; }
 
         /// <summary>
-        ///  ClientConfiguration
+        ///  ClientConfiguration.
         /// </summary>
         public ClientConfiguration ClientConfiguration { get; set; }
 

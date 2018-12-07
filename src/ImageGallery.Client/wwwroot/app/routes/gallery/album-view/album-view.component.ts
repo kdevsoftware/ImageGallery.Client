@@ -62,21 +62,23 @@ export class AlbumViewComponent implements OnInit {
 
   onEnterTitle(image: IImage, input: any, event: any) {
     if (input.value !== image.title) {
-      this.spinnerService.show();
-
       this.galleryService.patchImageTitle(image.id, 'title', input.value)
         .subscribe(
           () => {
             this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
             this.editedTitle = true;
             event.target.blur();
-            this.spinnerService.hide();
           },
-          () => {
-            this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-            this.editedTitle = false;
-            event.target.blur();
-            this.spinnerService.hide();
+          (err) => {
+            if (err.status === 500) {
+              this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
+              this.editedTitle = false;
+              event.target.blur();
+            } else {
+              this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+              this.editedTitle = false;
+              event.target.blur();
+            }
           }
         );
     } else {
@@ -93,13 +95,12 @@ export class AlbumViewComponent implements OnInit {
     }
   }
 
-
   public openDeleteModal(image, template) {
     this.imageToDelete = image;
     this.modalRef = this.modalService.show(template);
   }
 
-  public daleteImage() {
+  public deleteImage() {
     this.spinnerService.show();
 
     this.galleryService.deleteImageFromAlbum(this.albumId, this.imageToDelete.id)

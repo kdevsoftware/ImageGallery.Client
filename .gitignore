@@ -175,6 +175,8 @@ bower_components/
 dist/
 **/wwwroot/app/**/*.map
 **/wwwroot/app/**/*.js
+**/wwwroot/app/modernizr.js
+
 
 orleans.codegen.cs
 
@@ -218,3 +220,4 @@ ModelManifest.xml
 # MacOS file
 .DS_Store
 .vscode/
+

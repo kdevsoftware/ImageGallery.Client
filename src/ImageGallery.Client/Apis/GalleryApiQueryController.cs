@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
@@ -8,10 +11,11 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
-using ImageGallery.Model;
+using ImageGallery.Model.Models.Images;
 using ImageGallery.Service.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -151,7 +155,6 @@ namespace ImageGallery.Client.Apis
         [ProducesResponseType(typeof(IEnumerable<ImageViewModel>), 200)]
         public async Task<IActionResult> GetImageProperties(Guid id)
         {
-            // call the API
             var imagesRoute = $"{InternalImagesRoute}/{id}";
             var httpClient = await _imageGalleryHttpClient.GetClient();
 
@@ -187,6 +190,53 @@ namespace ImageGallery.Client.Apis
             }
 
             return UnprocessableEntity(response.ReasonPhrase);
+        }
+
+        /// <summary>
+        ///  Get Image File.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Produces("image/jpeg")]
+        [HttpGet("file/{id}")]
+        public async Task<IActionResult> GetImageFile(Guid id)
+        {
+            var imagesRoute = $"{InternalImagesRoute}/{id}";
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var deserializedImage = JsonConvert.DeserializeObject<Image>(imageAsString);
+
+                var imageViewModel = new ImageViewModel(ApplicationSettings.ImagesUri)
+                {
+                    FileName = deserializedImage.FileName,
+                };
+
+                var externalUri = ApplicationSettings.ImagesUri;
+                var externalimagesRoute = $"{externalUri}{imageViewModel.FileName}";
+
+                using (var client = new HttpClient())
+                {
+                    using (var result = await client.GetAsync(externalimagesRoute))
+                    {
+                        if (result.IsSuccessStatusCode)
+                        {
+                            var content = await result.Content.ReadAsByteArrayAsync();
+
+                            //TODO: The file result has not been enabled for processing range requests.To enable it, set the property 'EnableRangeProcessing' on the result to 'true'.
+                            var mimeType = "image/jpeg";
+                            return File(content, mimeType, imageViewModel.FileName);
+                        }
+                    }
+                }
+            }
+
+            return UnprocessableEntity();
         }
     }
 }

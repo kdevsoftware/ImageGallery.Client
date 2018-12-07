@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImageGallery.Model
+namespace ImageGallery.Model.Models.Images
 {
     public class Image
     {
@@ -25,7 +25,7 @@ namespace ImageGallery.Model
         public string Category { get; set; }
 
         /// <summary>
-        ///
+        ///  Flickr PhotoId
         /// </summary>
         public string PhotoId { get; set; }
 
@@ -35,13 +35,31 @@ namespace ImageGallery.Model
         public string DataSource { get; set; }
 
         /// <summary>
-        ///
+        /// Photo Widht.
         /// </summary>
-        public int? Width => 320;
+        private int? _width;
+        public int? Width
+        {
+            get
+            {
+                if (_width > _height || _width == null)
+                {
+                    return 320;
+                }
+
+                return 240;
+            }
+            set => _width = value;
+        }
 
         /// <summary>
-        ///
+        ///  Photo Height.
         /// </summary>
-        public int? Height => 240;
+        private int? _height;
+        public int? Height
+        {
+            get => _height > _width ? 320 : 240;
+            set => _height = value;
+        }
     }
 }

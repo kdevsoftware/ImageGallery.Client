@@ -122,9 +122,7 @@ namespace ImageGallery.Client
                 });
             }
 
-            app.UseCors(
-                options => options.AllowAnyMethod()
-            );
+            app.UseCors(options => options.AllowAnyMethod());
 
             app.UseMvc(routes =>
             {
@@ -188,10 +186,10 @@ namespace ImageGallery.Client
             return services;
         }
 
-        public static IServiceCollection AddCustomAuthorization(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomAuthorization(
+            this IServiceCollection services,
+            IConfiguration configuration)
         {
-            var config = configuration.Get<ApplicationOptions>();
-
             services.AddAuthorization(authorizationOptions =>
             {
                 authorizationOptions.AddPolicy(
