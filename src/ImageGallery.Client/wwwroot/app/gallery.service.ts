@@ -25,10 +25,18 @@ export class GalleryService {
     return this.httpClient.get('api/ClientAppSettings');
   }
 
-  public getGalleryIndexViewModel(limit: number, page: number) {
+  public getGalleryIndexViewModel(limit: number, page: number, searchInput?: string) {
     var self = this;
+    var searchQuery = '';
+
+    if (searchInput) {
+      searchQuery = `Search=${searchInput}&`;
+    }
+
+    var query = `${this.baseUrl}/list?${searchQuery}limit=${limit}&page=${page}`;
+
     return new Promise((resolve, reject) => {
-      this.httpClient.get(`${this.baseUrl}/list?limit=${limit}&page=${page}`, { observe: 'response', headers: self.generateBearerHeaaders() })
+      this.httpClient.get(query, { observe: 'response', headers: self.generateBearerHeaaders() })
         .subscribe(res => {
           resolve({
             totalCount: res.headers.get('X-InlineCount'),
@@ -95,43 +103,42 @@ export class GalleryService {
     headers.append("Content-Type", "application/json-patch+json");
 
     const model = [
-        {
-          propertyName: propertyName,
-          propertyValue: propertyValue
-        }
-      ];
+      {
+        propertyName: propertyName,
+        propertyValue: propertyValue
+      }
+    ];
 
     return this.httpClient.patch(`${this.albumUrl}/${id}`, model, { headers: headers });
-}
+  }
 
-public patchAlbumDescription(id: string, propertyName: string, propertyValue: string): Observable<Object> {
+  public patchAlbumDescription(id: string, propertyName: string, propertyValue: string): Observable<Object> {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json-patch+json");
 
     const model = [
-        {
-          propertyName: propertyName,
-          propertyValue: propertyValue
-        }
-      ];
+      {
+        propertyName: propertyName,
+        propertyValue: propertyValue
+      }
+    ];
 
     return this.httpClient.patch(`${this.albumUrl}/${id}`, model, { headers: headers });
-}
+  }
 
-public patchImageTitle(id: string, propertyName: string, propertyValue: string): Observable<Object> {
+  public patchImageTitle(id: string, propertyName: string, propertyValue: string): Observable<Object> {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json-patch+json");
 
     const model = [
-        {
-          propertyName: propertyName,
-          propertyValue: propertyValue
-        }
-      ];
+      {
+        propertyName: propertyName,
+        propertyValue: propertyValue
+      }
+    ];
 
     return this.httpClient.patch(`${this.baseUrl}/${id}`, model, { headers: headers });
-}
-
+  }
 
   public deleteImageViewModel(id: string): Observable<Object> {
     var self = this;
