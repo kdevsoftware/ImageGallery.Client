@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GalleryService } from '../../../gallery.service';
-import { IGalleryIndexViewModel, IRouteTypeModel, IImage } from '../../../shared/interfaces';
+import { IGalleryIndexViewModel, IRouteTypeModel } from '../../../shared/interfaces';
 import { AuthService } from '../../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
@@ -25,14 +25,16 @@ export class GalleryComponent implements OnInit {
 
   pagination: any = {};
   page = 0;
+  currentPage = 0;
   limit: number;
   perPage = [15, 30, 60, 90];
   albums = [];
   savedAlbums = [];
+  searchInput = '';
+
 
   modalRef: BsModalRef;
   flickrList = [];
-  private editedTitle: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -55,6 +57,7 @@ export class GalleryComponent implements OnInit {
         if (isAuthorized) {
           this.limit = this.storage.getPerUser('limit') ? parseInt(this.storage.getPerUser('limit')) : 15;
           this.page = this.storage.getPerUser('page') ? parseInt(this.storage.getPerUser('page')) : 1;
+          this.currentPage = this.page;
           this.loadGalleryModel(this.limit, this.page);
         }
       }
@@ -72,61 +75,24 @@ export class GalleryComponent implements OnInit {
     }
   }
 
-  onEnterTitle(image: IImage, input: any, event: any) {
-    if (input.value !== image.title) {
-      this.galleryService.patchImageTitle(image.id, 'title', input.value)
-        .subscribe(
-          () => {
-            this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
-            this.editedTitle = true;
-            event.target.blur();
-          },
-          (err) => {
-            if (err.status === 500) {
-              this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
-              this.editedTitle = false;
-              event.target.blur();
-            } else {
-              this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-              this.editedTitle = false;
-              event.target.blur();
-            }
-          }
-        );
-    } else {
-      this.editedTitle = false;
-    }
+  public onSearchImage(event: any) {
+    this.searchInput = event.target.value;
+    this.searchImage();
   }
 
-  onCancelEditTitle(image: IImage, input: any) {
-    if (this.editedTitle) {
-      image.title = input.value;
-      this.editedTitle = false;
-    } else {
-      input.value = image.title;
-    }
-  }
-
-  public deleteImage(imageId: string) {
-    this.galleryService.deleteImageViewModel(imageId)
-      .subscribe((response) => { },
-        (err: any) => {
-          this.toastr.error('Failed to delete image!', 'Oops!', { closeButton: true });
-          console.log(err);
-        },
-        () => {
-          this.toastr.success('Image has been deleted successfully!', 'Success!', { closeButton: true });
-          this.galleryIndexViewModel.images = this.galleryIndexViewModel.images.filter(x => x.id != imageId);
-        });
+  public onClickSearchImage(searchInput: string) {
+    this.searchInput = searchInput;
+    this.searchImage();
   }
 
   public getGalleryIndexViewModel(event) {
     const page = event.page;
 
-    if (page !== this.page) {
+    if (page !== this.currentPage) {
       this.storage.setPerUser('page', page.toString());
       this.loadGalleryModel(this.limit, page);
     }
+    this.currentPage = page;
   }
 
   public updateLimit(event) {
@@ -142,9 +108,21 @@ export class GalleryComponent implements OnInit {
       setTimeout(() => {
         this.page = 1;
         this.storage.setPerUser('page', this.page.toString());
-        this.loadGalleryModel(limit, this.page);
       });
     }
+  }
+
+  public deleteImage(imageId: string) {
+    this.galleryService.deleteImageViewModel(imageId)
+      .subscribe((response) => { },
+        (err: any) => {
+          this.toastr.error('Failed to delete image!', 'Oops!', { closeButton: true });
+          console.log(err);
+        },
+        () => {
+          this.toastr.success('Image has been deleted successfully!', 'Success!', { closeButton: true });
+          this.galleryIndexViewModel.images = this.galleryIndexViewModel.images.filter(x => x.id != imageId);
+        });
   }
 
   private scrollToTop() {
@@ -168,10 +146,19 @@ export class GalleryComponent implements OnInit {
     });
   }
 
+  private searchImage() {
+    if (this.currentPage === 1) {
+      this.loadGalleryModel(this.limit, this.page);
+    } else {
+      this.page = 1;
+      this.storage.setPerUser('page', this.page.toString());
+    }
+  }
+
   private loadGalleryModel(limit, page) {
     this.spinnerService.show();
 
-    this.galleryService.getGalleryIndexViewModel(limit, page)
+    this.galleryService.getGalleryIndexViewModel(limit, page, this.searchInput)
       .then((response: any) => {
         this.galleryIndexViewModel = response.images;
         this.galleryIndexViewModel.images.forEach((image, i) => {
