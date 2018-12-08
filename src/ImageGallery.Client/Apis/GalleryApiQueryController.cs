@@ -4,6 +4,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mime;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
@@ -15,9 +16,9 @@ using ImageGallery.Model.Models.Images;
 using ImageGallery.Service.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis
@@ -41,11 +42,13 @@ namespace ImageGallery.Client.Apis
         /// <param name="imageGalleryHttpClient"></param>
         /// <param name="settings"></param>
         /// <param name="logger"></param>
-        public GalleryApiQueryController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<GalleryApiQueryController> logger)
+        public GalleryApiQueryController(IImageGalleryHttpClient imageGalleryHttpClient,
+            IOptions<ApplicationOptions> settings, ILogger<GalleryApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _imageGalleryHttpClient =
+                imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
         }
 
         private ApplicationOptions ApplicationSettings { get; }
@@ -73,8 +76,8 @@ namespace ImageGallery.Client.Apis
                 var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var galleryIndexViewModel = new GalleryIndexViewModel(
-                        JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
-                        ApplicationSettings.ImagesUri);
+                    JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
+                    ApplicationSettings.ImagesUri);
 
                 return Ok(galleryIndexViewModel);
             }
@@ -123,8 +126,8 @@ namespace ImageGallery.Client.Apis
                 var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var galleryIndexViewModel = new GalleryIndexViewModel(
-                        JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
-                        ApplicationSettings.ImagesUri);
+                    JsonConvert.DeserializeObject<IList<Image>>(imagesAsString).ToList(),
+                    ApplicationSettings.ImagesUri);
 
                 HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
                 HttpContext.Response.Headers.Add("X-InlineCount", inlinecount);
@@ -197,6 +200,7 @@ namespace ImageGallery.Client.Apis
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Authorize]
         [Produces("image/jpeg")]
         [HttpGet("file/{id}")]
         public async Task<IActionResult> GetImageFile(Guid id)
@@ -227,10 +231,13 @@ namespace ImageGallery.Client.Apis
                         if (result.IsSuccessStatusCode)
                         {
                             var content = await result.Content.ReadAsByteArrayAsync();
+                            FileContentResult fileResult = new FileContentResult(content, MediaTypeNames.Image.Jpeg)
+                            {
+                                FileDownloadName = imageViewModel.FileName,
+                                EnableRangeProcessing = true,
+                            };
 
-                            //TODO: The file result has not been enabled for processing range requests.To enable it, set the property 'EnableRangeProcessing' on the result to 'true'.
-                            var mimeType = "image/jpeg";
-                            return File(content, mimeType, imageViewModel.FileName);
+                            return fileResult;
                         }
                     }
                 }

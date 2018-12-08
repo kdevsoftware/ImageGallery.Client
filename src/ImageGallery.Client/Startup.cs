@@ -220,7 +220,6 @@ namespace ImageGallery.Client
                         Version = "v1",
                     });
 
-                    // Handle OAuth
                     options.AddSecurityDefinition("oauth2", new OAuth2Scheme
                     {
                         Type = "oauth2",
