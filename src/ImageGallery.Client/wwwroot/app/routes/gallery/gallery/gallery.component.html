@@ -3,9 +3,14 @@
     <div class="col-md-7 col-centered text-center">
       <div>
         <div class="input-group stylish-input-group">
-          <input #searchInput (keyup.enter)="onSearchImage($event)" type="text" class="form-control" placeholder="Search...">
+          <input [(ngModel)]="searchTerm" (keyup.enter)="onSearchImage()" type="text" class="form-control" placeholder="Search...">
+          <span class="input-group-addon clear" *ngIf="searchTerm">
+            <button class="clear-btn" (click)="onClickClearSearch()">
+              <span class="glyphicon glyphicon-remove"></span>
+            </button>
+          </span>
           <span class="input-group-addon">
-            <button (click)="onClickSearchImage(searchInput.value)">
+            <button (click)="onSearchImage()">
               <span class="glyphicon glyphicon-search"></span>
             </button>
           </span>
