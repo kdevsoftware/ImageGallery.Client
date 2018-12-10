@@ -245,5 +245,53 @@ namespace ImageGallery.Client.Apis
 
             return UnprocessableEntity();
         }
+
+        /// <summary>
+        ///  Get Image File(Base64).
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [Authorize]
+        [Produces("image/jpeg")]
+        [HttpGet("base64/{id}")]
+        public async Task<IActionResult> GetImageBase64File(Guid id)
+        {
+            var imagesRoute = $"{InternalImagesRoute}/{id}";
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                var deserializedImage = JsonConvert.DeserializeObject<Image>(imageAsString);
+
+                var imageViewModel = new ImageViewModel(ApplicationSettings.ImagesUri)
+                {
+                    FileName = deserializedImage.FileName,
+                };
+
+                var externalUri = ApplicationSettings.ImagesUri;
+                var externalimagesRoute = $"{externalUri}{imageViewModel.FileName}";
+
+                using (var client = new HttpClient())
+                {
+                    using (var result = await client.GetAsync(externalimagesRoute))
+                    {
+                        if (result.IsSuccessStatusCode)
+                        {
+                            var content = await result.Content.ReadAsByteArrayAsync();
+                            var base64 = Convert.ToBase64String(content);
+                            //return "data:image/jpeg;base64," + base64;
+                            Ok(base64);
+                        }
+                    }
+                }
+            }
+
+            //return "data:image/jpeg;base64," + string.Empty;
+            return UnprocessableEntity(response.ReasonPhrase);
+        }
     }
 }
