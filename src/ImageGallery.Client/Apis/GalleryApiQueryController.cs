@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mime;
 using System.Threading.Tasks;
@@ -252,8 +253,8 @@ namespace ImageGallery.Client.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [Authorize]
-        [Produces("image/jpeg")]
-        [HttpGet("base64/{id}")]
+        [Produces("text/plain")]
+        [HttpGet("text/{id}")]
         public async Task<IActionResult> GetImageBase64File(Guid id)
         {
             var imagesRoute = $"{InternalImagesRoute}/{id}";
@@ -283,15 +284,19 @@ namespace ImageGallery.Client.Apis
                         {
                             var content = await result.Content.ReadAsByteArrayAsync();
                             var base64 = Convert.ToBase64String(content);
+                            var resp = new StringContent(base64, System.Text.Encoding.UTF8, "text/plain");
+
                             //return "data:image/jpeg;base64," + base64;
-                            Ok(base64);
+                            //Ok(base64);
+                            return Content(base64);
                         }
                     }
                 }
             }
 
+            return UnprocessableEntity();
             //return "data:image/jpeg;base64," + string.Empty;
-            return UnprocessableEntity(response.ReasonPhrase);
+            //return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

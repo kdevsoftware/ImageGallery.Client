@@ -54,7 +54,7 @@
     "napa": "3.0.0",
     "ng2-validation": "4.2.0",
     "ngx-bootstrap": "^3.1.2",
-    "ngx-image-cropper": "^1.2.3",
+    "ngx-image-cropper": "^1.2.4",
     "ngx-loading-spinner-fork": "^1.0.2",
     "ngx-toastr": "^9.1.1",
     "node-sass": "4.11.0",
@@ -69,7 +69,7 @@
     "to-string-loader": "^1.1.5",
     "ts-helpers": "1.1.2",
     "ts-loader": "^5.3.1",
-    "typescript": "^3.2.1",
+    "typescript": "^3.2.2",
     "uglifyjs-webpack-plugin": "^2.0.0",
     "url-loader": "^1.1.2",
     "web-animations-js": "2.3.1",
@@ -82,12 +82,12 @@
     "license-checker": "^24.0.1"
   },
   "devDependencies": {
-    "@angular/cli": "^7.1.0",
+    "@angular/cli": "^7.1.2",
     "@auth0/angular-jwt": "^2.0.0",
     "angular-auth-oidc-client": "^8.0.3",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "sonarqube-scanner": "^2.1.2",
-    "webpack": "^4.26.1",
+    "webpack": "^4.27.1",
     "webpack-dev-middleware": "^3.4.0"
   }
 }
