@@ -4,6 +4,8 @@ export interface IImage {
   fileName: string;
   category: string;
   dataSource: string;
+  width: number;
+  height: number;
   photoId: string;
   isPrimaryImage: boolean;
 }

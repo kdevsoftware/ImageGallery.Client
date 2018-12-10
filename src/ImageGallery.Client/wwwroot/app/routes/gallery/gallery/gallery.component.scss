@@ -91,3 +91,13 @@
   right: 42px;
   color: #d9534f;
 }
+
+.img-panel {
+    height: 280px;
+    width: 360px;
+    overflow: hidden;
+}
+
+.img-panel img {
+    height: 100%;
+}

@@ -1,7 +1,7 @@
 <div class="container">
   <h2 class="page-header">Albums</h2>
   <div class="row" *ngIf="albumIndexViewModel">
-    <div class="col-md-4" *ngFor="let album of albumIndexViewModel.albums">
+    <div class="col-sm-6 col-md-4" *ngFor="let album of albumIndexViewModel.albums">
       <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage" (click)="goToAlbumView(album)">
         <div *ngIf="isEditMode" (click)="onTransparAreaClick()" class="transpar-area"></div>
         <div class="panel-body text-center">

@@ -19,10 +19,10 @@
     </div>
   </div>
   <div class="row" *ngIf="galleryIndexViewModel">
-    <div class="col-md-4" *ngFor="let image of galleryIndexViewModel.images; let i = index">
+    <div class="col-sm-6 col-md-4" *ngFor="let image of galleryIndexViewModel.images; let i = index">
       <div class="panel panel-default" [class.panel-warning]="albums[i]">
-        <div class="panel-body text-center">
-          <img src="{{galleryIndexViewModel.imagesUri + image.fileName}}" width="{{image.width}}" height="{{image.height}}">
+        <div class="panel-body text-center img-responsive center-block img-panel">
+          <img src="{{galleryIndexViewModel.imagesUri + image.fileName}}"> 
         </div>
         <div class="panel-footer">
           <div class="d-flex">
@@ -35,8 +35,8 @@
           </div>
           <h5>{{image.category}}</h5>
           <div>
-            <a [routerLink]="['/gallery-edit', image.id]">Edit</a> |
-            <a id="lnk_delete_{{image.id}}" (click)="deleteImage(image.id)">Delete</a>
+            <a [routerLink]="['/gallery-edit', image.id]" class="crud-btn-pointer">Edit</a> |
+            <a id="lnk_delete_{{image.id}}" (click)="deleteImage(image.id)" class="crud-btn-pointer">Delete</a>
           </div>
         </div>
       </div>
