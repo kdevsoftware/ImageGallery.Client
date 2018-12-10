@@ -5,7 +5,7 @@
   </ol>
   <h2 class="page-header">{{title}}</h2>
   <div class="row" *ngIf="albumViewModel && albumViewModel.images">
-    <div class="col-md-4" *ngFor="let album of albumViewModel.images">
+    <div class="col-sm-6 col-md-4" *ngFor="let album of albumViewModel.images">
       <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage">
         <div class="panel-body text-center">
           <img src="{{albumViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
