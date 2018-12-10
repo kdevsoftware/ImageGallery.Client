@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.titleService.set('Login');
   }
 
@@ -59,8 +59,12 @@ export class LoginComponent implements OnInit {
         this.storage.set('currentUser', res['subscriptionlevel']);
         this.router.navigate(['/']);
       })
-      .catch(() => {
-        this.alertMessage = "Invalid request";
+      .catch((err) => {
+        if (err.name === 'TypeError') {
+          this.alertMessage = 'Auth Server is Not Reachable';
+        } else {
+          this.alertMessage = "Invalid request";
+        }
       });
-  }
+  } і
 }
