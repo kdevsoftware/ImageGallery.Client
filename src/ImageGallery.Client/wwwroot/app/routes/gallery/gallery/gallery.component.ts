@@ -30,7 +30,7 @@ export class GalleryComponent implements OnInit {
   perPage = [15, 30, 60, 90];
   albums = [];
   savedAlbums = [];
-  searchTerm;
+  searchTerm = '';
 
   modalRef: BsModalRef;
   flickrList = [];
@@ -56,6 +56,7 @@ export class GalleryComponent implements OnInit {
         if (isAuthorized) {
           this.limit = this.storage.getPerUser('limit') ? parseInt(this.storage.getPerUser('limit')) : 15;
           this.page = this.storage.getPerUser('page') ? parseInt(this.storage.getPerUser('page')) : 1;
+          this.searchTerm = this.storage.getPerUser('search-text') ? this.storage.getPerUser('search-text') : '';
           this.currentPage = this.page;
           this.loadGalleryModel(this.limit, this.page);
         }
@@ -155,7 +156,9 @@ export class GalleryComponent implements OnInit {
 
   private loadGalleryModel(limit, page) {
     this.spinnerService.show();
-
+    
+    this.storage.setPerUser('search-text', this.searchTerm);
+    
     this.galleryService.getGalleryIndexViewModel(limit, page, this.searchTerm)
       .then((response: any) => {
         this.galleryIndexViewModel = response.images;
