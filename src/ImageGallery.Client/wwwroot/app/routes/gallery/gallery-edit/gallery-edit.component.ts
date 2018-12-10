@@ -19,6 +19,7 @@ import { TitleService } from '../../../services/title.service';
   providers: [GalleryService]
 })
 export class GalleryEditComponent implements OnInit {
+  title: string;
   @ViewChild('image') image;
   imageUrl;
   imageBase64;
@@ -40,6 +41,7 @@ export class GalleryEditComponent implements OnInit {
 
   async ngOnInit() {
     this.titleService.set('Gallery Edit Image');
+    this.title = 'Edit Image';
 
     const imageId = await this.getImageIdAsync();
 
@@ -107,8 +109,8 @@ export class GalleryEditComponent implements OnInit {
     this.galleryService.getEditImageViewModel(imageId)
       .subscribe((response: IEditImageViewModel) => {
         this.editImageViewModel = response;
-        // todo: for test
-        this.editImageViewModel.imageUrl = '../../../../assets/img/test.jpg';
+       // todo: for test
+       this.editImageViewModel.imageUrl = '../../../../assets/img/test.jpg';
         this.spinnerService.hide();
       },
         (err: any) => {

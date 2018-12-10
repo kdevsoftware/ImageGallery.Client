@@ -1,51 +1,40 @@
-﻿<h2 class="leftMarginSmaller">Edit Image Title</h2>
-<div class="container">
+﻿<div class="container">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a routerLink="/">Gallery</a></li>
+    <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
+  </ol>
+  <h2 class="leftMarginSmaller">Edit Image Title</h2>
   <div class="row">
     <div class="col-md-4">
-      <form method="post"
-            class="form-horizontal"
-            role="form"
-            *ngIf="editImageViewModel"
-            (ngSubmit)="onSubmit()">
+      <form method="post" class="form-horizontal" role="form" *ngIf="editImageViewModel" (ngSubmit)="onSubmit()">
         <div class="form-horizontal leftMarginDefault">
           <div class="form-group">
             <div>You image's title</div>
-            <input name="title"
-                   [(ngModel)]="editImageViewModel.title"
-                   class="form-control" />
+            <input name="title" [(ngModel)]="editImageViewModel.title" class="form-control" />
           </div>
 
           <div class="form-group">
             <div>Category</div>
-            <select class="form-control"
-                    name="category"
-                    [(ngModel)]="editImageViewModel.category">
-              <option *ngFor="let category of categories"
-                      [ngValue]="category">{{category}}</option>
+            <select class="form-control" name="category" [(ngModel)]="editImageViewModel.category">
+              <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
             </select>
           </div>
 
           <div class="form-group">
             <div>
-              <input type="submit"
-                     class="btn btn-primary"
-                     value="Change title" />
+              <input type="submit" class="btn btn-primary" value="Change title" />
             </div>
           </div>
         </div>
       </form>
     </div>
+    <canvas id="canvas"></canvas>
     <div class="col-md-4 crop">
       <div *ngIf="editImageViewModel && imageBase64">
-        <image-cropper [imageBase64]="imageBase64"
-                       [maintainAspectRatio]="true"
-                       [aspectRatio]="4 / 3"
-                       (imageCropped)="imageCropped($event)"
-                       (loadImageFailed)="loadImageFailed()"></image-cropper>
+        <image-cropper [imageBase64]="imageBase64" [maintainAspectRatio]="true" [aspectRatio]="4 / 3" (imageCropped)="imageCropped($event)"
+          (loadImageFailed)="loadImageFailed()"></image-cropper>
         <div class="img-preview">
-          <img style="width: 50%"
-               *ngIf="croppedImage"
-               [src]="croppedImage" />
+          <img style="width: 50%" *ngIf="croppedImage" [src]="croppedImage" />
         </div>
         <div class="form-group">
           <div class="crop-btn-container">
@@ -53,13 +42,9 @@
           </div>
         </div>
       </div>
-      <img #image
-           hidden
-           *ngIf="editImageViewModel"
-           [src]="editImageViewModel.imageUrl"
-           (load)="imageLoad()" />
+      <img #image hidden *ngIf="editImageViewModel" [src]="this.imageBase64"/>
     </div>
   </div>
-  
+
   <ngx-loading-spinner> </ngx-loading-spinner>
 </div>
