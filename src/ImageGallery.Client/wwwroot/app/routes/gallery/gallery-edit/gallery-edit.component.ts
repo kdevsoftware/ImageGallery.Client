@@ -19,10 +19,9 @@ import { TitleService } from '../../../services/title.service';
   providers: [GalleryService]
 })
 export class GalleryEditComponent implements OnInit {
-  title: string;
   @ViewChild('image') image;
-  imageUrl;
   imageBase64;
+  ratio = 4 / 3;
 
   editImageViewModel: IEditImageViewModel;
 
@@ -41,7 +40,6 @@ export class GalleryEditComponent implements OnInit {
 
   async ngOnInit() {
     this.titleService.set('Gallery Edit Image');
-    this.title = 'Edit Image';
 
     const imageId = await this.getImageIdAsync();
 
@@ -73,13 +71,7 @@ export class GalleryEditComponent implements OnInit {
     }
   }
 
-  imageLoaded() { }
-
   loadImageFailed() { }
-
-  imageLoad() {
-    this.imageBase64 = this.getBase64Image(this.image.nativeElement);
-  }
 
   cropImage() {
     this.spinnerService.show();
@@ -109,27 +101,24 @@ export class GalleryEditComponent implements OnInit {
     this.galleryService.getEditImageViewModel(imageId)
       .subscribe((response: IEditImageViewModel) => {
         this.editImageViewModel = response;
-       // todo: for test
-       this.editImageViewModel.imageUrl = '../../../../assets/img/test.jpg';
-        this.spinnerService.hide();
+
+        if (response.height > response.width) this.ratio = 3 / 4;
+
+        this.galleryService.getImageBase64(this.editImageViewModel.id)
+          .subscribe((response) => {
+            this.imageBase64 = response;
+
+            this.spinnerService.hide();
+          },
+            (err: any) => {
+              console.log(err);
+              this.spinnerService.hide();
+            });
       },
         (err: any) => {
           console.log(err);
           this.spinnerService.hide();
         },
         () => console.log('getEditImageViewModel() retrieved EditImageViewModel'));
-  }
-
-  private getBase64Image(img) {
-    let canvas = document.createElement('canvas');
-    let context = canvas.getContext('2d');
-
-    canvas.width = img.width;
-    canvas.height = img.height;
-
-    context.drawImage(img, 0, 0);
-    canvas.toDataURL('image/png');
-
-    return canvas.toDataURL('image/png');
   }
 }

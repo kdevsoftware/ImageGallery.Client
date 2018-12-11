@@ -188,6 +188,13 @@ export class GalleryService {
     return this.httpClient.put(`${this.albumUrl}/primaryimage/${id}?imageId=${imageId}`, {}, { headers: headers });
   }
 
+  public getImageBase64(id: string) {
+    var self = this;
+    return this.httpClient.get(`${this.baseUrl}/text/${id}`, { headers: self.generateBearerHeaaders(), responseType: 'text' })
+      .catch(this.handleError);
+  }
+
+
   private generateBearerHeaaders(): HttpHeaders {
     return new HttpHeaders({
       "Authorization": "Bearer " + this.oauthService.getAccessToken()
