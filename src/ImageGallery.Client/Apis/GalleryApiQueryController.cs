@@ -284,11 +284,8 @@ namespace ImageGallery.Client.Apis
                         {
                             var content = await result.Content.ReadAsByteArrayAsync();
                             var base64 = Convert.ToBase64String(content);
-                            var resp = new StringContent(base64, System.Text.Encoding.UTF8, "text/plain");
 
-                            //return "data:image/jpeg;base64," + base64;
-                            //Ok(base64);
-                            return Content(base64);
+                            return Content("data:image/jpeg;base64," + base64);
                         }
                     }
                 }
