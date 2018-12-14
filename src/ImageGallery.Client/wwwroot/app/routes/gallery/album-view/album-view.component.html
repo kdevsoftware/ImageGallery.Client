@@ -12,8 +12,15 @@
         </div>
         <div class="panel-footer">
           <div class="d-flex">
-            <input (keyup.enter)="onEnterTitle(album, focusOnEditTitle, $event)" (blur)="onCancelEditTitle(album, focusOnEditTitle)"
-              [value]="album.title" type="text" class="property-edit property-edit-focus" #focusOnEditTitle>
+            <div class="input-group input-group-for">
+              <input (keyup.enter)="onSubmitTitle(album, inputTitle, $event)" (blur)="onCancelEditTitle(album, inputTitle)"
+                [value]="album.title" type="text" class="property-edit property-edit-focus" #inputTitle>
+              <span class="input-group-addon">
+                <button (mousedown)="onSubmitTitle(album, inputTitle)">
+                  <span class="glyphicon glyphicon-pencil"></span>
+                </button>
+              </span>
+            </div>
             <div class="primary-image-hover">
               <span class="primary-image glyphicon" aria-hidden="true" (click)="updatePrimaryImage(album)" [ngClass]="{'glyphicon-star': album.isPrimaryImage, 'glyphicon-star-empty': !album.isPrimaryImage}"></span>
             </div>
