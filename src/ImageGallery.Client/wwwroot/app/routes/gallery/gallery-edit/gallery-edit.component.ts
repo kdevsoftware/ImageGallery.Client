@@ -20,6 +20,8 @@ import { TitleService } from '../../../services/title.service';
 })
 export class GalleryEditComponent implements OnInit {
   @ViewChild('image') image;
+  title: string;
+
   imageBase64;
   ratio = 4 / 3;
 
@@ -39,6 +41,7 @@ export class GalleryEditComponent implements OnInit {
     private titleService: TitleService) { }
 
   async ngOnInit() {
+    this.title = 'Edit Image';
     this.titleService.set('Gallery Edit Image');
 
     const imageId = await this.getImageIdAsync();
