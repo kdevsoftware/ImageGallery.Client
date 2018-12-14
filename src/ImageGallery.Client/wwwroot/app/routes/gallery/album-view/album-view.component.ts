@@ -68,7 +68,6 @@ export class AlbumViewComponent implements OnInit {
       this.galleryService.patchImageTitle(image.id, 'title', input.value)
         .subscribe(
           () => {
-            console.log('success edited');
             this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
           },
           (err) => {
@@ -81,13 +80,12 @@ export class AlbumViewComponent implements OnInit {
           }
         );
     }
-    if(event){
+    if (event) {
       event.target.blur();
     }
   }
 
   onCancelEditTitle(image: IImage, input: any) {
-    console.log('focusout or blur');
     if (this.clicked) {
       image.title = input.value;
     } else {

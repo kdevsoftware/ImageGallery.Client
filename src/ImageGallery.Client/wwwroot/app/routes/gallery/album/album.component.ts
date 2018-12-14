@@ -9,7 +9,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { StorageService } from '../../../services/storage.service';
 import { TitleService } from '../../../services/title.service';
 
-
+// -------------------------------------------------------------------------------------------------
 @Component({
   selector: 'app-album',
   templateUrl: './album.component.html',
@@ -25,12 +25,11 @@ export class AlbumComponent implements OnInit {
 
   pagination: any = {};
   perPage = [15, 30, 60, 90];
-
+  isEditMode: boolean = false;
   modalRef: BsModalRef;
+
   private albumToDelete;
-  private editedTitle: boolean = false;
-  private editedDescription: boolean = false;
-  private isEditMode: boolean = false;
+  private clicked: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -76,75 +75,73 @@ export class AlbumComponent implements OnInit {
     this.isEditMode = true;
   }
 
-  onEnterTitle(album: IAlbum, inputTitle: any, event: any) {
+  onSubmitTitle(album: IAlbum, inputTitle: any, event?: any) {
+    this.clicked = true;
+    const tempTitle = album.title;
+
     if (inputTitle.value !== album.title) {
-      this.galleryService.patchAlbumTitle(album.id, 'title', inputTitle.value)
+      this.galleryService.patchAlbumDescription(album.id, 'title', inputTitle.value)
         .subscribe(
           () => {
-            this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
-            this.editedTitle = true;
-            event.target.blur();
+            this.toastr.success('Album title has been updated successfully!', 'Success!', { closeButton: true });
           },
           (err) => {
             if (err.status === 500) {
               this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
-              this.editedTitle = false;
-              event.target.blur();
             } else {
               this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-              this.editedTitle = false;
-              event.target.blur();
             }
+            inputTitle.value = tempTitle;
           }
         );
-    } else {
-      this.editedTitle = false;
+    }
+    if (event) {
+      event.target.blur();
     }
   }
 
   onCancelEditTitle(album: IAlbum, inputTitle: any) {
-    if (this.editedTitle) {
+    if (this.clicked) {
       album.title = inputTitle.value;
-      this.editedTitle = false;
     } else {
       inputTitle.value = album.title;
     }
+    this.clicked = false;
     this.isEditMode = false;
   }
 
-  onEnterDescr(album: IAlbum, inputDescr: any, event: any) {
+  onSubmitDescription(album: IAlbum, inputDescr: any, event?: any) {
+    this.clicked = true;
+    const tempDescr = album.description;
+
     if (inputDescr.value !== album.description) {
       this.galleryService.patchAlbumDescription(album.id, 'description', inputDescr.value)
         .subscribe(
           () => {
-            this.toastr.success('Description has been updated successfully!', 'Success!', { closeButton: true });
-            this.editedDescription = true;
-            event.target.blur();
+            this.toastr.success('Album description has been updated successfully!', 'Success!', { closeButton: true });
           },
           (err) => {
             if (err.status === 500) {
               this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
-              this.editedDescription = false;
-              event.target.blur();
             } else {
               this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-              this.editedDescription = false;
-              event.target.blur();
             }
+            inputDescr.value = tempDescr;
           }
         );
-    } else {
-      this.editedDescription = false;
+    }
+    if (event) {
+      event.target.blur();
     }
   }
 
-  onCancelEditDescr(album: IAlbum, inputDescr: any) {
-    if (this.editedDescription) {
+  onCancelEditDescription(album: IAlbum, inputDescr: any) {
+    if (this.clicked) {
       album.description = inputDescr.value;
-      this.editedDescription = false;
     } else {
       inputDescr.value = album.description;
     }
+    this.clicked = false;
     this.isEditMode = false;
   }
 
