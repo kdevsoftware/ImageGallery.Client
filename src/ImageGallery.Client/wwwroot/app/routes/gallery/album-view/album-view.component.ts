@@ -35,7 +35,7 @@ export class AlbumViewComponent implements OnInit {
 
   modalRef: BsModalRef;
   private imageToDelete;
-  private editedTitle: boolean = false;
+  private clicked: boolean = false;
 
   constructor(
     private readonly galleryService: GalleryService,
@@ -60,39 +60,38 @@ export class AlbumViewComponent implements OnInit {
       });
   }
 
-  onEnterTitle(image: IImage, input: any, event: any) {
+  onSubmitTitle(image: IImage, input: any, event?: any) {
+    this.clicked = true;
+    const tempTitle = image.title;
+
     if (input.value !== image.title) {
       this.galleryService.patchImageTitle(image.id, 'title', input.value)
         .subscribe(
           () => {
             this.toastr.success('Title has been updated successfully!', 'Success!', { closeButton: true });
-            this.editedTitle = true;
-            event.target.blur();
           },
           (err) => {
             if (err.status === 500) {
               this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
-              this.editedTitle = false;
-              event.target.blur();
             } else {
               this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-              this.editedTitle = false;
-              event.target.blur();
             }
+            input.value = tempTitle;
           }
         );
-    } else {
-      this.editedTitle = false;
+    }
+    if (event) {
+      event.target.blur();
     }
   }
 
   onCancelEditTitle(image: IImage, input: any) {
-    if (this.editedTitle) {
+    if (this.clicked) {
       image.title = input.value;
-      this.editedTitle = false;
     } else {
       input.value = image.title;
     }
+    this.clicked = false;
   }
 
   public openDeleteModal(image, template) {
