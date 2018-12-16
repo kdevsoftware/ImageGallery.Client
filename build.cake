@@ -126,6 +126,27 @@ Task("Test")
         }
     });
 
+
+Task("Test-E2E")
+    .IsDependentOn("Build")
+    .Does(() =>
+    {
+         var projects = GetFiles(Settings.E2ETestingProjects);
+        foreach(var project in projects)
+        {
+           Information("Testing project " + project);  
+           DotNetCoreTest(project.FullPath, new DotNetCoreTestSettings
+           {
+               Configuration = configuration,
+               NoBuild = true,
+               Logger = "trx;LogFileName=E2ETestResults.trx",
+               ResultsDirectory = testResultsDirectory,
+               ArgumentCustomization = args => args.Append($"--no-restore")
+           });
+        }
+    });
+
+
 Task("Coverage")
    .IsDependentOn("Test")
    .Does(() => 

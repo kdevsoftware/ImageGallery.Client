@@ -15,4 +15,6 @@ public static class Settings
     /// ./test/**/*.csproj (All)
     public static string UnitTestingProjects  => "./test/ImageGallery.Client.Test/*.csproj";
 
+    public static string E2ETestingProjects  => "./test/ImageGallery.Client.Test.UI/*.csproj";
+
 }
