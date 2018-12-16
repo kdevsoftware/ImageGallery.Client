@@ -28,7 +28,7 @@ namespace ImageGallery.Client.Test.Controllers
             _output = output;
         }
 
-        [Fact]
+        [Fact(Skip = "TODO")]
         [Trait("Category", "Intergration")]
         public async Task Get_Client_Configuration()
         {

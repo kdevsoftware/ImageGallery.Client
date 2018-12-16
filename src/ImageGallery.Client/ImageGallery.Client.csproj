@@ -120,6 +120,9 @@
     <Content Update="appsettings.Local.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Update="appsettings.Testing.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Update="appsettings.Staging.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -234,5 +237,11 @@
   <ItemGroup>
     <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <!-- SonarQube needs this -->
+    <ProjectGuid>{8DF74D69-2F32-48B7-8624-EFFEB2677714}</ProjectGuid>
+  </PropertyGroup>
+
 
 </Project>

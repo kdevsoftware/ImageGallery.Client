@@ -6,6 +6,7 @@
     <RuntimeFrameworkVersion>2.1.6</RuntimeFrameworkVersion>
     <RuntimeIdentifiers>win10-x64;debian.9-x64;ubuntu.16.04-x64;osx.10.12-x64</RuntimeIdentifiers>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+   <CodeAnalysisRuleSet>StyleCopRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>$(NoWarn),1701;1702;1705</NoWarn>
   </PropertyGroup>
 
@@ -45,20 +46,17 @@
     <ProjectReference Include="..\..\src\ImageGallery.Service\ImageGallery.Service.csproj" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)/_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Serivces\" />
+  </ItemGroup>
 
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
     <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Serivces\" />
-  </ItemGroup>
-
-  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
+    <PropertyGroup>
+    <!-- SonarQube needs this -->
+    <ProjectGuid>{8DF74D69-2F32-48B7-8624-EFFEB2677711}</ProjectGuid>
   </PropertyGroup>
 
 </Project>

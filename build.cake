@@ -111,7 +111,7 @@ Task("Test")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var projects = GetFiles("./test/**/*.csproj");
+         var projects = GetFiles(Settings.UnitTestingProjects);
         foreach(var project in projects)
         {
            Information("Testing project " + project);  
@@ -133,7 +133,7 @@ Task("Coverage")
         Information("Code Coverage");  
         MiniCover(tool => 
         {
-            foreach(var project in GetFiles("./test/**/*.csproj"))
+            foreach(var project in GetFiles(Settings.UnitTestingProjects))
             {
                 DotNetCoreTest(project.FullPath, new DotNetCoreTestSettings
                 {

@@ -6,6 +6,7 @@
     <RuntimeFrameworkVersion>2.1.5</RuntimeFrameworkVersion>
     <RuntimeIdentifiers>win10-x64;debian.9-x64;ubuntu.16.04-x64;osx.10.12-x64</RuntimeIdentifiers>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+    <CodeAnalysisRuleSet>StyleCopRules.ruleset</CodeAnalysisRuleSet>
     <NoWarn>$(NoWarn),1701;1702;1705</NoWarn>
   </PropertyGroup>
 
@@ -79,18 +80,18 @@
     <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
   </ItemGroup>
 
-
-
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
     <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
+
+  <PropertyGroup>
+    <!-- SonarQube needs this -->
+    <ProjectGuid>{8DF74D69-2F32-48B7-8624-EFFEB2677710}</ProjectGuid>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(OS)' != 'Windows_NT'">
-    <CodeAnalysisRuleSet>$(SolutionDir)../../_stylecop/StyleCopRules.ruleset</CodeAnalysisRuleSet>
+  <PropertyGroup>
+    <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
 
 </Project>

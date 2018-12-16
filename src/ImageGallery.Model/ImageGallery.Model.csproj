@@ -15,4 +15,9 @@
     <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <!-- SonarQube needs this -->
+    <ProjectGuid>{8DF74D69-2F32-48B7-8624-EFFEB2677713}</ProjectGuid>
+  </PropertyGroup>
+
 </Project>
