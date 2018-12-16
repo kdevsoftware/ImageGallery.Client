@@ -8,7 +8,7 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
-using ImageGallery.Model;
+using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -47,6 +47,50 @@ namespace ImageGallery.Client.Apis
         private ApplicationOptions ApplicationSettings { get; }
 
         /// <summary>
+        /// Album Images List.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("images/list")]
+        [Produces("application/json", Type = typeof(List<GalleryIndexViewModel>))]
+        public async Task<IActionResult> GetAlbumImages([FromQuery] Guid id)
+        {
+            await WriteOutIdentityInformation();
+
+            // call the API
+            var httpClient = await _imageGalleryHttpClient.GetClient();
+            var route = $"{InternalAlbumsRoute}/images/{id}";
+
+            var response = await httpClient.GetAsync(route).ConfigureAwait(false);
+
+            _logger.LogInformation($"Call {InternalAlbumsRoute} return {response.StatusCode}.");
+            if (response.IsSuccessStatusCode)
+            {
+                var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                var albumIndexViewModel = new AlbumImageIndexViewModel(
+                    JsonConvert.DeserializeObject<IList<AlbumImage>>(imagesAsString).ToList(),
+                    ApplicationSettings.ImagesUri);
+
+                HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
+                HttpContext.Response.Headers.Add("X-InlineCount", albumIndexViewModel.Images.Count().ToString());
+
+                return Ok(albumIndexViewModel);
+            }
+
+            switch (response.StatusCode)
+            {
+                case System.Net.HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case System.Net.HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+        }
+
+        /// <summary>
         /// Album Images Paging and Filtering List.
         /// </summary>
         /// <param name="id"></param>
@@ -71,14 +115,14 @@ namespace ImageGallery.Client.Apis
             {
                 var imagesAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var galleryIndexViewModel = new AlbumImageIndexViewModel(
+                var albumIndexViewModel = new AlbumImageIndexViewModel(
                     JsonConvert.DeserializeObject<IList<AlbumImage>>(imagesAsString).ToList(),
                     ApplicationSettings.ImagesUri);
 
                 HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "X-InlineCount");
                 HttpContext.Response.Headers.Add("X-InlineCount", inlinecount);
 
-                return Ok(galleryIndexViewModel);
+                return Ok(albumIndexViewModel);
             }
 
             switch (response.StatusCode)

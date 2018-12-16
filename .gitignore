@@ -176,6 +176,11 @@ dist/
 **/wwwroot/app/**/*.map
 **/wwwroot/app/**/*.js
 **/wwwroot/app/modernizr.js
+tools/
+.sonarqube
+.idea/
+.test-results
+coverage-html/
 
 
 orleans.codegen.cs

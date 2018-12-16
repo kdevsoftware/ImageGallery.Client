@@ -1,7 +1,9 @@
-﻿using System.Threading.Tasks;
-using ImageGallery.Client.Apis;
+﻿using ImageGallery.Client.Apis;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Filters;
 using ImageGallery.Client.Services;
+using ImageGallery.Client.Test.Helpers;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -19,11 +21,16 @@ namespace ImageGallery.Client.Test.Controllers
             this._output = output;
         }
 
+        //[Fact]
         [Fact(Skip = "TODO")]
         public async void GetAlbums_ReturnsData()
         {
             var albumController = GetAlbumApiQueryController(null, null, null);
-            await Task.Delay(10);
+            albumController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            var query = new AlbumRequestModel { };
+
+            var result = await albumController.Get(query, 1, 1);
 
             Assert.IsType<AlbumApiQueryController>(albumController);
             Assert.True(false);

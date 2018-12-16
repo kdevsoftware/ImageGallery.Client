@@ -16,11 +16,13 @@ namespace ImageGallery.Client.Test.Mock
         }
 
         [SkippableFact(Skip = "TODO: Setup MockTesting")]
-        [Trait("Category", "Intergration")]
+        [Trait("Category", "Mock")]
         public void Test1()
         {
             Assert.True(true);
         }
+
+
 
         [Fact]
         public void QueryStringBuilder_Test()
