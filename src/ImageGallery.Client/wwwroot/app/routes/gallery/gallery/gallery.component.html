@@ -76,24 +76,56 @@
   </div>
   <div class="modal-body">
     <div class="table-responsive">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Key</th>
-            <th>Feature Key</th>
-            <th>Catalog</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let f of flickrList">
-            <td>{{f.title}}</td>
-            <td>{{f.key}}</td>
-            <td>{{f.featureKey}}</td>
-            <td>{{f.catalog}}</td>
-          </tr>
-        </tbody>
-      </table>
+ 
+      <div *ngFor="let f of flickrList">
+         <h3>{{f.title}}</h3>
+         <div>
+           <span>{{f.loc.location	}}</span>
+         </div>
+         <div>
+          <span>{{ f.loc.city }}, {{ f.loc.state }}</span>
+        </div>
+
+        <div *ngFor="let word of f.keywords">
+          <span class="label label-primary">{{word}}</span>
+        </div>
+
+        <div>
+          <div *ngIf="f.inventory.sculptor">
+            <span style="font-weight:bold;padding-right:5px">Sculptor:</span><span>{{ f.inventory.sculptor }}</span>
+          </div>
+          <div *ngIf="f.inventory.artist">
+            <span style="font-weight:bold;padding-right:5px">Artist:</span><span>{{ f.inventory.artist }}</span>
+          </div>
+          <div *ngIf="f.inventory.architect">
+            <span style="font-weight:bold;padding-right:5px">Architect:</span><span>{{ f.inventory.architect }}</span>
+          </div>
+          <div *ngIf="f.inventory.founder">
+              <span style="font-weight:bold;padding-right:5px">Founder:</span><span>{{ f.inventory.founder }}</span>
+          </div>
+          <div *ngIf="f.inventory.fabricator">
+            <span style="font-weight:bold;padding-right:5px">Fabricator:</span><span>{{ f.inventory.fabricator }}</span>
+          </div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <span style="padding-right:5px;">{{ f.inventory.materials }}</span><span>{{ f.inventory.dimensions }}</span>
+        </div>
+     
+        <h4 *ngIf="f.references">References</h4>
+          <div *ngFor="let reference of f.references">
+          <div class="panel panel-info">
+              <div class="panel-body">
+                <div>{{reference.type}}</div> 
+                <div>{{reference.name}}</div>
+                <div>{{reference.title}}</div>
+             </div>
+           </div>
+        </div>
+
+
+      </div>
+     
     </div>
   </div>
 </ng-template>
