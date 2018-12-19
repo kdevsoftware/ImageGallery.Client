@@ -4,59 +4,90 @@
     <li class="breadcrumb-item active" aria-current="page">{{title}}</li>
   </ol>
   <h2 class="page-header">{{title}}</h2>
-  <div class="row" *ngIf="albumViewModel && albumViewModel.images">
-    <div class="col-sm-6 col-md-4" *ngFor="let album of albumViewModel.images">
-      <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage">
-        <div class="panel-body text-center">
-          <img src="{{albumViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
-        </div>
-        <div class="panel-footer">
-          <div class="d-flex">
-            <div class="input-group input-group-for">
-              <input (keyup.enter)="onSubmitTitle(album, inputTitle, $event)" (blur)="onCancelEditTitle(album, inputTitle)"
-                [value]="album.title" type="text" class="property-edit property-edit-focus" #inputTitle>
-              <span class="input-group-addon">
-                <button (mousedown)="onSubmitTitle(album, inputTitle)">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-              </span>
-            </div>
-            <div class="primary-image-hover">
-              <span class="primary-image glyphicon" aria-hidden="true" (click)="updatePrimaryImage(album)" [ngClass]="{'glyphicon-star': album.isPrimaryImage, 'glyphicon-star-empty': !album.isPrimaryImage}"></span>
+  <tabset [justified]="true">
+    <tab heading="Album">
+      <div class="topMarginDefault">
+        <div class="row" *ngIf="albumViewModel && albumViewModel.images">
+          <div class="col-sm-6 col-md-4" *ngFor="let album of albumViewModel.images">
+            <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage">
+              <div class="panel-body text-center">
+                <img src="{{albumViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
+              </div>
+              <div class="panel-footer">
+                <div class="d-flex">
+                  <div class="input-group input-group-for">
+                    <input (keyup.enter)="onSubmitTitle(album, inputTitle, $event)" (blur)="onCancelEditTitle(album, inputTitle)"
+                      [value]="album.title" type="text" class="property-edit property-edit-focus" #inputTitle>
+                    <span class="input-group-addon">
+                      <button (mousedown)="onSubmitTitle(album, inputTitle)">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                      </button>
+                    </span>
+                  </div>
+                  <div class="primary-image-hover">
+                    <span class="primary-image glyphicon" aria-hidden="true" (click)="updatePrimaryImage(album)"
+                      [ngClass]="{'glyphicon-star': album.isPrimaryImage, 'glyphicon-star-empty': !album.isPrimaryImage}"></span>
+                  </div>
+                </div>
+                <div>
+                  <a (click)="openDeleteModal(album, template)" class="crud-btn-pointer">Delete</a>
+                </div>
+              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="row pagination" *ngIf="pagination.totalItems > 0">
+        <div class="col-md-3 col-sm-12 page-num-info">
+          <div class="inline">
+            <select [ngModel]="pagination.limit" (ngModelChange)="getAlbumViewModel($event)">
+              <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
+            </select>
+            per page
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 text-center pagination-container">
+          <pagination [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.limit" [maxSize]="5" [(ngModel)]="pagination.page"
+            [boundaryLinks]="true" [rotate]="false" (pageChanged)="getAlbumViewModel($event)" class="pagination-sm">
+          </pagination>
+        </div>
+        <div class="col-md-3 col-sm-12 text-right">
+          Total Records: <span id="lbl_totalRecords">{{pagination.totalItems}}</span>
+        </div>
+      </div>
+
+      <div class="jumbotron" *ngIf="albumViewModel && albumViewModel.images.length === 0">
+        <span>No Photos Exist for the Album</span>
+      </div>
+
+      <ngx-loading-spinner> </ngx-loading-spinner>
+
+    </tab>
+    <tab heading="Metadata">
+      <div class="topMarginDefault bottomMarginDefault">
+        <div *ngIf="albumDetails" class="album-details-tab">
+          <p>
+            <strong>Title: </strong>
+            <span>{{ albumDetails.title }}</span>
+          </p>
+          <p>
+            <strong>Description: </strong>
+            <span>{{ albumDetails.description }}</span>
+          </p>
           <div>
-            <a (click)="openDeleteModal(album, template)" class="crud-btn-pointer">Delete</a>
+            <strong>Date of creation: </strong>
+            <span>{{ albumDetails.dateCreated }}</span>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </tab>
+    <tab heading="Album Sort">
+      <div class="topMarginDefault">
 
-  <div class="row pagination" *ngIf="pagination.totalItems > 0">
-    <div class="col-md-3 col-sm-12 page-num-info">
-      <div class="inline">
-        <select [ngModel]="pagination.limit" (ngModelChange)="getAlbumViewModel($event)">
-          <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
-        </select>
-        per page
       </div>
-    </div>
-    <div class="col-md-6 col-sm-12 text-center pagination-container">
-      <pagination [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.limit" [maxSize]="5" [(ngModel)]="pagination.page"
-        [boundaryLinks]="true" [rotate]="false" (pageChanged)="getAlbumViewModel($event)" class="pagination-sm">
-      </pagination>
-    </div>
-    <div class="col-md-3 col-sm-12 text-right">
-      Total Records: <span id="lbl_totalRecords">{{pagination.totalItems}}</span>
-    </div>
-  </div>
-
-  <div class="jumbotron" *ngIf="albumViewModel && albumViewModel.images.length === 0">
-    <span>No Photos Exist for the Album</span>
-  </div>
-
-  <ngx-loading-spinner> </ngx-loading-spinner>
+    </tab>
+  </tabset>
 </div>
 
 <ng-template #template>

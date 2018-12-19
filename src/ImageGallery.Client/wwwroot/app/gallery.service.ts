@@ -3,7 +3,7 @@
 import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
 
-import { IEditImageViewModel, IAddImageViewModel, } from './shared/interfaces';
+import { IEditImageViewModel, IAddImageViewModel, IAlbum } from './shared/interfaces';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -81,6 +81,12 @@ export class GalleryService {
     });
   }
 
+  public getAlbum(id: string) : Observable<IAlbum> {
+    var self = this;
+    return this.httpClient.get<IAlbum>(`${this.albumUrl}/${id}`, { headers: self.generateBearerHeaaders() })
+      .catch(this.handleError);
+  }
+
   public getEditImageViewModel(id: string): Observable<IEditImageViewModel> {
     var self = this;
     return this.httpClient.get<IEditImageViewModel>(`${this.baseUrl}/${id}`, { headers: self.generateBearerHeaaders() })
@@ -98,21 +104,7 @@ export class GalleryService {
     return this.httpClient.post(`${this.baseUrl}/edit`, model, { headers: headers });
   }
 
-  public patchAlbumTitle(id: string, propertyName: string, propertyValue: string): Observable<Object> {
-    var headers = this.generateBearerHeaaders();
-    headers.append("Content-Type", "application/json-patch+json");
-
-    const model = [
-      {
-        propertyName: propertyName,
-        propertyValue: propertyValue
-      }
-    ];
-
-    return this.httpClient.patch(`${this.albumUrl}/${id}`, model, { headers: headers });
-  }
-
-  public patchAlbumDescription(id: string, propertyName: string, propertyValue: string): Observable<Object> {
+  public patchAlbumProperty(id: string, propertyName: string, propertyValue: string): Observable<Object> {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json-patch+json");
 
