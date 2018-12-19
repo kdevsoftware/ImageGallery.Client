@@ -1,0 +1,21 @@
+<div>
+  <div class="row" *ngIf="albumImages && albumImages.images">
+    <div class="col-sm-6 col-md-4" *ngFor="let image of albumImages.images">
+      <div class="panel panel-default">
+        <div class="panel-body text-center">
+          <img src="{{albumImages.imagesUri + '/' + image.fileName}}" width="150px" height="150px">
+        </div>
+        <div class="panel-footer">
+          <div class="d-flex justify-content-between a-items">
+            <div>
+              <h5>{{image.title}}</h5>
+            </div>
+            <div>
+              <strong>{{image.sort}}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -3,6 +3,7 @@ export interface IImage {
   title: string;
   fileName: string;
   category: string;
+  sort: number;
   dataSource: string;
   width: number;
   height: number;

@@ -11,6 +11,7 @@ import { KeysPipe } from '../../pipes/keys.pipe';
 import { PaginationModule } from 'ngx-bootstrap';
 import { NgxLoadingSpinnerModule } from 'ngx-loading-spinner-fork';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { AlbumSortComponent } from './album-view/album-sort/album-sort.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         NgxLoadingSpinnerModule.forRoot(),
         ImageCropperModule
     ],
-    declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, GalleryAddComponent, AboutComponent, KeysPipe],
+    declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
         RouterModule,
         GalleryComponent,
@@ -30,6 +31,7 @@ import { ImageCropperModule } from 'ngx-image-cropper';
         AboutComponent,
         PaginationModule,
         NgxLoadingSpinnerModule,
+        AlbumSortComponent,
     ]
 })
 export class GalleryModule { }

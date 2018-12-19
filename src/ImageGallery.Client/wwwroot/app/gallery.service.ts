@@ -68,8 +68,16 @@ export class GalleryService {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
 
+    var query = '';
+    
+    if (limit && page) {
+      query = `${this.albumUrl}/images/list/${limit}/${page}?id=${id}`;
+    } else {
+      query = `${this.albumUrl}/images/list/?id=${id}`;      
+    }
+
     return new Promise((resolve, reject) => {
-      this.httpClient.get(`${this.albumUrl}/images/list/${limit}/${page}?id=${id}`, { observe: 'response', headers: headers })
+      this.httpClient.get(query, { observe: 'response', headers: headers })
         .subscribe(res => {
           resolve({
             totalCount: res.headers.get('X-InlineCount'),

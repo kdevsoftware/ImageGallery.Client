@@ -23,6 +23,7 @@ export class AlbumViewComponent implements OnInit {
   albumId;
   albumViewModel: IGalleryIndexViewModel;
   albumDetails: IAlbum;
+  albumImages: IGalleryIndexViewModel;
 
   pagination = {
     page: 1,
@@ -59,6 +60,7 @@ export class AlbumViewComponent implements OnInit {
         this.albumId = paramMap.params['id'];
         this.getAlbumViewModel();
         this.getAlbumDetails(this.albumId);
+        this.getAlbumImages(this.albumId);
       });
   }
 
@@ -145,6 +147,15 @@ export class AlbumViewComponent implements OnInit {
     }
 
     image.isPrimaryImage = true;
+  }
+
+  private getAlbumImages(id: string) {
+    this.galleryService.getAlbumViewModel(this.albumId, null, null)
+      .then((response: any) => {
+        this.albumImages = response.images;
+      }).catch(() => {
+        this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+      });
   }
 
   private getAlbumDetails(id: string) {
