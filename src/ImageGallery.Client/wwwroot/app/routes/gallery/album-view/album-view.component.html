@@ -84,7 +84,8 @@
     </tab>
     <tab heading="Album Sort">
       <div class="topMarginDefault">
-        <app-album-sort [albumImages]="albumImages"></app-album-sort>
+        <app-album-sort [albumImages]="albumImages" (albumImagesSorted)="onImagesSorted($event)">
+        </app-album-sort>
       </div>
     </tab>
   </tabset>

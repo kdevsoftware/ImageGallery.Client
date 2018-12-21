@@ -3,7 +3,7 @@
 import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
 
-import { IEditImageViewModel, IAddImageViewModel, IAlbum } from './shared/interfaces';
+import { IEditImageViewModel, IAddImageViewModel, IAlbum, IGalleryIndexViewModel } from './shared/interfaces';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -103,6 +103,10 @@ export class GalleryService {
 
   public getPhotoAttraction(id: string): Observable<Object> {
     return this.httpClient.get(`${this.photoUrl}/api/photo/attraction/${id}`, { headers: this.generateBearerHeaaders() }).catch(this.handleError);
+  }
+
+  public updateAlbumImages(id: string, model: IGalleryIndexViewModel) {
+    
   }
 
   public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {

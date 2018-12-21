@@ -122,6 +122,10 @@ export class AlbumViewComponent implements OnInit {
       );
   }
 
+  public onImagesSorted(albumImagesSorted: IGalleryIndexViewModel) {
+    this.galleryService.updateAlbumImages(this.albumId, albumImagesSorted);
+  }
+
   public updatePrimaryImage(image: IImage) {
     if (!image.isPrimaryImage) {
       this.spinnerService.show();
@@ -150,7 +154,7 @@ export class AlbumViewComponent implements OnInit {
   }
 
   private getAlbumImages(id: string) {
-    this.galleryService.getAlbumViewModel(this.albumId, null, null)
+    this.galleryService.getAlbumViewModel(id, null, null)
       .then((response: any) => {
         this.albumImages = response.images;
       }).catch(() => {

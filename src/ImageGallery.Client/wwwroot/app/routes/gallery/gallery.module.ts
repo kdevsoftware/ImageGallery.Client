@@ -12,13 +12,15 @@ import { PaginationModule } from 'ngx-bootstrap';
 import { NgxLoadingSpinnerModule } from 'ngx-loading-spinner-fork';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AlbumSortComponent } from './album-view/album-sort/album-sort.component';
+import { DragDropModule } from "@angular/cdk/drag-drop";
 
 @NgModule({
     imports: [
         SharedModule,
         PaginationModule.forRoot(),
         NgxLoadingSpinnerModule.forRoot(),
-        ImageCropperModule
+        ImageCropperModule,
+        DragDropModule
     ],
     declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
