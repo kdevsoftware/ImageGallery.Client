@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,22 +27,22 @@ namespace ImageGallery.Client.Apis.UserManagement
         private const string InternalUserProfileRoute = "api/UserProfile";
 
         private readonly IOptions<ApplicationOptions> _settings;
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly UserManagementHttpClient _userManagementClient;
         private readonly ILogger<UserProfileApiCommandController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileApiCommandController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        /// <param name="httpClientFactory"></param>
+        /// <param name="userManagementClient"></param>
         /// <param name="logger"></param>
         public UserProfileApiCommandController(
             IOptions<ApplicationOptions> settings,
-            IHttpClientFactory httpClientFactory,
+            UserManagementHttpClient userManagementClient,
             ILogger<UserProfileApiCommandController> logger)
         {
             _settings = settings;
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            _userManagementClient = userManagementClient ?? throw new ArgumentNullException(nameof(userManagementClient));
             _logger = logger;
         }
 
@@ -54,11 +55,9 @@ namespace ImageGallery.Client.Apis.UserManagement
         [ProducesResponseType(typeof(UserProfileUpdateViewModel), 200)]
         public async Task<IActionResult> Put([FromBody] [Required] UserProfileUpdateViewModel model)
         {
-            var httpClient = _httpClientFactory.CreateClient("user-management");
-
             var serializedUserProfileForUpdate = JsonConvert.SerializeObject(model);
 
-            var response = await httpClient.PutAsync(
+            var response = await _userManagementClient.Instance.PutAsync(
                     $"{InternalUserProfileRoute}",
                     new StringContent(serializedUserProfileForUpdate, Encoding.Unicode, "application/json"))
                 .ConfigureAwait(false);

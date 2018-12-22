@@ -101,7 +101,8 @@ namespace ImageGallery.Client
                 x.DefaultRequestHeaders.Accept.Clear();
                 x.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
-            });
+            })
+            .AddTypedClient<UserManagementHttpClient>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
