@@ -8,11 +8,5 @@ namespace ImageGallery.Client.Services
     /// </summary>
     public interface IImageGalleryHttpClient
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="apiUri"></param>
-        /// <returns></returns>
-        Task<HttpClient> GetClient(string apiUri);
     }
 }

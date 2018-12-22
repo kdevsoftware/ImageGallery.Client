@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,22 +26,22 @@ namespace ImageGallery.Client.Apis.UserManagement
         private const string InternalUserProfileRoute = "api/UserProfile";
 
         private readonly IOptions<ApplicationOptions> _settings;
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<UserProfileApiCommandController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileApiCommandController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="httpClientFactory"></param>
         /// <param name="logger"></param>
         public UserProfileApiCommandController(
             IOptions<ApplicationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient,
+            IHttpClientFactory httpClientFactory,
             ILogger<UserProfileApiCommandController> logger)
         {
             _settings = settings;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
             _logger = logger;
         }
 
@@ -55,8 +54,7 @@ namespace ImageGallery.Client.Apis.UserManagement
         [ProducesResponseType(typeof(UserProfileUpdateViewModel), 200)]
         public async Task<IActionResult> Put([FromBody] [Required] UserProfileUpdateViewModel model)
         {
-            var httpClient =
-                await _imageGalleryHttpClient.GetClient(_settings.Value.ClientConfiguration.ApiUserManagementUri);
+            var httpClient = _httpClientFactory.CreateClient("user-management");
 
             var serializedUserProfileForUpdate = JsonConvert.SerializeObject(model);
 

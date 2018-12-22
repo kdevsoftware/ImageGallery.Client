@@ -86,6 +86,22 @@ namespace ImageGallery.Client
                     new MediaTypeWithQualityHeaderValue("application/json"));
             });
 
+            services.AddHttpClient("user-management", async (s, x) =>
+            {
+                var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
+                    .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+                if (!string.IsNullOrWhiteSpace(accessToken))
+                    x.SetBearerToken(accessToken);
+
+                var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ClientConfiguration?.ApiUserManagementUri;
+
+                x.BaseAddress = new Uri(apiUri);
+                x.DefaultRequestHeaders.Accept.Clear();
+                x.DefaultRequestHeaders.Accept.Add(
+                    new MediaTypeWithQualityHeaderValue("application/json"));
+            });
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
 

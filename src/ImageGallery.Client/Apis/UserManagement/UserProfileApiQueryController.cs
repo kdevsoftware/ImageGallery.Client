@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,22 +24,22 @@ namespace ImageGallery.Client.Apis.UserManagement
         private const string InternalUserProfileRoute = "api/UserProfile";
 
         private readonly IOptions<ApplicationOptions> _settings;
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly ILogger<UserProfileApiQueryController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileApiQueryController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="httpClientFactory"></param>
         /// <param name="logger"></param>
         public UserProfileApiQueryController(
             IOptions<ApplicationOptions> settings,
-            IImageGalleryHttpClient imageGalleryHttpClient,
+            IHttpClientFactory httpClientFactory,
             ILogger<UserProfileApiQueryController> logger)
         {
             _settings = settings;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
             _logger = logger;
         }
 
@@ -51,7 +51,7 @@ namespace ImageGallery.Client.Apis.UserManagement
         [ProducesResponseType(typeof(UserProfileViewModel), 200)]
         public async Task<IActionResult> Get()
         {
-            var httpClient = await _imageGalleryHttpClient.GetClient(_settings.Value.ClientConfiguration.ApiUserManagementUri);
+            var httpClient = _httpClientFactory.CreateClient("user-management");
 
             var response = await httpClient.GetAsync(InternalUserProfileRoute).ConfigureAwait(false);
 
