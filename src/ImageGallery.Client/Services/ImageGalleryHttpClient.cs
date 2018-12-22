@@ -34,27 +34,6 @@ namespace ImageGallery.Client.Services
 
         private ApplicationOptions ApplicationSettings { get; }
 
-        /// <inheritdoc/>
-        public async Task<HttpClient> GetClient()
-        {
-            var currentContext = _httpContextAccessor.HttpContext;
-
-            // get access token
-            var accessToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-
-            if (!string.IsNullOrWhiteSpace(accessToken))
-            {
-                _httpClient.SetBearerToken(accessToken);
-            }
-
-            _httpClient.BaseAddress = new Uri(ApplicationSettings.ApiUri);
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-            return _httpClient;
-        }
-
         /// <summary>
         ///
         /// </summary>

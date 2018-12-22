@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Model.Models.Albums;
@@ -27,21 +27,21 @@ namespace ImageGallery.Client.Apis
     {
         private const string InternalAlbumsRoute = "api/albums";
 
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly IHttpClientFactory _httpClientFactory;
 
         private readonly ILogger<AlbumImagesApiQueryController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlbumImagesApiQueryController"/> class.
         /// </summary>
-        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="httpClientFactory"></param>
         /// <param name="settings"></param>
         /// <param name="logger"></param>
-        public AlbumImagesApiQueryController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumImagesApiQueryController> logger)
+        public AlbumImagesApiQueryController(IHttpClientFactory httpClientFactory, IOptions<ApplicationOptions> settings, ILogger<AlbumImagesApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
         }
 
         private ApplicationOptions ApplicationSettings { get; }
@@ -58,7 +58,7 @@ namespace ImageGallery.Client.Apis
             await WriteOutIdentityInformation();
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
+            var httpClient = _httpClientFactory.CreateClient("imagegallery-api");
             var route = $"{InternalAlbumsRoute}/images/{id}";
 
             var response = await httpClient.GetAsync(route).ConfigureAwait(false);
@@ -104,7 +104,7 @@ namespace ImageGallery.Client.Apis
             await WriteOutIdentityInformation();
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
+            var httpClient = _httpClientFactory.CreateClient("imagegallery-api");
             var route = $"{InternalAlbumsRoute}/images/{limit}/{page}?id={id}";
 
             var response = await httpClient.GetAsync(route).ConfigureAwait(false);

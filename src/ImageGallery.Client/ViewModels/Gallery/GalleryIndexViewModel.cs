@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using ImageGallery.Model;
 using ImageGallery.Model.Models.Images;
 
 namespace ImageGallery.Client.ViewModels
