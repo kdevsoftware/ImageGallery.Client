@@ -8,6 +8,7 @@ using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
+using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model.Models.Images;
 using ImageGallery.Service.Helpers;
@@ -28,22 +29,21 @@ namespace ImageGallery.Client.Apis
     {
         private const string InternalImagesRoute = "api/images";
 
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly ImageGalleryHttpClient _imageGalleryClient;
 
         private readonly ILogger<GalleryApiQueryController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GalleryApiQueryController"/> class.
         /// </summary>
-        /// <param name="httpClientFactory"></param>
+        /// <param name="imageGalleryClient"></param>
         /// <param name="settings"></param>
         /// <param name="logger"></param>
-        public GalleryApiQueryController(IHttpClientFactory httpClientFactory,
-            IOptions<ApplicationOptions> settings, ILogger<GalleryApiQueryController> logger)
+        public GalleryApiQueryController(ImageGalleryHttpClient imageGalleryClient, IOptions<ApplicationOptions> settings, ILogger<GalleryApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+            _imageGalleryClient = imageGalleryClient ?? throw new ArgumentNullException(nameof(imageGalleryClient));
         }
 
         private ApplicationOptions ApplicationSettings { get; }
@@ -61,8 +61,7 @@ namespace ImageGallery.Client.Apis
             await WriteOutIdentityInformation();
 
             // call the API
-            var httpClient = _httpClientFactory.CreateClient("imagegallery-api");
-            var response = await httpClient.GetAsync(InternalImagesRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(InternalImagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
 
@@ -106,12 +105,10 @@ namespace ImageGallery.Client.Apis
             await WriteOutIdentityInformation();
 
             // call the API
-            var httpClient = _httpClientFactory.CreateClient("imagegallery-api");
-
             var queryFilter = query.ToQueryString();
             var route = $"{InternalImagesRoute}/{limit}/{page}{queryFilter}";
 
-            var response = await httpClient.GetAsync(route).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(route).ConfigureAwait(false);
             string inlinecount = response.Headers.GetValues("x-inlinecount").FirstOrDefault();
 
             _logger.LogInformation($"Call {InternalImagesRoute} return {response.StatusCode}.");
@@ -154,9 +151,7 @@ namespace ImageGallery.Client.Apis
         public async Task<IActionResult> GetImageProperties(Guid id)
         {
             var imagesRoute = $"{InternalImagesRoute}/{id}";
-            var httpClient = _httpClientFactory.CreateClient("imagegallery-api");
-
-            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(imagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
 
@@ -201,8 +196,7 @@ namespace ImageGallery.Client.Apis
         public async Task<IActionResult> GetImageFile(Guid id)
         {
             var imagesRoute = $"{InternalImagesRoute}/{id}";
-            var httpClient = _httpClientFactory.CreateClient("imagegallery-api");
-            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(imagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
 
@@ -252,8 +246,7 @@ namespace ImageGallery.Client.Apis
         public async Task<IActionResult> GetImageBase64File(Guid id)
         {
             var imagesRoute = $"{InternalImagesRoute}/{id}";
-            var httpClient = _httpClientFactory.CreateClient("imagegallery-api");
-            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(imagesRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
 

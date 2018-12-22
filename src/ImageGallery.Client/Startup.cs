@@ -4,7 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
+using ImageGallery.Client.HttpClients;
 using Loggly;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -84,7 +84,8 @@ namespace ImageGallery.Client
                 x.DefaultRequestHeaders.Accept.Clear();
                 x.DefaultRequestHeaders.Accept.Add(
                     new MediaTypeWithQualityHeaderValue("application/json"));
-            });
+            })
+            .AddTypedClient<ImageGalleryHttpClient>();
 
             services.AddHttpClient("user-management", async (s, x) =>
             {
@@ -103,7 +104,6 @@ namespace ImageGallery.Client
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddScoped<IImageGalleryHttpClient, ImageGalleryHttpClient>();
 
             services.AddSingleton<ILogglyClient, LogglyClient>();
         }

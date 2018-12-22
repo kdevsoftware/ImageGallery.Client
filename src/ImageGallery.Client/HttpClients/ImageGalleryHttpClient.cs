@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using ImageGallery.Client.Configuration;
@@ -8,32 +9,35 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace ImageGallery.Client.Services
+namespace ImageGallery.Client.HttpClients
 {
     /// <summary>
-    ///
+    /// Instance of ImageGalleryClient.
     /// </summary>
-    public class ImageGalleryHttpClient : IImageGalleryHttpClient
+    public class ImageGalleryHttpClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageGalleryHttpClient"/> class.
         /// </summary>
+        /// <param name="client"></param>
         /// <param name="settings"></param>
         /// <param name="httpContextAccessor"></param>
-        public ImageGalleryHttpClient(IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
+        public ImageGalleryHttpClient(HttpClient client, IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
         {
+            Instance = client;
             ApplicationSettings = settings.Value;
             _httpContextAccessor = httpContextAccessor;
         }
 
+        /// <summary>
+        /// Instance of HttpClient.
+        /// </summary>
+        public HttpClient Instance { get; }
+
         private ApplicationOptions ApplicationSettings { get; }
 
-        /// <summary>
-        ///  Renew Tokens.
-        /// </summary>
-        /// <returns></returns>
         private async Task<string> RenewTokens()
         {
             // get the current HttpContext to access the tokens
