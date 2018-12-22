@@ -1,9 +1,8 @@
-﻿using ImageGallery.Client.Apis;
+﻿using System.Net.Http;
+using ImageGallery.Client.Apis;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
-using ImageGallery.Client.Services;
 using ImageGallery.Client.Test.Helpers;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -37,15 +36,15 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         private AlbumApiQueryController GetAlbumApiQueryController(
-            IImageGalleryHttpClient imageGalleryClient = null,
+            IHttpClientFactory httpClientFactory = null,
             IOptions<ApplicationOptions> settings = null,
             ILogger<AlbumApiQueryController> logger = null)
         {
-            imageGalleryClient = imageGalleryClient ?? new Mock<IImageGalleryHttpClient>().Object;
+            httpClientFactory = httpClientFactory ?? new Mock<IHttpClientFactory>().Object;
             settings = settings ?? new Mock<IOptions<ApplicationOptions>>().Object;
             logger = logger ?? new Mock<ILogger<AlbumApiQueryController>>().Object;
 
-            return new AlbumApiQueryController(imageGalleryClient, settings, logger);
+            return new AlbumApiQueryController(httpClientFactory, settings, logger);
         }
     }
 }
