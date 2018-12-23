@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using IdentityModel.Client;
 using ImageGallery.Client.Configuration;
@@ -10,80 +9,35 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace ImageGallery.Client.Services
+namespace ImageGallery.Client.HttpClients
 {
     /// <summary>
-    ///
+    /// Instance of ImageGalleryClient.
     /// </summary>
-    public class ImageGalleryHttpClient : IImageGalleryHttpClient
+    public class ImageGalleryHttpClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
-
-        private readonly HttpClient _httpClient = new HttpClient();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageGalleryHttpClient"/> class.
         /// </summary>
+        /// <param name="client"></param>
         /// <param name="settings"></param>
         /// <param name="httpContextAccessor"></param>
-        public ImageGalleryHttpClient(IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
+        public ImageGalleryHttpClient(HttpClient client, IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
         {
+            Instance = client;
             ApplicationSettings = settings.Value;
             _httpContextAccessor = httpContextAccessor;
         }
 
+        /// <summary>
+        /// Instance of HttpClient.
+        /// </summary>
+        public HttpClient Instance { get; }
+
         private ApplicationOptions ApplicationSettings { get; }
 
-        /// <inheritdoc/>
-        public async Task<HttpClient> GetClient()
-        {
-            var currentContext = _httpContextAccessor.HttpContext;
-
-            // get access token
-            var accessToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-
-            if (!string.IsNullOrWhiteSpace(accessToken))
-            {
-                _httpClient.SetBearerToken(accessToken);
-            }
-
-            _httpClient.BaseAddress = new Uri(ApplicationSettings.ApiUri);
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-            return _httpClient;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="apiUri"></param>
-        /// <returns></returns>
-        public async Task<HttpClient> GetClient(string apiUri)
-        {
-            var currentContext = _httpContextAccessor.HttpContext;
-
-            // get access token
-            var accessToken = await currentContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-
-            if (!string.IsNullOrWhiteSpace(accessToken))
-            {
-                _httpClient.SetBearerToken(accessToken);
-            }
-
-            _httpClient.BaseAddress = new Uri(apiUri);
-            _httpClient.DefaultRequestHeaders.Accept.Clear();
-            _httpClient.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
-            return _httpClient;
-        }
-
-        /// <summary>
-        ///  Renew Tokens.
-        /// </summary>
-        /// <returns></returns>
         private async Task<string> RenewTokens()
         {
             // get the current HttpContext to access the tokens

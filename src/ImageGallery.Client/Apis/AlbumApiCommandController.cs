@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
+using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +28,7 @@ namespace ImageGallery.Client.Apis
     {
         private const string InternalAlbumsRoute = "api/albums";
 
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly ImageGalleryHttpClient _imageGalleryClient;
 
         private readonly ILogger<AlbumApiCommandController> _logger;
 
@@ -36,13 +36,13 @@ namespace ImageGallery.Client.Apis
         /// Initializes a new instance of the <see cref="AlbumApiCommandController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="imageGalleryClient"></param>
         /// <param name="logger"></param>
-        public AlbumApiCommandController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumApiCommandController> logger)
+        public AlbumApiCommandController(ImageGalleryHttpClient imageGalleryClient, IOptions<ApplicationOptions> settings, ILogger<AlbumApiCommandController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _imageGalleryClient = imageGalleryClient ?? throw new ArgumentNullException(nameof(imageGalleryClient));
         }
 
         private ApplicationOptions ApplicationSettings { get; }
@@ -63,9 +63,8 @@ namespace ImageGallery.Client.Apis
 
             // call the API
             var albumRoute = $"{InternalAlbumsRoute}/{id}";
-            var httpClient = await _imageGalleryHttpClient.GetClient();
 
-            var response = await httpClient.GetAsync(albumRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(albumRoute).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -73,7 +72,7 @@ namespace ImageGallery.Client.Apis
 
                 var result = ApplyPatch(deserializedAlbum, patchDtos);
                 var serializedAlbumForUpdate = JsonConvert.SerializeObject(result);
-                var responsePut = await httpClient.PutAsync(
+                var responsePut = await _imageGalleryClient.Instance.PutAsync(
                         $"{InternalAlbumsRoute}/{id}",
                         new StringContent(serializedAlbumForUpdate, Encoding.Unicode, "application/json"))
                     .ConfigureAwait(false);
@@ -96,9 +95,7 @@ namespace ImageGallery.Client.Apis
             _logger.LogInformation($"Delete image by Id {id}");
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.DeleteAsync($"{InternalAlbumsRoute}/{id}").ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.DeleteAsync($"{InternalAlbumsRoute}/{id}").ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
                 return Ok();

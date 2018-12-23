@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
+using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
 using ImageGallery.Model.Models.Images;
@@ -30,7 +30,7 @@ namespace ImageGallery.Client.Apis
     {
         private const string InternalImagesRoute = "api/images";
 
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly ImageGalleryHttpClient _imageGalleryClient;
 
         private readonly ILogger<GalleryApiCommandController> _logger;
 
@@ -38,12 +38,12 @@ namespace ImageGallery.Client.Apis
         /// Initializes a new instance of the <see cref="GalleryApiCommandController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="imageGalleryClient"></param>
         /// <param name="logger"></param>
-        public GalleryApiCommandController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<GalleryApiCommandController> logger)
+        public GalleryApiCommandController(ImageGalleryHttpClient imageGalleryClient, IOptions<ApplicationOptions> settings, ILogger<GalleryApiCommandController> logger)
         {
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _imageGalleryClient = imageGalleryClient ?? throw new ArgumentNullException(nameof(imageGalleryClient));
             ApplicationSettings = settings.Value;
         }
 
@@ -74,9 +74,7 @@ namespace ImageGallery.Client.Apis
             var serializedImageForUpdate = JsonConvert.SerializeObject(imageForUpdate);
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.PutAsync(
+            var response = await _imageGalleryClient.Instance.PutAsync(
                     $"{InternalImagesRoute}/{editImageViewModel.Id}",
                     new StringContent(serializedImageForUpdate, Encoding.Unicode, "application/json"))
                 .ConfigureAwait(false);
@@ -99,9 +97,8 @@ namespace ImageGallery.Client.Apis
             _logger.LogInformation($"Delete image by Id {id}");
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.DeleteAsync($"{InternalImagesRoute}/{id}").ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance
+                .DeleteAsync($"{InternalImagesRoute}/{id}").ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
                 return Ok();
@@ -134,9 +131,7 @@ namespace ImageGallery.Client.Apis
 
             // call the API
             var imagesRoute = $"{InternalImagesRoute}/{id}";
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.GetAsync(imagesRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(imagesRoute).ConfigureAwait(false);
             if (response.IsSuccessStatusCode)
             {
                 var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -144,7 +139,7 @@ namespace ImageGallery.Client.Apis
 
                 var result = ApplyPatch(deserializedImage, patchDtos);
                 var serializedImageForUpdate = JsonConvert.SerializeObject(result);
-                var responsePut = await httpClient.PutAsync(
+                var responsePut = await _imageGalleryClient.Instance.PutAsync(
                         $"{InternalImagesRoute}/{id}",
                         new StringContent(serializedImageForUpdate, Encoding.Unicode, "application/json"))
                     .ConfigureAwait(false);
@@ -182,9 +177,7 @@ namespace ImageGallery.Client.Apis
             var serializedImageForCreation = JsonConvert.SerializeObject(imageForCreation);
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.PostAsync(
+            var response = await _imageGalleryClient.Instance.PostAsync(
                     InternalImagesRoute,
                     new StringContent(serializedImageForCreation, Encoding.Unicode, "application/json"))
                 .ConfigureAwait(false);
@@ -222,9 +215,7 @@ namespace ImageGallery.Client.Apis
             var serializedImageForCreation = JsonConvert.SerializeObject(imageForUpdate);
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.PutAsync(
+            var response = await _imageGalleryClient.Instance.PutAsync(
                     InternalImagesRoute,
                     new StringContent(serializedImageForCreation, Encoding.Unicode, "application/json"))
                 .ConfigureAwait(false);

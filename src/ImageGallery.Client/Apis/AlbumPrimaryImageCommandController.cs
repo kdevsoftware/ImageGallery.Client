@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
-using ImageGallery.Client.Services;
+using ImageGallery.Client.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -22,7 +22,7 @@ namespace ImageGallery.Client.Apis
     {
         private const string InternalAlbumsRoute = "api/albums";
 
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly ImageGalleryHttpClient _imageGalleryClient;
 
         private readonly ILogger<AlbumPrimaryImageCommandController> _logger;
 
@@ -30,13 +30,13 @@ namespace ImageGallery.Client.Apis
         /// Initializes a new instance of the <see cref="AlbumPrimaryImageCommandController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="imageGalleryClient"></param>
         /// <param name="logger"></param>
-        public AlbumPrimaryImageCommandController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumPrimaryImageCommandController> logger)
+        public AlbumPrimaryImageCommandController(ImageGalleryHttpClient imageGalleryClient, IOptions<ApplicationOptions> settings, ILogger<AlbumPrimaryImageCommandController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _imageGalleryClient = imageGalleryClient ?? throw new ArgumentNullException(nameof(imageGalleryClient));
         }
 
         private ApplicationOptions ApplicationSettings { get; }
@@ -52,10 +52,8 @@ namespace ImageGallery.Client.Apis
         {
             await WriteOutIdentityInformation();
 
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
             var route = $"{InternalAlbumsRoute}/primaryImage/{id}?imageId={imageId}";
-            var response = await httpClient.PutAsync(route, null).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.PutAsync(route, null).ConfigureAwait(false);
 
             if (response.IsSuccessStatusCode)
                 return Ok();

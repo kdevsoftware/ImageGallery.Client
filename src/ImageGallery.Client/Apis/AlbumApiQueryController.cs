@@ -6,10 +6,9 @@ using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
-using ImageGallery.Client.Services;
+using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
-using ImageGallery.Model;
 using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -29,7 +28,7 @@ namespace ImageGallery.Client.Apis
     {
         private const string InternalAlbumsRoute = "api/albums";
 
-        private readonly IImageGalleryHttpClient _imageGalleryHttpClient;
+        private readonly ImageGalleryHttpClient _imageGalleryClient;
 
         private readonly ILogger<AlbumApiQueryController> _logger;
 
@@ -37,13 +36,13 @@ namespace ImageGallery.Client.Apis
         /// Initializes a new instance of the <see cref="AlbumApiQueryController"/> class.
         /// </summary>
         /// <param name="settings"></param>
-        /// <param name="imageGalleryHttpClient"></param>
+        /// <param name="imageGalleryClient"></param>
         /// <param name="logger"></param>
-        public AlbumApiQueryController(IImageGalleryHttpClient imageGalleryHttpClient, IOptions<ApplicationOptions> settings, ILogger<AlbumApiQueryController> logger)
+        public AlbumApiQueryController(ImageGalleryHttpClient imageGalleryClient, IOptions<ApplicationOptions> settings, ILogger<AlbumApiQueryController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;
-            _imageGalleryHttpClient = imageGalleryHttpClient ?? throw new ArgumentNullException(nameof(imageGalleryHttpClient));
+            _imageGalleryClient = imageGalleryClient ?? throw new ArgumentNullException(nameof(imageGalleryClient));
         }
 
         private ApplicationOptions ApplicationSettings { get; }
@@ -59,8 +58,7 @@ namespace ImageGallery.Client.Apis
         {
             await WriteOutIdentityInformation();
 
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-            var response = await httpClient.GetAsync(InternalAlbumsRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(InternalAlbumsRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {InternalAlbumsRoute} return {response.StatusCode}.");
 
@@ -103,10 +101,8 @@ namespace ImageGallery.Client.Apis
             await WriteOutIdentityInformation();
 
             // call the API
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
             var route = $"{InternalAlbumsRoute}/{limit}/{page}";
-            var response = await httpClient.GetAsync(route).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(route).ConfigureAwait(false);
             string inlinecount = response.Headers.GetValues("x-inlinecount").FirstOrDefault();
 
             _logger.LogInformation($"Call {InternalAlbumsRoute} return {response.StatusCode}.");
@@ -148,9 +144,7 @@ namespace ImageGallery.Client.Apis
         public async Task<IActionResult> GetAlbum(Guid id)
         {
             var albumsRoute = $"{InternalAlbumsRoute}/{id}";
-            var httpClient = await _imageGalleryHttpClient.GetClient();
-
-            var response = await httpClient.GetAsync(albumsRoute).ConfigureAwait(false);
+            var response = await _imageGalleryClient.Instance.GetAsync(albumsRoute).ConfigureAwait(false);
 
             _logger.LogInformation($"Call {albumsRoute} return {response.StatusCode}.");
 
