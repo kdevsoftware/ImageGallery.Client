@@ -45,19 +45,23 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         ///  Create Album Tag.
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="id">Album Id.</param>
+        /// <param name="tag">Tag</param>
         [HttpPost("metadata/tags")]
-        public void CreateTag([FromBody]string value)
+        public void CreateTag(Guid id, [FromBody]string tag)
         {
+
         }
 
         /// <summary>
         ///  Delte Album Tag.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Album Id</param>
+        /// <param name="tagId">Tag Id</param>
         [HttpDelete("metadata/tags/{id}")]
-        public void DeleteTag(int id)
+        public void DeleteTag(Guid id, Guid tagId)
         {
+
         }
 
     }
