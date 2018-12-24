@@ -50,7 +50,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("metadata")]
-        [Produces("application/json", Type = typeof(List<AlbumMetadataViewModel>))]
+        [Produces("application/json", Type = typeof(AlbumMetaData))]
         public async Task<IActionResult> GetAlbumMetadata(Guid id)
         {
             var route = $"{InternalAlbumsRoute}/{id}/metadata";
@@ -60,11 +60,6 @@ namespace ImageGallery.Client.Apis
             {
                 var albumMetadataAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 var deserializedAlbum = JsonConvert.DeserializeObject<AlbumMetaData>(albumMetadataAsString);
-
-
-                //var albumIndexViewModel = new AlbumMetadataViewModel(
-                //    JsonConvert.DeserializeObject<IList<Album>>(albumsAsString).ToList(),
-                //    ApplicationSettings.ImagesUri);
 
                 return Ok(deserializedAlbum);
             }
