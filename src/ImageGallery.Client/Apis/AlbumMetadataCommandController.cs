@@ -46,8 +46,9 @@ namespace ImageGallery.Client.Apis
         ///  Create Album Tag.
         /// </summary>
         /// <param name="id">Album Id.</param>
-        /// <param name="tag">Tag</param>
+        /// <param name="tag">Tag Name.</param>
         [HttpPost("metadata/tags")]
+        [Consumes("application/json")]
         public void CreateTag(Guid id, [FromBody]string tag)
         {
 
