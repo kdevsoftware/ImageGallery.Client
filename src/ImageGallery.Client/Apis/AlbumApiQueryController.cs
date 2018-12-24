@@ -151,14 +151,14 @@ namespace ImageGallery.Client.Apis
             if (response.IsSuccessStatusCode)
             {
                 var albumAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var deserializedImage = JsonConvert.DeserializeObject<Album>(albumAsString);
+                var deserializedAlbum = JsonConvert.DeserializeObject<Album>(albumAsString);
 
                 var albumViewModel = new AlbumViewModel
                 {
-                    Id = deserializedImage.Id,
-                    Title = deserializedImage.Title,
-                    Description = deserializedImage.Description,
-                    DateCreated = deserializedImage.DateCreated,
+                    Id = deserializedAlbum.Id,
+                    Title = deserializedAlbum.Title,
+                    Description = deserializedAlbum.Description,
+                    DateCreated = deserializedAlbum.DateCreated,
                 };
 
                 return Ok(albumViewModel);
