@@ -279,8 +279,6 @@ namespace ImageGallery.Client.Apis
             }
 
             return UnprocessableEntity();
-            //return "data:image/jpeg;base64," + string.Empty;
-            //return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

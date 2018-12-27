@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
+using ImageGallery.Client.ViewModels.Album;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -70,7 +72,23 @@ namespace ImageGallery.Client.Apis
                     return new ForbidResult();
             }
 
-            throw new Exception($"A problem happened while calling the API: {response.ReasonPhrase}");
+            return UnprocessableEntity(response.ReasonPhrase);
+        }
+
+        /// <summary>
+        ///  Update Album Image Sort List.
+        /// </summary>
+        /// <param name="id">Album Id.</param>
+        /// <param name="item">Image Item.</param>
+        /// <returns></returns>
+        [HttpPut("{id}/sort")]
+        [Consumes("application/json")]
+        public async Task<IActionResult> UpdateAlbumSort(Guid id, [FromBody]List<AlbumImageSortItem> item)
+        {
+            var album = new AlbumImageList(id);
+
+
+            return Ok();
         }
     }
 }

@@ -48,6 +48,7 @@ namespace ImageGallery.Client.Apis.UserManagement
         /// </summary>
         /// <returns></returns>
         [HttpGet]
+        [Produces("application/json", Type = typeof(UserProfileViewModel))]
         [ProducesResponseType(typeof(UserProfileViewModel), 200)]
         public async Task<IActionResult> Get()
         {
