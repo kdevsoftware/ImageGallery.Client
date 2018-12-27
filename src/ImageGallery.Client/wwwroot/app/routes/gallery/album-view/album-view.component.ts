@@ -5,7 +5,7 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/toPromise';
 
 import { GalleryService } from '../../../gallery.service';
-import { IGalleryIndexViewModel, IImage } from '../../../shared/interfaces';
+import { IGalleryIndexViewModel, IImage, IAlbum } from '../../../shared/interfaces';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { take } from 'rxjs/operators';
@@ -22,6 +22,8 @@ import { TitleService } from '../../../services/title.service';
 export class AlbumViewComponent implements OnInit {
   albumId;
   albumViewModel: IGalleryIndexViewModel;
+  albumDetails: IAlbum;
+  albumImages: IGalleryIndexViewModel;
 
   pagination = {
     page: 1,
@@ -57,10 +59,12 @@ export class AlbumViewComponent implements OnInit {
       .subscribe((paramMap: any) => {
         this.albumId = paramMap.params['id'];
         this.getAlbumViewModel();
+        this.getAlbumDetails(this.albumId);
+        this.getAlbumImages(this.albumId);
       });
   }
 
-  onSubmitTitle(image: IImage, input: any, event?: any) {
+  public onSubmitTitle(image: IImage, input: any, event?: any) {
     this.clicked = true;
     const tempTitle = image.title;
 
@@ -85,7 +89,7 @@ export class AlbumViewComponent implements OnInit {
     }
   }
 
-  onCancelEditTitle(image: IImage, input: any) {
+  public onCancelEditTitle(image: IImage, input: any) {
     if (this.clicked) {
       image.title = input.value;
     } else {
@@ -118,6 +122,10 @@ export class AlbumViewComponent implements OnInit {
       );
   }
 
+  public onImagesSorted(albumImagesSorted: IGalleryIndexViewModel) {
+    this.galleryService.updateAlbumImages(this.albumId, albumImagesSorted);
+  }
+
   public updatePrimaryImage(image: IImage) {
     if (!image.isPrimaryImage) {
       this.spinnerService.show();
@@ -143,6 +151,28 @@ export class AlbumViewComponent implements OnInit {
     }
 
     image.isPrimaryImage = true;
+  }
+
+  private getAlbumImages(id: string) {
+    this.galleryService.getAlbumViewModel(id, null, null)
+      .then((response: any) => {
+        this.albumImages = response.images;
+      }).catch(() => {
+        this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+      });
+  }
+
+  private getAlbumDetails(id: string) {
+    this.galleryService.getAlbum(id)
+      .subscribe(
+        (response: IAlbum) => {
+          this.albumDetails = response;
+        },
+        (error) => {
+          this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+          console.log(error);
+        }
+      );
   }
 
   private getAlbumViewModel(event?) {

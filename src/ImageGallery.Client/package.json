@@ -13,6 +13,7 @@
   "dependencies": {
     "@agm/core": "1.0.0-beta.5",
     "@angular/animations": "7.0.4",
+    "@angular/cdk": "^7.2.0",
     "@angular/common": "7.0.4",
     "@angular/compiler": "7.0.4",
     "@angular/core": "7.0.4",
@@ -46,6 +47,7 @@
     "intl": "1.2.5",
     "jquery": "3.3.1",
     "jquery.flot.tooltip": "github:krzysu/flot.tooltip",
+    "license-checker": "^24.1.0",
     "loaders.css": "0.1.2",
     "lodash": "4.17.11",
     "modernizr": "3.6.0",
@@ -77,8 +79,7 @@
     "webpack-hot-middleware": "2.24.3",
     "webpack-merge": "4.1.5",
     "webpack-node-externals": "1.7.2",
-    "zone.js": "0.8.26",
-    "license-checker": "^24.1.0"
+    "zone.js": "0.8.26"
   },
   "devDependencies": {
     "@angular/cli": "^7.1.4",

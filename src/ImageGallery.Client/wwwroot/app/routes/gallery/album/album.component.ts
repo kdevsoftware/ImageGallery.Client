@@ -70,17 +70,17 @@ export class AlbumComponent implements OnInit {
     }
   }
 
-  onClickProperty(event: any) {
+  public onClickProperty(event: any) {
     event.stopPropagation();
     this.isEditMode = true;
   }
 
-  onSubmitTitle(album: IAlbum, inputTitle: any, event?: any) {
+  public onSubmitTitle(album: IAlbum, inputTitle: any, event?: any) {
     this.clicked = true;
     const tempTitle = album.title;
 
     if (inputTitle.value !== album.title) {
-      this.galleryService.patchAlbumDescription(album.id, 'title', inputTitle.value)
+      this.galleryService.patchAlbumProperty(album.id, 'title', inputTitle.value)
         .subscribe(
           () => {
             this.toastr.success('Album title has been updated successfully!', 'Success!', { closeButton: true });
@@ -100,7 +100,7 @@ export class AlbumComponent implements OnInit {
     }
   }
 
-  onCancelEditTitle(album: IAlbum, inputTitle: any) {
+  public onCancelEditTitle(album: IAlbum, inputTitle: any) {
     if (this.clicked) {
       album.title = inputTitle.value;
     } else {
@@ -110,12 +110,12 @@ export class AlbumComponent implements OnInit {
     this.isEditMode = false;
   }
 
-  onSubmitDescription(album: IAlbum, inputDescr: any, event?: any) {
+  public onSubmitDescription(album: IAlbum, inputDescr: any, event?: any) {
     this.clicked = true;
     const tempDescr = album.description;
 
     if (inputDescr.value !== album.description) {
-      this.galleryService.patchAlbumDescription(album.id, 'description', inputDescr.value)
+      this.galleryService.patchAlbumProperty(album.id, 'description', inputDescr.value)
         .subscribe(
           () => {
             this.toastr.success('Album description has been updated successfully!', 'Success!', { closeButton: true });
@@ -135,7 +135,7 @@ export class AlbumComponent implements OnInit {
     }
   }
 
-  onCancelEditDescription(album: IAlbum, inputDescr: any) {
+  public onCancelEditDescription(album: IAlbum, inputDescr: any) {
     if (this.clicked) {
       album.description = inputDescr.value;
     } else {
@@ -145,7 +145,7 @@ export class AlbumComponent implements OnInit {
     this.isEditMode = false;
   }
 
-  onTransparAreaClick() {
+  public onTransparAreaClick() {
     this.isEditMode = false;
   }
 

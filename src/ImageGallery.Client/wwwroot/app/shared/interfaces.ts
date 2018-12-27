@@ -3,6 +3,7 @@ export interface IImage {
   title: string;
   fileName: string;
   category: string;
+  sort: number;
   dataSource: string;
   width: number;
   height: number;
@@ -14,6 +15,7 @@ export interface IAlbum {
   id: string;
   title: string;
   description: string;
+  dateCreated: Date;
 }
 
 export interface IRouteTypeModel {
