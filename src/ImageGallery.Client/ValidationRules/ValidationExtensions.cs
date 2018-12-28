@@ -12,7 +12,7 @@ namespace ImageGallery.Client.ValidationRules
     public static class ValidationExtensions
     {
         /// <summary>
-        /// 
+        ///  Validate Property.
         /// </summary>
         /// <param name="validator"></param>
         /// <param name="target"></param>

@@ -57,8 +57,8 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         ///  Delte Album Tag.
         /// </summary>
-        /// <param name="id">Album Id</param>
-        /// <param name="tagId">Tag Id</param>
+        /// <param name="id">Album Id.</param>
+        /// <param name="tagId">Tag Id.</param>
         [HttpDelete("metadata/tags/{id}")]
         public void DeleteTag(Guid id, Guid tagId)
         {

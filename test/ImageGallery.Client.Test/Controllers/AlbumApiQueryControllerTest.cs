@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -8,7 +10,9 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.Test.Helpers;
+using ImageGallery.Client.ViewModels.Album;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -28,17 +32,39 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
-        public async void GetAlbums_ReturnsData()
+        public async Task GetAlbums_ReturnsData()
         {
             var albumController = GetAlbumApiQueryController(null, null, null);
             albumController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             var query = new AlbumRequestModel { };
 
+            // Act
             var result = await albumController.Get(query, 1, 1);
 
-            Assert.IsType<AlbumApiQueryController>(albumController);
-            Assert.True(true);
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            var objectResult = result as OkObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 200);
+            Assert.IsType<AlbumIndexViewModel>(objectResult.Value);
+
+            var albumIndex = objectResult.Value as AlbumIndexViewModel;
+            Assert.NotNull(albumIndex);
+            Assert.Equal("http://localhost/api/images", albumIndex.ImagesUri);
+
+            var albums = albumIndex.Albums;
+            Assert.NotNull(albums);
+            Assert.IsType<List<Model.Models.Albums.Album>>(albums);
+            Assert.True(albums.Count() == 1);
+        }
+
+        [Fact(Skip = "TODO")]
+        public async Task GetAlbum_ReturnsData()
+        {
+            Assert.True(false);
         }
 
         private AlbumApiQueryController GetAlbumApiQueryController(

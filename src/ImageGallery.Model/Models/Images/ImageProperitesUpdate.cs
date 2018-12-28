@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ImageGallery.Model
+namespace ImageGallery.Model.Models.Images
 {
     /// <summary>
     ///
