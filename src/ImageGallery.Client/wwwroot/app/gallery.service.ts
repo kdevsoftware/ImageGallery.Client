@@ -3,7 +3,7 @@
 import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
 
-import { IEditImageViewModel, IAddImageViewModel, IAlbum, IGalleryIndexViewModel } from './shared/interfaces';
+import { IEditImageViewModel, IAddImageViewModel, IGalleryIndexViewModel, IAlbumMetadata } from './shared/interfaces';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -69,11 +69,11 @@ export class GalleryService {
     headers.append("Content-Type", "application/json");
 
     var query = '';
-    
+
     if (limit && page) {
       query = `${this.albumUrl}/images/list/${limit}/${page}?id=${id}`;
     } else {
-      query = `${this.albumUrl}/images/list/?id=${id}`;      
+      query = `${this.albumUrl}/images/list/?id=${id}`;
     }
 
     return new Promise((resolve, reject) => {
@@ -89,9 +89,20 @@ export class GalleryService {
     });
   }
 
-  public getAlbum(id: string) : Observable<IAlbum> {
+  public getAlbumMetadata(id: string): Observable<IAlbumMetadata> {
     var self = this;
-    return this.httpClient.get<IAlbum>(`${this.albumUrl}/${id}`, { headers: self.generateBearerHeaaders() })
+    return this.httpClient.get<IAlbumMetadata>(`${this.albumUrl}/metadata?id=${id}`, { headers: self.generateBearerHeaaders() })
+      .catch(this.handleError);
+  }
+
+  public postAlbumMetadataTag(id: string, tag: string): Observable<Object> {
+    var self = this;
+    return this.httpClient.post(`${this.albumUrl}/metadata/tags?id=${id}`, {tag}, { headers: self.generateBearerHeaaders() });
+  }
+
+  public deleteAlbumMetadataTag(albumId: string, tagId: string) {
+    var self = this;
+    return this.httpClient.delete(`${this.albumUrl}/metadata/tags/${albumId}?tagId=${tagId}`, { headers: self.generateBearerHeaaders() })
       .catch(this.handleError);
   }
 
@@ -106,7 +117,7 @@ export class GalleryService {
   }
 
   public updateAlbumImages(id: string, model: IGalleryIndexViewModel) {
-    
+
   }
 
   public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {
@@ -197,7 +208,6 @@ export class GalleryService {
     return this.httpClient.get(`${this.baseUrl}/text/${id}`, { headers: self.generateBearerHeaaders(), responseType: 'text' })
       .catch(this.handleError);
   }
-
 
   private generateBearerHeaaders(): HttpHeaders {
     return new HttpHeaders({

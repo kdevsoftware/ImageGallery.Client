@@ -5,7 +5,7 @@
   </ol>
   <h2 class="page-header">{{title}}</h2>
   <tabset [justified]="true">
-    <tab heading="Album">
+    <tab heading="Album" (select)="onAlbumTabClick()">
       <div class="topMarginDefault">
         <div class="row" *ngIf="albumViewModel && albumViewModel.images">
           <div class="col-sm-6 col-md-4" *ngFor="let album of albumViewModel.images">
@@ -16,10 +16,10 @@
               <div class="panel-footer">
                 <div class="d-flex">
                   <div class="input-group-for">
-                    <input (keyup.enter)="onSubmitTitle(album, inputTitle, $event)" (blur)="onCancelEditTitle(album, inputTitle)"
+                    <input (keyup.enter)="onSubmitImageTitle(album, inputTitle, $event)" (blur)="onCancelEditImageTitle(album, inputTitle)"
                       [value]="album.title" type="text" class="property-edit property-edit-focus" #inputTitle>
                     <span class="input-group-addon">
-                      <button (mousedown)="onSubmitTitle(album, inputTitle)">
+                      <button (mousedown)="onSubmitImageTitle(album, inputTitle)">
                         <span class="glyphicon glyphicon-pencil"></span>
                       </button>
                     </span>
@@ -61,35 +61,59 @@
         <span>No Photos Exist for the Album</span>
       </div>
 
-      <ngx-loading-spinner> </ngx-loading-spinner>
-
     </tab>
-    <tab heading="Metadata">
+    <tab heading="Metadata" (select)="onMetadataTabClick()" (deselect)="onDeselectMetadata()">
       <div class="topMarginDefault bottomMarginDefault">
-        <div *ngIf="albumDetails" class="album-details-tab">
-          <p>
-            <strong>Title: </strong>
-            <span>{{ albumDetails.title }}</span>
-          </p>
-          <p>
-            <strong>Description: </strong>
-            <span>{{ albumDetails.description }}</span>
-          </p>
+        <div *ngIf="albumDetails">
+          <div class="album-details-tab">
+            <div class="property-par">
+              <strong>Title: </strong>
+              <div class="input-group-for album-max-input">
+                <input (keyup.enter)="onSubmitAlbumTitle(albumDetails, inputAlbumTitle, $event)" (blur)="onCancelEditAlbumTitle(albumDetails, inputAlbumTitle)"
+                  [value]="albumDetails.title" type="text" class="property-edit property-edit-focus" #inputAlbumTitle>
+                <span class="input-group-addon">
+                  <button (mousedown)="onSubmitAlbumTitle(albumDetails, inputAlbumTitle)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div class="property-par">
+              <strong>Description: </strong>
+              <div class="input-group-for album-max-input">
+                <input (keyup.enter)="onSubmitAlbumDescription(albumDetails, inputAlbumDescription, $event)" (blur)="onCancelEditAlbumDescription(albumDetails, inputAlbumDescription)"
+                  [value]="albumDetails.description" type="text" class="property-edit property-edit-focus"
+                  #inputAlbumDescription>
+                <span class="input-group-addon">
+                  <button (mousedown)="onSubmitAlbumDescription(albumDetails, inputAlbumDescription)">
+                    <span class="glyphicon glyphicon-pencil"></span>
+                  </button>
+                </span>
+              </div>
+            </div>
+            <div class="property-par">
+              <strong>Date of creation: </strong>
+              <span>{{ albumDetails.dateCreated }}</span>
+            </div>
+          </div>
           <div>
-            <strong>Date of creation: </strong>
-            <span>{{ albumDetails.dateCreated }}</span>
+            <tag-input [(ngModel)]="inputTags" (onAdd)="onAddTag($event)" [onRemoving]="onRemovingTag" (onRemove)="onRemoveTag($event)"></tag-input>
           </div>
         </div>
       </div>
     </tab>
-    <tab heading="Album Sort">
+    <tab heading="Album Sort" (select)="onSortAlbumTabClick()">
       <div class="topMarginDefault">
         <app-album-sort [albumImages]="albumImages" (albumImagesSorted)="onImagesSorted($event)">
         </app-album-sort>
       </div>
     </tab>
   </tabset>
+
+  <ngx-loading-spinner> </ngx-loading-spinner>
+
 </div>
+
 
 <ng-template #template>
   <div class="modal-header">

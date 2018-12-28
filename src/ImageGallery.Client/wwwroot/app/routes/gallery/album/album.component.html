@@ -18,14 +18,15 @@
             </span>
           </div>
           <div class="input-group-for">
-              <input (click)="onClickProperty($event)" (keyup.enter)="onSubmitDescription(album, inputDescription, $event)" (blur)="onCancelEditDescription(album, inputDescription)"
-                [value]="album.description" type="text" class="property-edit property-edit-focus" #inputDescription>
-              <span class="input-group-addon">
-                <button (mousedown)="onSubmitDescription(album, inputDescription)">
-                  <span class="glyphicon glyphicon-pencil"></span>
-                </button>
-              </span>
-            </div>
+            <input (click)="onClickProperty($event)" (keyup.enter)="onSubmitDescription(album, inputDescription, $event)"
+              (blur)="onCancelEditDescription(album, inputDescription)" [value]="album.description" type="text" class="property-edit property-edit-focus"
+              #inputDescription>
+            <span class="input-group-addon">
+              <button (mousedown)="onSubmitDescription(album, inputDescription)">
+                <span class="glyphicon glyphicon-pencil"></span>
+              </button>
+            </span>
+          </div>
           <div>
             <a (click)="openDeleteModal(album, template, $event)" class="crud-btn-pointer">Delete</a>
           </div>
