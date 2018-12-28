@@ -25,7 +25,7 @@
     "@angular/router": "^7.0.4",
     "@ngx-translate/core": "11.0.1",
     "@ngx-translate/http-loader": "4.0.0",
-    "@types/jquery": "3.3.28",
+    "@types/jquery": "3.3.29",
     "@types/moment": "2.13.0",
     "@types/node": "^10.12.15",
     "angular-oauth2-oidc": "^5.0.2",
