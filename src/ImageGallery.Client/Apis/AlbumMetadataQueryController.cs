@@ -47,7 +47,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Get Album Metadata.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Album Id.</param>
         /// <returns></returns>
         [HttpGet("metadata")]
         [Produces("application/json", Type = typeof(AlbumMetaData))]

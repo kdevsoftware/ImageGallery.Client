@@ -44,8 +44,8 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Update Album Primary Image.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="imageId"></param>
+        /// <param name="id">Album Id.</param>
+        /// <param name="imageId">Image Id.</param>
         /// <returns></returns>
         [HttpPut("primaryimage/{id}")]
         public async Task<IActionResult> Put(Guid id, [FromQuery] Guid imageId)

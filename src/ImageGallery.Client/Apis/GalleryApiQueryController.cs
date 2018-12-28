@@ -142,7 +142,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Get Image Properties.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Image Id.</param>
         /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
@@ -188,7 +188,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         ///  Get Image File.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Image Id.</param>
         /// <returns></returns>
         [Authorize]
         [Produces("image/jpeg")]

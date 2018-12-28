@@ -51,7 +51,7 @@ namespace ImageGallery.Client.Apis
         /// Patch Album Name/Value.
         /// </summary>
         /// <param name="id">Album Id.</param>
-        /// <param name="patchDtos">Name/Vaule Collection.</param>
+        /// <param name="patchDtos">Property Name/Value Pair.</param>
         /// <returns></returns>
         [HttpPatch("{id}", Name = "PatchAlbum")]
         public async Task<IActionResult> PatchAlbum(Guid id, [FromBody] List<PatchDto> patchDtos)
@@ -87,7 +87,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Delete Album.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Album Id.</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAlbum(Guid id)

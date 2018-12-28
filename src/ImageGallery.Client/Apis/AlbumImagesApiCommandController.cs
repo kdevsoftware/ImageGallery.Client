@@ -46,8 +46,8 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         ///  Delete Image from Album.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="imageId"></param>
+        /// <param name="id">Album Id.</param>
+        /// <param name="imageId">Image Id.</param>
         /// <exception cref="Exception"></exception>
         /// <returns></returns>
         [HttpDelete("{id}/{imageId}")]
@@ -79,14 +79,14 @@ namespace ImageGallery.Client.Apis
         ///  Update Album Image Sort List.
         /// </summary>
         /// <param name="id">Album Id.</param>
-        /// <param name="item">Image Item.</param>
+        /// <param name="items">Image Item Sorted List.</param>
         /// <returns></returns>
         [HttpPut("{id}/sort")]
         [Consumes("application/json")]
-        public async Task<IActionResult> UpdateAlbumSort(Guid id, [FromBody]List<AlbumImageSortItem> item)
+        public async Task<IActionResult> UpdateAlbumSort(Guid id, [FromBody]List<AlbumImageSortItem> items)
         {
             var album = new AlbumImageList(id);
-
+            album.AlbumImageSortList = items;
 
             return Ok();
         }

@@ -8,7 +8,7 @@ public static class Settings
 
     public static string SonarName => "ImageGalleryClient";
 
-    public static string SonarExclude => "/d:sonar.exclusions=**/wwwroot/**";
+    public static string SonarExclude => "/d:sonar.exclusions=**/wwwroot/**,*.js";
 
     public static string SonarExcludeDuplications => "/d:sonar.cpd.exclusions=**/GalleryContextExtensions.cs";
 

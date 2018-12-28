@@ -49,7 +49,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Album Images List.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Album Id.</param>
         /// <returns></returns>
         [HttpGet("images/list")]
         [Produces("application/json", Type = typeof(List<GalleryIndexViewModel>))]
@@ -92,7 +92,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Album Images Paging and Filtering List.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Album Id.</param>
         /// <param name="limit"></param>
         /// <param name="page"></param>
         /// <returns></returns>

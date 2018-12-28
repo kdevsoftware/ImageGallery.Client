@@ -88,7 +88,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Delete Image.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Image Id.</param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         [Authorize(Roles = "PayingUser")] /* TEST FREE USER VALIDATION */
@@ -118,8 +118,8 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Patch Image Name/Value.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="patchDtos"></param>
+        /// <param name="id">Image Id.</param>
+        /// <param name="patchDtos">Property Name/Value Pair.</param>
         /// <returns></returns>
         [HttpPatch("{id}", Name = "PatchImage")]
         public async Task<IActionResult> PatchImageProperties(Guid id, [FromBody] List<PatchDto> patchDtos)

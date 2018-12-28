@@ -136,7 +136,7 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Get Album.
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Album Id.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
         [Produces("application/json", Type = typeof(IEnumerable<AlbumViewModel>))]
