@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using FluentValidation.TestHelper;
+using ImageGallery.Client.Test.Data;
 using ImageGallery.Client.ValidationRules;
 using ImageGallery.Client.ValidationRules.Constants;
 using ImageGallery.Model.Models.Albums;
@@ -51,6 +52,16 @@ namespace ImageGallery.Client.Test.ValidationRules
 
             titleValidationMessage.Should().BeEquivalentTo(AlbumValidationConstants.TitleEmptyMessage);
             descriptionValidationMessage.Should().BeEquivalentTo(AlbumValidationConstants.DescriptionEmptyMessage);
+        }
+
+        [Fact]
+        public void Should_Pass_Validation_On_ValidModel()
+        {
+            var data = AlbumDataSet.GetAlbumProperitesUpdateModel();
+            var result = _validator.Validate(data);
+
+            _output.WriteLine(result.IsValid.ToString());
+            Assert.True(result.IsValid);
         }
     }
 }

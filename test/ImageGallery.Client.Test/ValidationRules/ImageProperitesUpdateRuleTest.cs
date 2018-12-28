@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using FluentAssertions;
 using FluentValidation.TestHelper;
+using ImageGallery.Client.Test.Data;
 using ImageGallery.Client.ValidationRules;
 using ImageGallery.Client.ValidationRules.Constants;
 using ImageGallery.Client.ValidationRules.Gallery;
@@ -10,7 +11,6 @@ using Xunit.Abstractions;
 
 namespace ImageGallery.Client.Test.ValidationRules
 {
-
     public class ImageProperitesUpdateRuleTest
     {
         private readonly ImageProperitesUpdateRule _validator;
@@ -44,6 +44,16 @@ namespace ImageGallery.Client.Test.ValidationRules
 
             Assert.Equal(AlbumValidationConstants.TitleEmptyMessage, titleValidationMessage);
             titleValidationMessage.Should().BeEquivalentTo(ImageValidationConstants.TitleEmptyMessage);
+        }
+
+        [Fact]
+        public void Should_Pass_Validation_On_ValidModel()
+        {
+            var data = ImageDataSet.GetValidImageProperitesUpdate();
+            var result = _validator.Validate(data);
+
+            _output.WriteLine(result.IsValid.ToString());
+            Assert.True(result.IsValid);
         }
     }
 }
