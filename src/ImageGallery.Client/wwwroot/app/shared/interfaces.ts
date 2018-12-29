@@ -18,6 +18,15 @@ export interface IAlbum {
   dateCreated: Date;
 }
 
+export interface IAlbumTag {
+  id: string;
+  tag: string;
+}
+
+export interface IAlbumMetadata extends IAlbum {
+  albumTags: IAlbumTag[];
+}
+
 export interface IRouteTypeModel {
   type: string;
 }

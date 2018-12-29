@@ -13,6 +13,8 @@ import { NgxLoadingSpinnerModule } from 'ngx-loading-spinner-fork';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { AlbumSortComponent } from './album-view/album-sort/album-sort.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { TagInputModule } from 'ngx-chips';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
@@ -20,7 +22,9 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
         PaginationModule.forRoot(),
         NgxLoadingSpinnerModule.forRoot(),
         ImageCropperModule,
-        DragDropModule
+        DragDropModule,
+        BrowserAnimationsModule,
+        TagInputModule,
     ],
     declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [

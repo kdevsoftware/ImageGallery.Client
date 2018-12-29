@@ -6,6 +6,7 @@ using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
+using ImageGallery.Client.ViewModels.Album;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -49,7 +50,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="tag">Tag Name.</param>
         [HttpPost("metadata/tags")]
         [Consumes("application/json")]
-        public void CreateTag(Guid id, [FromBody]string tag)
+        public void CreateTag(Guid id, [FromBody]AlbumTagViewModel model)
         {
 
         }

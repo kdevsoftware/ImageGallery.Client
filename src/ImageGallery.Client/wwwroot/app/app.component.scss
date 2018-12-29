@@ -32,3 +32,21 @@ a.crud-btn-pointer {
 .breadcrumb {
   margin: 40px 0 10px;
 }
+
+tag-input .ng2-tag-input {
+    border-radius: 4px;
+}
+
+tag-input .ng2-tag-input .ng2-tags-container{
+    background-color: #fff;
+    padding-top: .5rem;
+    padding-bottom: 0;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-radius: 4px;
+}
+
+tag-input .ng2-tags-container tag {
+    border-radius: 4px;
+    margin-right: 6px;
+  }

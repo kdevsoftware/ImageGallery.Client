@@ -5,13 +5,14 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/toPromise';
 
 import { GalleryService } from '../../../gallery.service';
-import { IGalleryIndexViewModel, IImage, IAlbum } from '../../../shared/interfaces';
+import { IGalleryIndexViewModel, IImage, IAlbumMetadata } from '../../../shared/interfaces';
 import { ToastrService } from 'ngx-toastr';
 import { NgxLoadingSpinnerService } from 'ngx-loading-spinner-fork';
 import { take } from 'rxjs/operators';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap';
 import { StorageService } from '../../../services/storage.service';
 import { TitleService } from '../../../services/title.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-album-view',
@@ -22,7 +23,7 @@ import { TitleService } from '../../../services/title.service';
 export class AlbumViewComponent implements OnInit {
   albumId;
   albumViewModel: IGalleryIndexViewModel;
-  albumDetails: IAlbum;
+  albumDetails: IAlbumMetadata;
   albumImages: IGalleryIndexViewModel;
 
   pagination = {
@@ -35,9 +36,11 @@ export class AlbumViewComponent implements OnInit {
 
   categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
+  inputTags: any[] = [];
   modalRef: BsModalRef;
   private imageToDelete;
   private clicked: boolean = false;
+  private tagIndex;
 
   constructor(
     private readonly galleryService: GalleryService,
@@ -59,12 +62,57 @@ export class AlbumViewComponent implements OnInit {
       .subscribe((paramMap: any) => {
         this.albumId = paramMap.params['id'];
         this.getAlbumViewModel();
-        this.getAlbumDetails(this.albumId);
-        this.getAlbumImages(this.albumId);
       });
   }
 
-  public onSubmitTitle(image: IImage, input: any, event?: any) {
+  public onAlbumTabClick() {
+    this.getAlbumViewModel();
+  }
+
+  public onMetadataTabClick() {
+    this.getAlbumMetadata(this.albumId);
+  }
+
+  public onDeselectMetadata() {
+    this.inputTags = [];
+  }
+
+  public onAddTag(tag: any) {
+    this.galleryService.postAlbumMetadataTag(this.albumId, tag.display)
+      .subscribe(
+        () => {
+          // todo get id from server
+          this.toastr.success('Tag has been added successfully!', 'Success!', { closeButton: true });
+        },
+        (err: any) => {
+          this.inputTags.pop();
+          this.toastr.error('Failed to add tag!', 'Oops!', { closeButton: true });
+        });
+  }
+
+  public onRemovingTag = (tag: any): Observable<any> => {
+    this.tagIndex = this.inputTags.indexOf(tag);
+    return Observable.of(tag);
+  }
+
+  public onRemoveTag(tag: any) {
+    this.galleryService.deleteAlbumMetadataTag(this.albumId, tag.value)
+      .subscribe(
+        () => {
+          this.toastr.success('Tag has been removed successfully!', 'Success!', { closeButton: true });
+        },
+        () => {
+          this.inputTags.splice(this.tagIndex, 0, tag);
+          this.toastr.error('Failed to remove tag!', 'Oops!', { closeButton: true });
+        }
+      );
+  }
+
+  public onSortAlbumTabClick() {
+    this.getAlbumImages(this.albumId);
+  }
+
+  public onSubmitImageTitle(image: IImage, input: any, event?: any) {
     this.clicked = true;
     const tempTitle = image.title;
 
@@ -89,11 +137,80 @@ export class AlbumViewComponent implements OnInit {
     }
   }
 
-  public onCancelEditTitle(image: IImage, input: any) {
+  public onCancelEditImageTitle(image: IImage, input: any) {
     if (this.clicked) {
       image.title = input.value;
     } else {
       input.value = image.title;
+    }
+    this.clicked = false;
+  }
+
+  public onSubmitAlbumTitle(album: IAlbumMetadata, inputTitle: any, event?: any) {
+    this.clicked = true;
+    const tempTitle = album.title;
+
+    if (inputTitle.value !== album.title) {
+      this.galleryService.patchAlbumProperty(album.id, 'title', inputTitle.value)
+        .subscribe(
+          () => {
+            this.title = inputTitle.value;
+            this.toastr.success('Album title has been updated successfully!', 'Success!', { closeButton: true });
+          },
+          (err) => {
+            if (err.status === 500) {
+              this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
+            } else {
+              this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+            }
+            inputTitle.value = tempTitle;
+          }
+        );
+    }
+    if (event) {
+      event.target.blur();
+    }
+  }
+
+  public onCancelEditAlbumTitle(album: IAlbumMetadata, inputTitle: any) {
+    if (this.clicked) {
+      album.title = inputTitle.value;
+    } else {
+      inputTitle.value = album.title;
+    }
+    this.clicked = false;
+  }
+
+  public onSubmitAlbumDescription(album: IAlbumMetadata, inputDescr: any, event?: any) {
+    this.clicked = true;
+    const tempDescr = album.description;
+
+    if (inputDescr.value !== album.description) {
+      this.galleryService.patchAlbumProperty(album.id, 'description', inputDescr.value)
+        .subscribe(
+          () => {
+            this.toastr.success('Album description has been updated successfully!', 'Success!', { closeButton: true });
+          },
+          (err) => {
+            if (err.status === 500) {
+              this.toastr.error('Application Error has occurred', 'Oops!', { closeButton: true });
+            } else {
+              this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+            }
+            inputDescr.value = tempDescr;
+          }
+        );
+    }
+    if (event) {
+      event.target.blur();
+    }
+  }
+
+  public onCancelEditAlbumDescription(album: IAlbumMetadata, inputDescr: any) {
+    if (this.clicked) {
+      album.description = inputDescr.value;
+    } else {
+      inputDescr.value = album.description;
     }
     this.clicked = false;
   }
@@ -153,26 +270,40 @@ export class AlbumViewComponent implements OnInit {
     image.isPrimaryImage = true;
   }
 
+  private getAlbumMetadata(id: string) {
+    this.spinnerService.show();
+
+    this.galleryService.getAlbumMetadata(id)
+      .subscribe(
+        (response: IAlbumMetadata) => {
+          this.albumDetails = response;
+          this.inputTags = this.albumDetails.albumTags
+            .map((tag) => {
+              return {
+                display: tag.tag,
+                value: tag.id
+              };
+            });
+          this.spinnerService.hide();
+        },
+        () => {
+          this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+          this.spinnerService.hide();
+        }
+      );
+  }
+
   private getAlbumImages(id: string) {
+    this.spinnerService.show();
+
     this.galleryService.getAlbumViewModel(id, null, null)
       .then((response: any) => {
         this.albumImages = response.images;
+        this.spinnerService.hide();
       }).catch(() => {
         this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+        this.spinnerService.hide();
       });
-  }
-
-  private getAlbumDetails(id: string) {
-    this.galleryService.getAlbum(id)
-      .subscribe(
-        (response: IAlbum) => {
-          this.albumDetails = response;
-        },
-        (error) => {
-          this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
-          console.log(error);
-        }
-      );
   }
 
   private getAlbumViewModel(event?) {

@@ -38,6 +38,10 @@
   width: 100%;
 }
 
+.album-max-input {
+  max-width: 400px;
+}
+
 .input-group-for .input-group-addon {
   padding: 0;
   height: 35px;
@@ -101,6 +105,10 @@
 }
 
 .album-details-tab {
-  background-color: #e7e7e7;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.album-details-tab .property-par {
+  margin: .75rem 0;
 }
