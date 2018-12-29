@@ -9,14 +9,17 @@ using ImageGallery.Client.Apis;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.HttpClients;
+using ImageGallery.Client.Test.Data;
 using ImageGallery.Client.Test.Helpers;
 using ImageGallery.Client.ViewModels.Album;
+using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
+using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -34,15 +37,18 @@ namespace ImageGallery.Client.Test.Controllers
         [Fact]
         public async Task GetAlbums_ReturnsData()
         {
-            var albumController = GetAlbumApiQueryController(null, null, null);
-            albumController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+            int count = 100;
+            var albums = AlbumDataSet.GetAlbumTableData(count);
+            var content = JsonConvert.SerializeObject(albums);
 
-            var query = new AlbumRequestModel { };
+            var controller = GetAlbumApiQueryController(null, null, null, content);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await albumController.Get(query, 1, 1);
+            var result = await controller.AlbumIndexViewModel();
 
             // Assert
+            Assert.IsType<List<Album>>(albums);
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
 
@@ -53,29 +59,79 @@ namespace ImageGallery.Client.Test.Controllers
 
             var albumIndex = objectResult.Value as AlbumIndexViewModel;
             Assert.NotNull(albumIndex);
-            Assert.Equal("http://localhost/api/images", albumIndex.ImagesUri);
+            Assert.Equal(CommonConstants.ImagesUri, albumIndex.ImagesUri);
 
-            var albums = albumIndex.Albums;
-            Assert.NotNull(albums);
-            Assert.IsType<List<Model.Models.Albums.Album>>(albums);
-            Assert.True(albums.Count() == 1);
+            var results = albumIndex.Albums;
+            Assert.NotNull(results);
+            Assert.IsType<List<Album>>(results);
+            Assert.True(results.Count() == count);
         }
 
-        [Fact(Skip = "TODO")]
+        [Fact]
+        public async Task GetAlbums_Paging_ReturnsData()
+        {
+            int count = 10;
+            var albums = AlbumDataSet.GetAlbumTableData(count);
+            var content = JsonConvert.SerializeObject(albums);
+
+            var controller = GetAlbumApiQueryController(null, null, null, content);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            var query = new AlbumRequestModel { };
+
+            // Act
+            var result = await controller.Get(query, count, 1);
+
+            // Assert
+            Assert.IsType<List<Album>>(albums);
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+            var objectResult = result as OkObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 200);
+            Assert.IsType<AlbumIndexViewModel>(objectResult.Value);
+
+            var albumIndex = objectResult.Value as AlbumIndexViewModel;
+            Assert.NotNull(albumIndex);
+            Assert.Equal(CommonConstants.ImagesUri, albumIndex.ImagesUri);
+
+            var results = albumIndex.Albums;
+            Assert.NotNull(results);
+            Assert.IsType<List<Album>>(results);
+            Assert.True(results.Count() == count);
+        }
+
+        [Fact]
         public async Task GetAlbum_ReturnsData()
         {
-            Assert.True(false);
+            var album = AlbumDataSet.GetAlbum();
+            var content = JsonConvert.SerializeObject(album);
+
+            var controller = GetAlbumApiQueryController(null, null, null, content);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await controller.GetAlbum(It.IsAny<Guid>());
+
+            // Assert
+            Assert.IsType<Album>(album);
+            Assert.NotNull(result);
+            Assert.IsType<OkObjectResult>(result);
+
+
         }
 
         private AlbumApiQueryController GetAlbumApiQueryController(
             ImageGalleryHttpClient imageGalleryHttpClient = null,
             IOptions<ApplicationOptions> settings = null,
-            ILogger<AlbumApiQueryController> logger = null)
+            ILogger<AlbumApiQueryController> logger = null,
+            string responseContent = null)
         {
             var responseMessage = new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent("[{'Id':'9c270399-bbb0-4503-895b-8128642ac6c6','Title':'Nature','Description':'null','DateCreated':'0001-01-01T00:00:00','FileName':'null','Width':320,'Height':240}]"),
+                Content = responseContent != null ? new StringContent(responseContent) : null,
             };
 
             responseMessage.Headers.Add("x-inlinecount", "10");
@@ -93,7 +149,7 @@ namespace ImageGallery.Client.Test.Controllers
 
             var httpClient = new HttpClient(handlerMock.Object)
             {
-                BaseAddress = new Uri("http://localhost/"),
+                BaseAddress = new Uri(CommonConstants.BaseAddress),
             };
 
             imageGalleryHttpClient = imageGalleryHttpClient ??

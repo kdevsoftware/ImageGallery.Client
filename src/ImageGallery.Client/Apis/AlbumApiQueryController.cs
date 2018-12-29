@@ -7,7 +7,6 @@ using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.HttpClients;
-using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Client.ViewModels.Gallery;
 using ImageGallery.Model.Models.Albums;
@@ -140,8 +139,8 @@ namespace ImageGallery.Client.Apis
         /// <param name="id">Album Id.</param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        [Produces("application/json", Type = typeof(IEnumerable<AlbumViewModel>))]
-        [ProducesResponseType(typeof(IEnumerable<AlbumViewModel>), 200)]
+        [Produces("application/json", Type = typeof(AlbumViewModel))]
+        [ProducesResponseType(typeof(AlbumViewModel), 200)]
         public async Task<IActionResult> GetAlbum(Guid id)
         {
             var albumsRoute = $"{InternalAlbumsRoute}/{id}";

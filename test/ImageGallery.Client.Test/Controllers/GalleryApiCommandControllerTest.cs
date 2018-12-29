@@ -23,6 +23,58 @@ namespace ImageGallery.Client.Test.Controllers
 {
     public class GalleryApiCommandControllerTest
     {
+
+        [Fact]
+        public async Task Add_Image_Returns_Success()
+        {
+            // Arrange
+            var controller = GetGalleryApiCommandController(null, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            AddImageViewModel model = new AddImageViewModel
+            {
+                Category = It.IsAny<string>(),
+                Title = It.IsAny<string>(),
+                File = MockHelpers.GetMockIFormFile().Object,
+            };
+
+            var result = await controller.AddImage(model);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
+
+            var objectResult = result as OkResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 200);
+        }
+
+        [Fact]
+        public async Task Update_Image_Returns_Success()
+        {
+            // Arrange
+            var controller = GetGalleryApiCommandController(null, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            UpdateImageViewModel model = new UpdateImageViewModel
+            {
+                Id = Guid.NewGuid(),
+                File = MockHelpers.GetMockIFormFile().Object,
+            };
+
+            var result = await controller.UpdateImage(model);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
+
+            var objectResult = result as OkResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 200);
+        }
+
         [Fact]
         public async Task Update_Image_Properties_Returns_Success()
         {
