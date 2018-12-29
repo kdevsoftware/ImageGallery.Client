@@ -10,6 +10,7 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Filters;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
+using ImageGallery.Client.ViewModels.Gallery;
 using ImageGallery.Model.Models.Images;
 using ImageGallery.Service.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -54,8 +55,8 @@ namespace ImageGallery.Client.Apis
         /// <returns></returns>
         [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
-        [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
-        [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
+        [Produces("application/json", Type = typeof(GalleryIndexViewModel))]
+        [ProducesResponseType(typeof(GalleryIndexViewModel), 200)]
         public async Task<IActionResult> GalleryIndexViewModel()
         {
             await WriteOutIdentityInformation();
@@ -98,7 +99,7 @@ namespace ImageGallery.Client.Apis
         [Authorize(Roles = "PayingUser, FreeUser")]
         [HttpGet]
         [Route("list")]
-        [Produces("application/json", Type = typeof(IEnumerable<GalleryIndexViewModel>))]
+        [Produces("application/json", Type = typeof(GalleryIndexViewModel))]
         [ProducesResponseType(typeof(IEnumerable<GalleryIndexViewModel>), 200)]
         public async Task<IActionResult> Get([FromQuery] GalleryRequestModel query, int limit, int page)
         {
@@ -146,8 +147,8 @@ namespace ImageGallery.Client.Apis
         /// <returns></returns>
         [Authorize]
         [HttpGet("{id}")]
-        [Produces("application/json", Type = typeof(IEnumerable<ImageViewModel>))]
-        [ProducesResponseType(typeof(IEnumerable<ImageViewModel>), 200)]
+        [Produces("application/json", Type = typeof(ImageViewModel))]
+        [ProducesResponseType(typeof(ImageViewModel), 200)]
         public async Task<IActionResult> GetImageProperties(Guid id)
         {
             var imagesRoute = $"{InternalImagesRoute}/{id}";

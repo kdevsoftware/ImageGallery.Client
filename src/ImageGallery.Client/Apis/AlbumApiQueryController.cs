@@ -9,6 +9,7 @@ using ImageGallery.Client.Filters;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
+using ImageGallery.Client.ViewModels.Gallery;
 using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

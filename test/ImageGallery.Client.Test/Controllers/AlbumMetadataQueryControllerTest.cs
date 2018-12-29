@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -38,7 +37,7 @@ namespace ImageGallery.Client.Test.Controllers
             var albumMetadata = AlbumDataSet.GetAlbumMetaData(tagCount);
             var content = JsonConvert.SerializeObject(albumMetadata);
 
-            var albumMetadataController = GetAlbumMetadataQueryController(null, null, null, content);
+            var albumMetadataController = GetAlbumMetadataQueryController(null, null, content);
             albumMetadataController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -60,17 +59,22 @@ namespace ImageGallery.Client.Test.Controllers
 
         private AlbumMetadataQueryController GetAlbumMetadataQueryController(
             ImageGalleryHttpClient imageGalleryHttpClient = null,
-            IOptions<ApplicationOptions> settings = null,
             ILogger<AlbumMetadataQueryController> logger = null,
             string responseContent = null)
         {
+            var applicationOptionsMock = new Mock<IOptions<ApplicationOptions>>();
+            applicationOptionsMock.Setup(x => x.Value).Returns(new ApplicationOptions
+            {
+                ImagesUri = CommonConstants.ImagesUri,
+            });
+
+            logger = logger ?? new Mock<ILogger<AlbumMetadataQueryController>>().Object;
 
             var responseMessage = new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
                 Content = new StringContent(responseContent),
             };
-
             var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock
                 .Protected()
@@ -84,15 +88,13 @@ namespace ImageGallery.Client.Test.Controllers
 
             var httpClient = new HttpClient(handlerMock.Object)
             {
-                BaseAddress = new Uri("http://localhost/"),
+                BaseAddress = new Uri(CommonConstants.BaseAddress),
             };
 
-            imageGalleryHttpClient = imageGalleryHttpClient ?? new ImageGalleryHttpClient(httpClient, new Mock<IOptions<ApplicationOptions>>().Object, new Mock<IHttpContextAccessor>().Object);
+            imageGalleryHttpClient = imageGalleryHttpClient ??
+               new ImageGalleryHttpClient(httpClient, applicationOptionsMock.Object, new Mock<IHttpContextAccessor>().Object);
 
-            settings = settings ?? new Mock<IOptions<ApplicationOptions>>().Object;
-            logger = logger ?? new Mock<ILogger<AlbumMetadataQueryController>>().Object;
-
-            return new AlbumMetadataQueryController(imageGalleryHttpClient, settings, logger);
+            return new AlbumMetadataQueryController(imageGalleryHttpClient, applicationOptionsMock.Object, logger);
         }
     }
 }

@@ -8,6 +8,7 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
+using ImageGallery.Client.ViewModels.Gallery;
 using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +53,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="id">Album Id.</param>
         /// <returns></returns>
         [HttpGet("images/list")]
-        [Produces("application/json", Type = typeof(List<GalleryIndexViewModel>))]
+        [Produces("application/json", Type = typeof(AlbumImageIndexViewModel))]
         public async Task<IActionResult> GetAlbumImages([FromQuery] Guid id)
         {
             await WriteOutIdentityInformation();
