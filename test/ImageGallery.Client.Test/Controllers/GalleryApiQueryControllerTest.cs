@@ -109,6 +109,12 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.IsType<ImageViewModel>(imageViewModel);
         }
 
+        [Fact(Skip = "TODO")]
+        public async Task Get_Image_Base64_Text_ReturnsData()
+        {
+            Assert.True(false);
+        }
+
         private GalleryApiQueryController GetGalleryImagesApiQueryController(
             ImageGalleryHttpClient imageGalleryHttpClient = null,
             IOptions<ApplicationOptions> settings = null,

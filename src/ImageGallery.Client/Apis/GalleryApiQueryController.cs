@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Mime;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
@@ -184,56 +183,6 @@ namespace ImageGallery.Client.Apis
             }
 
             return UnprocessableEntity(response.ReasonPhrase);
-        }
-
-        /// <summary>
-        ///  Get Image File.
-        /// </summary>
-        /// <param name="id">Image Id.</param>
-        /// <returns></returns>
-        [Authorize]
-        [Produces("image/jpeg")]
-        [HttpGet("file/{id}")]
-        public async Task<IActionResult> GetImageFile(Guid id)
-        {
-            var imagesRoute = $"{InternalImagesRoute}/{id}";
-            var response = await _imageGalleryClient.Instance.GetAsync(imagesRoute).ConfigureAwait(false);
-
-            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var deserializedImage = JsonConvert.DeserializeObject<Image>(imageAsString);
-
-                var imageViewModel = new ImageViewModel(ApplicationSettings.ImagesUri)
-                {
-                    FileName = deserializedImage.FileName,
-                };
-
-                var externalUri = ApplicationSettings.ImagesUri;
-                var externalimagesRoute = $"{externalUri}{imageViewModel.FileName}";
-
-                using (var client = new HttpClient())
-                {
-                    using (var result = await client.GetAsync(externalimagesRoute))
-                    {
-                        if (result.IsSuccessStatusCode)
-                        {
-                            var content = await result.Content.ReadAsByteArrayAsync();
-                            FileContentResult fileResult = new FileContentResult(content, MediaTypeNames.Image.Jpeg)
-                            {
-                                FileDownloadName = imageViewModel.FileName,
-                                EnableRangeProcessing = true,
-                            };
-
-                            return fileResult;
-                        }
-                    }
-                }
-            }
-
-            return UnprocessableEntity();
         }
 
         /// <summary>
