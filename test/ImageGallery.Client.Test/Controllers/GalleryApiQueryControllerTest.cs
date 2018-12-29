@@ -124,7 +124,7 @@ namespace ImageGallery.Client.Test.Controllers
             var responseMessage = new HttpResponseMessage()
             {
                 StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(responseContent),
+                Content = responseContent != null ? new StringContent(responseContent) : null,
             };
 
             responseMessage.Headers.Add("x-inlinecount", "10");

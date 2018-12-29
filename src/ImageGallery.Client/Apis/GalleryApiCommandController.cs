@@ -132,6 +132,7 @@ namespace ImageGallery.Client.Apis
             // call the API
             var imagesRoute = $"{InternalImagesRoute}/{id}";
             var response = await _imageGalleryClient.Instance.GetAsync(imagesRoute).ConfigureAwait(false);
+
             if (response.IsSuccessStatusCode)
             {
                 var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);

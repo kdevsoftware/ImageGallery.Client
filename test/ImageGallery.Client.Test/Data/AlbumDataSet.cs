@@ -13,6 +13,12 @@ namespace ImageGallery.Client.Test.Data
             Faker.GlobalUniqueIndex = 1;
         }
 
+        public static Album GetAlbum()
+        {
+            var album = GetAlbumTableData(1).First();
+            return album;
+        }
+
         public static List<Album> GetAlbumTableData(int count)
         {
             //var imageFaker = new Faker<Image>()

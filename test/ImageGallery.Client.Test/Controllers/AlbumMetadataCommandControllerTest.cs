@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis;
@@ -8,58 +10,36 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.Test.Data;
 using ImageGallery.Client.Test.Helpers;
-using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
-using Newtonsoft.Json;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace ImageGallery.Client.Test.Controllers
 {
-    public class AlbumMetadataQueryControllerTest
+    public class AlbumMetadataCommandControllerTest
     {
-        private readonly ITestOutputHelper _output;
-
-        public AlbumMetadataQueryControllerTest(ITestOutputHelper output)
-        {
-            this._output = output;
-        }
-
         [Fact]
-        public async Task GetAlbum_Metadata_ReturnsData()
+        public async Task Delete_Album_Tag_Returns_Success()
         {
-            int tagCount = 5;
-            var albumMetadata = AlbumDataSet.GetAlbumMetaData(tagCount);
-            var content = JsonConvert.SerializeObject(albumMetadata);
-
-            var albumMetadataController = GetAlbumMetadataQueryController(null, null, content);
-            albumMetadataController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+            var controller = GetAlbumMetadataCommandController(null, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await albumMetadataController.GetAlbumMetadata(It.IsAny<Guid>());
+            var result = await controller.DeleteTag(It.IsAny<Guid>(), It.IsAny<Guid>());
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
-
-            var objectResult = result as OkObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult.StatusCode == 200);
-
-            var albumMetaData = objectResult.Value as AlbumMetaData;
-            Assert.IsType<AlbumMetaData>(albumMetaData);
-
-            Assert.True(albumMetaData.AlbumTags.Count == tagCount);
+            Assert.IsType<OkResult>(result);
         }
 
-        private AlbumMetadataQueryController GetAlbumMetadataQueryController(
+        private AlbumMetadataCommandController GetAlbumMetadataCommandController(
             ImageGalleryHttpClient imageGalleryHttpClient = null,
-            ILogger<AlbumMetadataQueryController> logger = null,
+            IOptions<ApplicationOptions> settings = null,
+            ILogger<AlbumMetadataCommandController> logger = null,
             string responseContent = null)
         {
             var applicationOptionsMock = new Mock<IOptions<ApplicationOptions>>();
@@ -68,7 +48,7 @@ namespace ImageGallery.Client.Test.Controllers
                 ImagesUri = CommonConstants.ImagesUri,
             });
 
-            logger = logger ?? new Mock<ILogger<AlbumMetadataQueryController>>().Object;
+            logger = logger ?? new Mock<ILogger<AlbumMetadataCommandController>>().Object;
 
             var responseMessage = new HttpResponseMessage()
             {
@@ -92,9 +72,9 @@ namespace ImageGallery.Client.Test.Controllers
             };
 
             imageGalleryHttpClient = imageGalleryHttpClient ??
-               new ImageGalleryHttpClient(httpClient, applicationOptionsMock.Object, new Mock<IHttpContextAccessor>().Object);
+                                     new ImageGalleryHttpClient(httpClient, applicationOptionsMock.Object, new Mock<IHttpContextAccessor>().Object);
 
-            return new AlbumMetadataQueryController(imageGalleryHttpClient, applicationOptionsMock.Object, logger);
+            return new AlbumMetadataCommandController(imageGalleryHttpClient, applicationOptionsMock.Object, logger);
         }
     }
 }

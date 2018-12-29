@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -10,8 +9,7 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.Test.Data;
 using ImageGallery.Client.Test.Helpers;
-using ImageGallery.Client.ViewModels.Album;
-using ImageGallery.Model.Models.Albums;
+using ImageGallery.Client.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,68 +21,79 @@ using Xunit;
 
 namespace ImageGallery.Client.Test.Controllers
 {
-    public class AlbumImagesApiQueryControllerTest
+    public class GalleryApiCommandControllerTest
     {
         [Fact]
-        public async Task Get_Album_Images_ReturnsData()
+        public async Task Update_Image_Properties_Returns_Success()
         {
-            // Arrange
-            int count = 5;
-            var albumImages = ImageDataSet.GetAlbumImages(count);
-            var content = JsonConvert.SerializeObject(albumImages);
+            var album = ImageDataSet.GetImageData();
+            var content = JsonConvert.SerializeObject(album);
 
-            var albumImagesController = GetAlbumImagesApiQueryController(null, null, null, content);
-            albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+            var controller = GetGalleryApiCommandController(null, null, null, content);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await albumImagesController.GetAlbumImages(It.IsAny<Guid>());
+            var patchDtos = new List<PatchDto>
+            {
+                new PatchDto { PropertyName = "Title", PropertyValue = "Test" },
+            };
+
+            var result = await controller.PatchImageProperties(Guid.NewGuid(), patchDtos);
 
             // Assert
-            Assert.IsType<List<AlbumImage>>(albumImages);
             Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
-
-            var objectResult = result as OkObjectResult;
-            Assert.NotNull(objectResult);
-            Assert.True(objectResult.StatusCode == 200);
-
-            var albumImageIndex = objectResult.Value as AlbumImageIndexViewModel;
-            Assert.IsType<AlbumImageIndexViewModel>(albumImageIndex);
-            Assert.True(count == albumImageIndex.Images.Count());
+            Assert.IsType<OkResult>(result);
         }
 
         [Fact]
-        public async Task Get_Album_Images_Paging_ReturnsData()
+        public async Task Edit_Image_Properties_Returns_Success()
         {
             // Arrange
-            int count = 10;
-            var albumImages = ImageDataSet.GetAlbumImages(count);
-            var content = JsonConvert.SerializeObject(albumImages);
-
-            var albumImagesController = GetAlbumImagesApiQueryController(null, null, null, content);
-            albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+            var controller = GetGalleryApiCommandController(null, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await albumImagesController.GetAlbumImagesPaging(It.IsAny<Guid>(), count, 0);
+            EditImageViewModel model = new EditImageViewModel
+            {
+                Id = It.IsAny<Guid>(),
+                Category = It.IsAny<string>(),
+                Title = It.IsAny<string>(),
+            };
+
+            var result = await controller.EditImagePropeties(model);
 
             // Assert
-            Assert.IsType<List<AlbumImage>>(albumImages);
             Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
+            Assert.IsType<OkResult>(result);
 
-            var objectResult = result as OkObjectResult;
+            var objectResult = result as OkResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
-
-            var albumImageIndex = objectResult.Value as AlbumImageIndexViewModel;
-            Assert.IsType<AlbumImageIndexViewModel>(albumImageIndex);
-            Assert.True(count == albumImageIndex.Images.Count());
         }
 
-        private AlbumImagesApiQueryController GetAlbumImagesApiQueryController(
+        [Fact]
+        public async Task Delete_Image_Returns_Success()
+        {
+            // Arrange
+            var controller = GetGalleryApiCommandController(null, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await controller.DeleteImage(It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
+
+            var objectResult = result as OkResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 200);
+        }
+
+        private GalleryApiCommandController GetGalleryApiCommandController(
             ImageGalleryHttpClient imageGalleryHttpClient = null,
             IOptions<ApplicationOptions> settings = null,
-            ILogger<AlbumImagesApiQueryController> logger = null,
+            ILogger<GalleryApiCommandController> logger = null,
             string responseContent = null)
         {
             var responseMessage = new HttpResponseMessage()
@@ -122,10 +131,10 @@ namespace ImageGallery.Client.Test.Controllers
             });
             settings = settings ?? applicationOptionsMock.Object;
 
-            // Logger 
-            logger = logger ?? new Mock<ILogger<AlbumImagesApiQueryController>>().Object;
+            // Logger
+            logger = logger ?? new Mock<ILogger<GalleryApiCommandController>>().Object;
 
-            return new AlbumImagesApiQueryController(imageGalleryHttpClient, settings, logger);
+            return new GalleryApiCommandController(imageGalleryHttpClient, settings, logger);
         }
     }
 }

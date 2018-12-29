@@ -26,7 +26,7 @@ namespace ImageGallery.Client.Apis
 
         private readonly ImageGalleryHttpClient _imageGalleryClient;
 
-        private readonly ILogger<AlbumImagesApiQueryController> _logger;
+        private readonly ILogger<AlbumImagesApiCommandController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AlbumImagesApiCommandController"/> class.
@@ -34,7 +34,7 @@ namespace ImageGallery.Client.Apis
         /// <param name="imageGalleryClient"></param>
         /// <param name="settings"></param>
         /// <param name="logger"></param>
-        public AlbumImagesApiCommandController(ImageGalleryHttpClient imageGalleryClient, IOptions<ApplicationOptions> settings, ILogger<AlbumImagesApiQueryController> logger)
+        public AlbumImagesApiCommandController(ImageGalleryHttpClient imageGalleryClient, IOptions<ApplicationOptions> settings, ILogger<AlbumImagesApiCommandController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger;

@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
@@ -47,12 +46,13 @@ namespace ImageGallery.Client.Apis
         ///  Create Album Tag.
         /// </summary>
         /// <param name="id">Album Id.</param>
-        /// <param name="tag">Tag Name.</param>
+        /// <param name="model">Album Tag ViewModel.</param>
         [HttpPost("metadata/tags")]
         [Consumes("application/json")]
-        public void CreateTag(Guid id, [FromBody]AlbumTagViewModel model)
+        public async Task<IActionResult> CreateTag(Guid id, [FromBody]AlbumTagViewModel model)
         {
-
+            await Task.Delay(1);
+            return Ok();
         }
 
         /// <summary>
@@ -60,11 +60,27 @@ namespace ImageGallery.Client.Apis
         /// </summary>
         /// <param name="id">Album Id.</param>
         /// <param name="tagId">Tag Id.</param>
+        /// <returns></returns>
         [HttpDelete("metadata/tags/{id}")]
-        public void DeleteTag(Guid id, Guid tagId)
+        public async Task<IActionResult> DeleteTag(Guid id, Guid tagId)
         {
+            _logger.LogInformation($"Delete image by Id {id}");
 
+            var response = await _imageGalleryClient.Instance
+                .DeleteAsync($"{InternalAlbumsRoute}/{id}/tags/{tagId}").ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+                return Ok();
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+                case HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            return UnprocessableEntity(response.ReasonPhrase);
         }
-
     }
 }

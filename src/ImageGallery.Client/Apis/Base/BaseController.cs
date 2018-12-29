@@ -46,6 +46,7 @@ namespace ImageGallery.Client.Apis.Base
         protected TEntity ApplyPatch<TEntity>(TEntity entity, List<PatchDto> patchDtos)
             where TEntity : class
         {
+            // TODO: Handle Invalid Properties
             var nameValuePairProperties = patchDtos.ToDictionary(a => a.PropertyName, a => a.PropertyValue);
             foreach (var property in nameValuePairProperties)
             {
