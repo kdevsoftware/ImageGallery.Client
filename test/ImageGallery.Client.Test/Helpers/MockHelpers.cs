@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
@@ -26,13 +27,21 @@ namespace ImageGallery.Client.Test.Helpers
             return fileMock;
         }
 
-        public static HttpResponseMessage SetHttpResponseMessage(HttpStatusCode statusCode, string responseContent = null)
+        public static HttpResponseMessage SetHttpResponseMessage(HttpStatusCode statusCode, string responseContent = null, List<KeyValuePair<string, string>> headers = null)
         {
             var httpResponseMessage = new HttpResponseMessage
             {
-                StatusCode = statusCode, //HttpStatusCode.OK,
+                StatusCode = statusCode,
                 Content = responseContent != null ? new StringContent(responseContent) : null,
             };
+
+            if (headers != null)
+            {
+                foreach (var res in headers)
+                {
+                    httpResponseMessage.Headers.Add(res.Key, res.Value);
+                }
+            }
 
             return httpResponseMessage;
         }

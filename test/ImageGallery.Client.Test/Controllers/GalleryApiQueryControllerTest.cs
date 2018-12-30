@@ -38,6 +38,7 @@ namespace ImageGallery.Client.Test.Controllers
 
             var controller = GetGalleryImagesApiQueryController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+            controller.Response.Headers.Add("x-inlinecount", "10");
 
             // Act
             var result = await controller.GalleryIndexViewModel();
@@ -50,6 +51,7 @@ namespace ImageGallery.Client.Test.Controllers
             var objectResult = result as OkObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
+            // Assert.Equal("10", controller.Response.Headers["x-inlinecount"]);
 
             var galleryImageIndex = objectResult.Value as GalleryIndexViewModel;
             Assert.IsType<GalleryIndexViewModel>(galleryImageIndex);
