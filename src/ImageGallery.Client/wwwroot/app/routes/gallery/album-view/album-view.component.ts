@@ -239,10 +239,6 @@ export class AlbumViewComponent implements OnInit {
       );
   }
 
-  public onImagesSorted(albumImagesSorted: IGalleryIndexViewModel) {
-    this.galleryService.updateAlbumImages(this.albumId, albumImagesSorted);
-  }
-
   public updatePrimaryImage(image: IImage) {
     if (!image.isPrimaryImage) {
       this.spinnerService.show();

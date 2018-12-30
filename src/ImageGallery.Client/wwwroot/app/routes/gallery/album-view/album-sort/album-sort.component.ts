@@ -2,6 +2,9 @@ import { Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitte
 import { CdkDrag, CdkDropList, CdkDropListContainer, CdkDropListGroup, moveItemInArray } from "@angular/cdk/drag-drop";
 
 import { IGalleryIndexViewModel } from "../../../../shared/interfaces";
+import { GalleryService } from "../../../../gallery.service";
+import { NgxLoadingSpinnerService } from "ngx-loading-spinner-fork";
+import { ToastrService } from "ngx-toastr";
 
 
 @Component({
@@ -13,14 +16,19 @@ export class AlbumSortComponent implements OnInit, AfterViewInit {
   @ViewChild(CdkDropListGroup) listGroup: CdkDropListGroup<CdkDropList>;
   @ViewChild(CdkDropList) placeholder: CdkDropList;
   @Input() albumImages: IGalleryIndexViewModel;
-  @Output() albumImagesSorted = new EventEmitter<IGalleryIndexViewModel>();
+  @Input() albumId: string;
 
   public target: CdkDropList;
   public targetIndex: number;
   public source: CdkDropListContainer;
   public sourceIndex: number;
+  public sortedAlbum = false;
+  private sortedImages = [];
 
-  constructor() {
+  constructor(
+    private readonly galleryService: GalleryService,
+    private spinnerService: NgxLoadingSpinnerService,
+    public toastr: ToastrService) {
     this.target = null;
     this.source = null;
   }
@@ -33,6 +41,29 @@ export class AlbumSortComponent implements OnInit, AfterViewInit {
     let phElement = this.placeholder.element.nativeElement;
     phElement.style.display = 'none';
     phElement.parentNode.removeChild(phElement);
+  }
+
+  public onSaveSort() {
+    this.albumImages.images.forEach((image) => {
+      this.sortedImages.push({ imageId: image.id, sort: image.sort });
+    });
+
+    this.spinnerService.show();
+
+    this.galleryService.putAlbumImagesSort(this.albumId, this.sortedImages)
+      .subscribe(
+        () => {
+          this.sortedAlbum = false;
+          this.toastr.success('Images order has been updated successfully!', 'Success!', { closeButton: true });
+          this.spinnerService.hide();
+
+        },
+        () => {
+          this.sortedAlbum = true;
+          this.toastr.error('Access is denied!', 'Oops!', { closeButton: true });
+          this.spinnerService.hide();
+        }
+      );
   }
 
   public onDropImage() {
@@ -59,7 +90,7 @@ export class AlbumSortComponent implements OnInit, AfterViewInit {
       image.sort = this.albumImages.images.indexOf(image) + 1;
     });
 
-    this.albumImagesSorted.emit(this.albumImages);
+    this.sortedAlbum = true;
   }
 
   enteredImage = (drag: CdkDrag, drop: CdkDropList) => {
