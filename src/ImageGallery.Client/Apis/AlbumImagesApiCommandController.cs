@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis
 {
@@ -52,6 +55,7 @@ namespace ImageGallery.Client.Apis
         public async Task<IActionResult> Delete(Guid id, Guid imageId)
         {
             // TODO Add Rule to Validate Image is Album Owner
+            await WriteOutIdentityInformation();
             _logger.LogInformation($"Delete Album image  AlbumId:{id}|ImageId:{imageId}");
 
             // call the API
@@ -81,12 +85,31 @@ namespace ImageGallery.Client.Apis
         /// <returns></returns>
         [HttpPut("{id}/sort")]
         [Consumes("application/json")]
-        public async Task<IActionResult> UpdateAlbumSort(Guid id, [FromBody]List<AlbumImageSortItem> items)
+        public async Task<IActionResult> UpdateAlbumSort(Guid id, [FromBody] List<AlbumImageSortItem> items)
         {
-            var album = new AlbumImageList(id);
-            album.AlbumImageSortList = items;
+            await WriteOutIdentityInformation();
 
-            return Ok();
+            var serializeAlbumImagesForUpdate = JsonConvert.SerializeObject(items);
+
+            var route = $"{InternalAlbumsRoute}/images/{id}";
+            var response = await _imageGalleryClient.Instance.PutAsync(
+                    route,
+                    new StringContent(serializeAlbumImagesForUpdate, Encoding.Unicode, "application/json"))
+                .ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+                return Ok();
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            return UnprocessableEntity(response.ReasonPhrase);
         }
     }
 }

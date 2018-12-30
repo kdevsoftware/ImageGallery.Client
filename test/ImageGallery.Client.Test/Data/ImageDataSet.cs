@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Bogus;
 using ImageGallery.Client.ViewModels;
+using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Model.Models.Albums;
 using ImageGallery.Model.Models.Images;
 
@@ -94,6 +95,23 @@ namespace ImageGallery.Client.Test.Data
             }
 
             return albumImages;
+        }
+
+        public static List<AlbumImageSortItem> GetAlbumImagesSortList(int count)
+        {
+            var list = new List<AlbumImageSortItem>();
+            var images = GetAlbumImages(count);
+            foreach (var albumImage in images)
+            {
+                var albumImageSortItem = new AlbumImageSortItem
+                {
+                    ImageId = albumImage.Id,
+                    Sort = albumImage.Sort ?? 0,
+                };
+                list.Add(albumImageSortItem);
+            }
+
+            return list;
         }
     }
 }

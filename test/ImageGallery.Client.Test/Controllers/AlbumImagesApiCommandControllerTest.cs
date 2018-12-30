@@ -10,12 +10,14 @@ using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.Test.Data;
 using ImageGallery.Client.Test.Helpers;
+using ImageGallery.Client.ViewModels.Album;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
 using Moq.Protected;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace ImageGallery.Client.Test.Controllers
@@ -54,6 +56,50 @@ namespace ImageGallery.Client.Test.Controllers
             var result = await controller.Delete(It.IsAny<Guid>(), It.IsAny<Guid>());
 
             // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
+        public async Task Update_Album_Image_Sort_Returns_Success()
+        {
+            var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
+            var content = JsonConvert.SerializeObject(albumImages);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+
+            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            var result = await controller.UpdateAlbumSort(It.IsAny<Guid>(), albumImages);
+
+            // Assert
+            Assert.IsType<List<AlbumImageSortItem>>(albumImages);
+            Assert.NotNull(result);
+            Assert.IsType<OkResult>(result);
+
+            var objectResult = result as OkResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 200);
+        }
+
+        [Fact]
+        public async Task Update_Album_Image_Sort_Returns_Api_Unauthorized()
+        {
+            var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
+            var content = JsonConvert.SerializeObject(albumImages);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+
+            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            var result = await controller.UpdateAlbumSort(It.IsAny<Guid>(), albumImages);
+
+            // Assert
+            Assert.IsType<List<AlbumImageSortItem>>(albumImages);
             Assert.NotNull(result);
             Assert.IsType<UnauthorizedResult>(result);
 
