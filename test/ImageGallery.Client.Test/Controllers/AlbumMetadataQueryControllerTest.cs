@@ -36,8 +36,9 @@ namespace ImageGallery.Client.Test.Controllers
             int tagCount = 5;
             var albumMetadata = AlbumDataSet.GetAlbumMetaData(tagCount);
             var content = JsonConvert.SerializeObject(albumMetadata);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var albumMetadataController = GetAlbumMetadataQueryController(null, null, content);
+            var albumMetadataController = GetAlbumMetadataQueryController(httpRespose, null, null);
             albumMetadataController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -57,10 +58,33 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.True(albumMetaData.AlbumTags.Count == tagCount);
         }
 
+        [Fact]
+        public async Task GetAlbum_Metadata_Api_Unauthorized()
+        {
+            int tagCount = 5;
+            var albumMetadata = AlbumDataSet.GetAlbumMetaData(tagCount);
+            var content = JsonConvert.SerializeObject(albumMetadata);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+
+            var albumMetadataController = GetAlbumMetadataQueryController(httpRespose, null, null);
+            albumMetadataController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await albumMetadataController.GetAlbumMetadata(It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
         private AlbumMetadataQueryController GetAlbumMetadataQueryController(
+            HttpResponseMessage responseMessage,
             ImageGalleryHttpClient imageGalleryHttpClient = null,
-            ILogger<AlbumMetadataQueryController> logger = null,
-            string responseContent = null)
+            ILogger<AlbumMetadataQueryController> logger = null)
         {
             var applicationOptionsMock = new Mock<IOptions<ApplicationOptions>>();
             applicationOptionsMock.Setup(x => x.Value).Returns(new ApplicationOptions
@@ -70,11 +94,6 @@ namespace ImageGallery.Client.Test.Controllers
 
             logger = logger ?? new Mock<ILogger<AlbumMetadataQueryController>>().Object;
 
-            var responseMessage = new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = responseContent != null ? new StringContent(responseContent) : null,
-            };
             var handlerMock = new Mock<HttpMessageHandler>();
             handlerMock
                 .Protected()

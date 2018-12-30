@@ -22,14 +22,12 @@ namespace ImageGallery.Client.Test.Controllers
 {
     public class AlbumImagesApiCommandControllerTest
     {
-
-
-
         [Fact]
         public async Task Delete_Image_From_Album_Returns_Success()
         {
             // Arrange
-            var controller = GetAlbumImagesApiCommandController(null, null, null, null);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -44,18 +42,33 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.True(objectResult.StatusCode == 200);
         }
 
+        [Fact]
+        public async Task Delete_Image_From_Album_Returns_Api_Unauthorized()
+        {
+            // Arrange
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await controller.Delete(It.IsAny<Guid>(), It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
         private AlbumImagesApiCommandController GetAlbumImagesApiCommandController(
+        HttpResponseMessage responseMessage,
         ImageGalleryHttpClient imageGalleryHttpClient = null,
         IOptions<ApplicationOptions> settings = null,
-        ILogger<AlbumImagesApiCommandController> logger = null,
-        string responseContent = null)
+        ILogger<AlbumImagesApiCommandController> logger = null)
         {
-            var responseMessage = new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = responseContent != null ? new StringContent(responseContent) : null,
-            };
-
+            // TODO Add to Helper 
             responseMessage.Headers.Add("x-inlinecount", "10");
 
             var handlerMock = new Mock<HttpMessageHandler>();

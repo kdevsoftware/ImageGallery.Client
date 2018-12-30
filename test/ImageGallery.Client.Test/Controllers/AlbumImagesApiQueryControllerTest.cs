@@ -32,8 +32,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 5;
             var albumImages = ImageDataSet.GetAlbumImages(count);
             var content = JsonConvert.SerializeObject(albumImages);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var albumImagesController = GetAlbumImagesApiQueryController(null, null, null, content);
+            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
             albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -54,14 +55,40 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        public async Task Get_Album_Images_Returns_Api_Unauthorized()
+        {
+            // Arrange
+            int count = 5;
+            var albumImages = ImageDataSet.GetAlbumImages(count);
+            var content = JsonConvert.SerializeObject(albumImages);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+
+            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
+            albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await albumImagesController.GetAlbumImages(It.IsAny<Guid>());
+
+            // Assert
+            Assert.IsType<List<AlbumImage>>(albumImages);
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
         public async Task Get_Album_Images_Paging_ReturnsData()
         {
             // Arrange
             int count = 10;
             var albumImages = ImageDataSet.GetAlbumImages(count);
             var content = JsonConvert.SerializeObject(albumImages);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var albumImagesController = GetAlbumImagesApiQueryController(null, null, null, content);
+            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
             albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -81,18 +108,39 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.True(count == albumImageIndex.Images.Count());
         }
 
+        [Fact]
+        public async Task Get_Album_Images_Paging_Returns_Api_Unauthorized()
+        {
+            // Arrange
+            int count = 10;
+            var albumImages = ImageDataSet.GetAlbumImages(count);
+            var content = JsonConvert.SerializeObject(albumImages);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+
+            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
+            albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await albumImagesController.GetAlbumImagesPaging(It.IsAny<Guid>(), count, 0);
+
+            // Assert
+            Assert.IsType<List<AlbumImage>>(albumImages);
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
         private AlbumImagesApiQueryController GetAlbumImagesApiQueryController(
+            HttpResponseMessage responseMessage,
             ImageGalleryHttpClient imageGalleryHttpClient = null,
             IOptions<ApplicationOptions> settings = null,
-            ILogger<AlbumImagesApiQueryController> logger = null,
-            string responseContent = null)
+            ILogger<AlbumImagesApiQueryController> logger = null)
         {
-            var responseMessage = new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = responseContent != null ? new StringContent(responseContent) : null,
-            };
 
+            // TODO Add to Helper
             responseMessage.Headers.Add("x-inlinecount", "10");
 
             var handlerMock = new Mock<HttpMessageHandler>();

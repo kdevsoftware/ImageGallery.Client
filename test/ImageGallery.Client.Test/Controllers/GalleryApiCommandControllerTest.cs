@@ -23,12 +23,12 @@ namespace ImageGallery.Client.Test.Controllers
 {
     public class GalleryApiCommandControllerTest
     {
-
         [Fact]
         public async Task Add_Image_Returns_Success()
         {
             // Arrange
-            var controller = GetGalleryApiCommandController(null, null, null, null);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -51,10 +51,38 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        public async Task Add_Image_Returns_Api_Unauthorized()
+        {
+            // Arrange
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            AddImageViewModel model = new AddImageViewModel
+            {
+                Category = It.IsAny<string>(),
+                Title = It.IsAny<string>(),
+                File = MockHelpers.GetMockIFormFile().Object,
+            };
+
+            var result = await controller.AddImage(model);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
         public async Task Update_Image_Returns_Success()
         {
             // Arrange
-            var controller = GetGalleryApiCommandController(null, null, null, null);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -76,12 +104,39 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        public async Task Update_Image_Returns_Api_Unauthorized()
+        {
+            // Arrange
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            UpdateImageViewModel model = new UpdateImageViewModel
+            {
+                Id = Guid.NewGuid(),
+                File = MockHelpers.GetMockIFormFile().Object,
+            };
+
+            var result = await controller.UpdateImage(model);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
         public async Task Update_Image_Properties_Returns_Success()
         {
             var album = ImageDataSet.GetImageData();
             var content = JsonConvert.SerializeObject(album);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var controller = GetGalleryApiCommandController(null, null, null, content);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -98,10 +153,34 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        public async Task Update_Image_Properties_Returns_Api_Unauthorized()
+        {
+            var album = ImageDataSet.GetImageData();
+            var content = JsonConvert.SerializeObject(album);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var patchDtos = new List<PatchDto>
+            {
+                new PatchDto { PropertyName = "Title", PropertyValue = "Test" },
+            };
+
+            var result = await controller.PatchImageProperties(Guid.NewGuid(), patchDtos);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+        }
+
+        [Fact]
         public async Task Edit_Image_Properties_Returns_Success()
         {
             // Arrange
-            var controller = GetGalleryApiCommandController(null, null, null, null);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -124,10 +203,38 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        public async Task Edit_Image_Properties_Returns_Api_Unauthorized()
+        {
+            // Arrange
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            EditImageViewModel model = new EditImageViewModel
+            {
+                Id = It.IsAny<Guid>(),
+                Category = It.IsAny<string>(),
+                Title = It.IsAny<string>(),
+            };
+
+            var result = await controller.EditImagePropeties(model);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
         public async Task Delete_Image_Returns_Success()
         {
             // Arrange
-            var controller = GetGalleryApiCommandController(null, null, null, null);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -142,18 +249,34 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.True(objectResult.StatusCode == 200);
         }
 
+        [Fact]
+        public async Task Delete_Image_Returns_Api_Unauthorized()
+        {
+            // Arrange
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetGalleryApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await controller.DeleteImage(It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+            var objectResult = result as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
         private GalleryApiCommandController GetGalleryApiCommandController(
+            HttpResponseMessage responseMessage,
             ImageGalleryHttpClient imageGalleryHttpClient = null,
             IOptions<ApplicationOptions> settings = null,
-            ILogger<GalleryApiCommandController> logger = null,
-            string responseContent = null)
+            ILogger<GalleryApiCommandController> logger = null)
         {
-            var responseMessage = new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = responseContent != null ? new StringContent(responseContent) : null,
-            };
 
+            //TODO Add to Helper
             responseMessage.Headers.Add("x-inlinecount", "10");
 
             var handlerMock = new Mock<HttpMessageHandler>();

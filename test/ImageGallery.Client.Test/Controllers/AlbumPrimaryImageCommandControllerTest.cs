@@ -24,7 +24,8 @@ namespace ImageGallery.Client.Test.Controllers
         [Fact]
         public async Task Update_Image_Properties_Returns_Success()
         {
-            var controller = GetAlbumPrimaryImageCommandController(null, null, null, null);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetAlbumPrimaryImageCommandController(httpRespose, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -35,17 +36,28 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.IsType<OkResult>(result);
         }
 
+        [Fact]
+        public async Task Update_Image_Properties_Returns_Api_Unauthorized()
+        {
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetAlbumPrimaryImageCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await controller.Put(It.IsAny<Guid>(), It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<UnauthorizedResult>(result);
+
+        }
+
         private AlbumPrimaryImageCommandController GetAlbumPrimaryImageCommandController(
+            HttpResponseMessage responseMessage,
             ImageGalleryHttpClient imageGalleryHttpClient = null,
             IOptions<ApplicationOptions> settings = null,
-            ILogger<AlbumPrimaryImageCommandController> logger = null,
-            string responseContent = null)
+            ILogger<AlbumPrimaryImageCommandController> logger = null)
         {
-            var responseMessage = new HttpResponseMessage()
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = responseContent != null ? new StringContent(responseContent) : null,
-            };
 
             responseMessage.Headers.Add("x-inlinecount", "10");
 
