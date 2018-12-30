@@ -47,12 +47,29 @@ namespace ImageGallery.Client.Apis
         /// </summary>
         /// <param name="id">Album Id.</param>
         /// <param name="model">Album Tag ViewModel.</param>
+        /// <returns></returns>
         [HttpPost("metadata/tags")]
         [Consumes("application/json")]
         public async Task<IActionResult> CreateTag(Guid id, [FromBody]AlbumTagViewModel model)
         {
-            await Task.Delay(1);
-            return Ok();
+            await WriteOutIdentityInformation();
+
+            var route = $"{InternalAlbumsRoute}/{id}/tags?tag={model.Tag}";
+            var response = await _imageGalleryClient.Instance.PostAsync(route, null).ConfigureAwait(false);
+
+            if (response.IsSuccessStatusCode)
+                return Ok();
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
+            return UnprocessableEntity(response.ReasonPhrase);
         }
 
         /// <summary>

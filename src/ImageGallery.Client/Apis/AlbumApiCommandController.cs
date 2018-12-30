@@ -81,6 +81,15 @@ namespace ImageGallery.Client.Apis
                     return Ok();
             }
 
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Unauthorized:
+                    return Unauthorized();
+
+                case HttpStatusCode.Forbidden:
+                    return new ForbidResult();
+            }
+
             return UnprocessableEntity(response.ReasonPhrase);
         }
 

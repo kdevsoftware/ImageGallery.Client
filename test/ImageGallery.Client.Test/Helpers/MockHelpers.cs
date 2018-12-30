@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using System.Net;
+using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using Moq;
 
@@ -23,5 +25,17 @@ namespace ImageGallery.Client.Test.Helpers
 
             return fileMock;
         }
+
+        public static HttpResponseMessage SetHttpResponseMessage(HttpStatusCode statusCode, string responseContent = null)
+        {
+            var httpResponseMessage = new HttpResponseMessage
+            {
+                StatusCode = statusCode, //HttpStatusCode.OK,
+                Content = responseContent != null ? new StringContent(responseContent) : null,
+            };
+
+            return httpResponseMessage;
+        }
+
     }
 }
