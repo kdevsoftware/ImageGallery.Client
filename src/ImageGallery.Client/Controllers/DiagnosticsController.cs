@@ -10,6 +10,7 @@ using ImageGallery.Client.ViewModels.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace ImageGallery.Client.Controllers
 {
@@ -21,17 +22,19 @@ namespace ImageGallery.Client.Controllers
     {
         private readonly IHostingEnvironment _env;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<DiagnosticsController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DiagnosticsController"/> class.
-        ///
         /// </summary>
         /// <param name="env"></param>
         /// <param name="configuration"></param>
-        public DiagnosticsController(IHostingEnvironment env, IConfiguration configuration)
+        /// <param name="logger"></param>
+        public DiagnosticsController(IHostingEnvironment env, IConfiguration configuration, ILogger<DiagnosticsController> logger)
         {
-            this._env = env;
-            this._configuration = configuration;
+            this._env = env ?? throw new ArgumentNullException(nameof(env));
+            this._configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -48,7 +51,7 @@ namespace ImageGallery.Client.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(ServerDiagnostics), 200)]
         [Produces("application/json", Type = typeof(ServerDiagnostics))]
-        public ServerDiagnostics Get()
+        public IActionResult Get()
         {
             var diagnostics = GetServerDiagnostics();
             diagnostics.ContentRootPath = _env.ContentRootPath;
@@ -67,7 +70,7 @@ namespace ImageGallery.Client.Controllers
 
             diagnostics.IpAddressList = ipList;
 
-            return diagnostics;
+            return Ok(diagnostics);
         }
 
         private static ServerDiagnostics GetServerDiagnostics()

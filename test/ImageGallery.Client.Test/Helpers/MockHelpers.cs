@@ -45,6 +45,5 @@ namespace ImageGallery.Client.Test.Helpers
 
             return httpResponseMessage;
         }
-
     }
 }

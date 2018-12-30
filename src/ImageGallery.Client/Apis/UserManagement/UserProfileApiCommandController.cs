@@ -26,22 +26,19 @@ namespace ImageGallery.Client.Apis.UserManagement
     {
         private const string InternalUserProfileRoute = "api/UserProfile";
 
-        private readonly IOptions<ApplicationOptions> _settings;
+
         private readonly UserManagementHttpClient _userManagementClient;
         private readonly ILogger<UserProfileApiCommandController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileApiCommandController"/> class.
         /// </summary>
-        /// <param name="settings"></param>
         /// <param name="userManagementClient"></param>
         /// <param name="logger"></param>
         public UserProfileApiCommandController(
-            IOptions<ApplicationOptions> settings,
             UserManagementHttpClient userManagementClient,
             ILogger<UserProfileApiCommandController> logger)
         {
-            _settings = settings;
             _userManagementClient = userManagementClient ?? throw new ArgumentNullException(nameof(userManagementClient));
             _logger = logger;
         }

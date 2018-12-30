@@ -20,14 +20,14 @@ namespace ImageGallery.Client.Test.Fixtures
 
         public static readonly string AntiForgeryCookieName = "AFTCookie";
 
-        private readonly TestServer _testServer;
+        private readonly Microsoft.AspNetCore.TestHost.TestServer _testServer;
 
         public TestServerFixture()
         {
             var environment = "Testing";
             var applicationPath = WebTestHelpers.GetWebApplicationPath();
 
-            _testServer = new TestServer(new WebHostBuilder()
+            _testServer = new Microsoft.AspNetCore.TestHost.TestServer(new WebHostBuilder()
                 .UseEnvironment(environment)
                 .UseContentRoot(applicationPath)
                 .ConfigureServices(x =>

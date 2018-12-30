@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using ImageGallery.Client.Configuration;
 using ImageGallery.Client.ViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,11 @@ namespace ImageGallery.Client.Apis.Base
     /// </summary>
     public abstract class BaseController : ControllerBase
     {
+        /// <summary>
+        ///
+        /// </summary>
+        protected ApplicationOptions ApplicationSettings { get; set; }
+
         /// <summary>
         ///
         /// </summary>

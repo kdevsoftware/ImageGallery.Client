@@ -47,8 +47,6 @@ namespace ImageGallery.Client.Apis
             ApplicationSettings = settings.Value;
         }
 
-        private ApplicationOptions ApplicationSettings { get; }
-
         /// <summary>
         /// Edit Image Properties.
         /// </summary>

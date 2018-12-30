@@ -21,11 +21,6 @@ namespace ImageGallery.Client.ViewModels.Diagnostics
         /// <summary>
         ///
         /// </summary>
-        public string Status { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
         public string EnvironmentName { get; set; }
 
         /// <summary>
@@ -82,10 +77,5 @@ namespace ImageGallery.Client.ViewModels.Diagnostics
         ///
         /// </summary>
         public IEnumerable<string> IpAddressList { get; set; }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public IEnumerable<DiagnosticCheckCollection> Checks { get; set; }
     }
 }

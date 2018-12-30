@@ -39,8 +39,6 @@ namespace ImageGallery.Client.Apis
             _imageGalleryClient = imageGalleryClient ?? throw new ArgumentNullException(nameof(imageGalleryClient));
         }
 
-        private ApplicationOptions ApplicationSettings { get; }
-
         /// <summary>
         /// Update Album Primary Image.
         /// </summary>

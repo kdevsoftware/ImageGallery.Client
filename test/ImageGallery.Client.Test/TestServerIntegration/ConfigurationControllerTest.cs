@@ -3,12 +3,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Test.Fixtures;
-using Microsoft.AspNetCore.TestHost;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ImageGallery.Client.Test.Controllers
+namespace ImageGallery.Client.Test.TestServerIntegration
 {
     public class ConfigurationControllerTest : IClassFixture<TestServerFixture>
     {

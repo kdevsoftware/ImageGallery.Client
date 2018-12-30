@@ -21,17 +21,6 @@ namespace ImageGallery.Client.Test.Data
 
         public static List<Album> GetAlbumTableData(int count)
         {
-            //var imageFaker = new Faker<Image>()
-            //    .RuleFor(c => c.Id, f => Guid.NewGuid())
-            //    .RuleFor(c => c.Title, f => f.Name.Random.AlphaNumeric(10))
-            //    .RuleFor(c => c.OwnerId, f => ownerId.ToString())
-            //    .RuleFor(c => c.DataSource, f => "Mock");
-
-            //var albumImagesFaker = new Faker<AlbumImage>()
-            //    .RuleFor(t => t.AlbumId, f => Guid.NewGuid())
-            //    .RuleFor(t => t.ImageId, f => Guid.NewGuid())
-            //    .RuleFor(t => t.Sort, f => f.IndexGlobal).RuleFor(t => t.Image, f => imageFaker.Generate());
-
             var albumFaker = new Faker<Album>()
                 .RuleFor(c => c.Id, f => Guid.NewGuid())
                 .RuleFor(c => c.Title, f => f.Name.Random.AlphaNumeric(10))
@@ -78,36 +67,5 @@ namespace ImageGallery.Client.Test.Data
 
             return result;
         }
-
-        public static List<AlbumImage> GetAlbumImageTableData(int count, string ownerId)
-        {
-            var fakeImages = new Faker<AlbumImage>()
-                //.RuleFor(t => t.AlbumId, f => Guid.NewGuid())
-                // .RuleFor(t => t.ImageId, f => Guid.NewGuid())
-                .RuleFor(t => t.Sort, f => f.IndexGlobal);
-
-            var albums = fakeImages.Generate(count);
-            return albums;
-        }
-
-        //public static AlbumImage GetAlbumImageData()
-        //{
-        //    var result = GetAlbumImageTableData(1).First();
-        //    return result;
-        //}
-
-
-
-
-        //public static AlbumImageModel GetAlbumImageModelData(Guid ownerId)
-        //{
-        //    var result = GetAlbumImageTableData(1, ownerId.ToString()).First();
-        //    return new AlbumImageModel
-        //    {
-        //        AlbumId = result.AlbumId,
-        //        ImageId = result.ImageId,
-        //        Sort = result.Sort,
-        //    };
-        //}
     }
 }

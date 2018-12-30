@@ -3,13 +3,11 @@ using System.Net;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
-using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis.UserManagement
@@ -23,22 +21,18 @@ namespace ImageGallery.Client.Apis.UserManagement
     {
         private const string InternalUserProfileRoute = "api/UserProfile";
 
-        private readonly IOptions<ApplicationOptions> _settings;
         private readonly UserManagementHttpClient _userManagementClient;
         private readonly ILogger<UserProfileApiQueryController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserProfileApiQueryController"/> class.
         /// </summary>
-        /// <param name="settings"></param>
         /// <param name="userManagementClient"></param>
         /// <param name="logger"></param>
         public UserProfileApiQueryController(
-            IOptions<ApplicationOptions> settings,
             UserManagementHttpClient userManagementClient,
             ILogger<UserProfileApiQueryController> logger)
         {
-            _settings = settings;
             _userManagementClient = userManagementClient ?? throw new ArgumentNullException(nameof(userManagementClient));
             _logger = logger;
         }

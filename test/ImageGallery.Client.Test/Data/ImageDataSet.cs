@@ -21,24 +21,6 @@ namespace ImageGallery.Client.Test.Data
             return result;
         }
 
-        //public static ImageModel GetImageModelData(string ownerId)
-        //{
-        //    var result = GetImageTableData(1, ownerId).First();
-        //    var imageModel = new ImageModel
-        //    {
-        //        Id = result.Id,
-        //        Title = result.Title,
-        //        FileName = result.FileName,
-        //        Category = result.Category,
-        //        Width = result.Width,
-        //        Height = result.Height,
-        //        PhotoId = result.PhotoId,
-        //        DataSource = result.DataSource,
-        //    };
-
-        //    return imageModel;
-        //}
-
         public static List<Image> GetImageTableData(int count)
         {
             var imageFaker = new Faker<Image>()
