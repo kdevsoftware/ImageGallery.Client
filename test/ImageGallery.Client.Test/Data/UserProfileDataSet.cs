@@ -12,6 +12,23 @@ namespace ImageGallery.Client.Test.Data
             return GetUserProfileTableData(1).Select(x => x).First();
         }
 
+        public static UserProfileUpdateViewModel GetUserProfileUpdateViewModel()
+        {
+            var result = GetUserProfileTableData(1).Select(x => x).First();
+            return new UserProfileUpdateViewModel
+            {
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Address = result.Address,
+                Address2 = result.Address2,
+                City = result.City,
+                State = result.State,
+                PostalCode = result.PostalCode,
+                Country = result.Country,
+                Language = result.Language,
+            };
+        }
+
         public static List<UserProfileViewModel> GetUserProfileTableData(int count)
         {
             var userProfileFaker = new Faker<UserProfileViewModel>()
@@ -30,4 +47,3 @@ namespace ImageGallery.Client.Test.Data
         }
     }
 }
-
