@@ -1,4 +1,7 @@
 <div>
+  <div class="text-center btn-save-sort">
+    <button class="btn btn-primary" (click)="onSaveSort()" [disabled]="!sortedAlbum">Save</button>
+  </div>
   <div class="row">
     <div class="sort-tab-container" cdkDropListGroup>
       <div cdkDropList [cdkDropListEnterPredicate]="enteredImage" 

@@ -116,10 +116,6 @@ export class GalleryService {
     return this.httpClient.get(`${this.photoUrl}/api/photo/attraction/${id}`, { headers: this.generateBearerHeaaders() }).catch(this.handleError);
   }
 
-  public updateAlbumImages(id: string, model: IGalleryIndexViewModel) {
-
-  }
-
   public postEditImageViewModel(model: IEditImageViewModel): Observable<Object> {
     var headers = this.generateBearerHeaaders();
     headers.append("Content-Type", "application/json");
@@ -194,6 +190,11 @@ export class GalleryService {
 
     return this.httpClient.post(`${this.baseUrl}/add`, formData, options)
       .catch(this.handleError);
+  }
+
+  public putAlbumImagesSort(id: string, model: any) {
+    var self = this;
+    return this.httpClient.put(`${this.albumUrl}/${id}/sort`, model, { headers: self.generateBearerHeaaders() });
   }
 
   public setPrimaryAlbumImage(id: string, imageId: string): Observable<Object> {
