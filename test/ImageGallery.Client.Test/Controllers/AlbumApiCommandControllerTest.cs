@@ -29,9 +29,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var album = AlbumDataSet.GetAlbum();
             var content = JsonConvert.SerializeObject(album);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var controller = GetAlbumApiCommandController(httpRespose, null, null, null);
+            var controller = GetAlbumApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -51,8 +51,8 @@ namespace ImageGallery.Client.Test.Controllers
         [Trait("Category", "Unit")]
         public async Task Update_Album_Invalid_Guid_Returns_Failure()
         {
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
-            var controller = GetAlbumApiCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetAlbumApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -69,9 +69,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var album = AlbumDataSet.GetAlbum();
             var content = JsonConvert.SerializeObject(album);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var controller = GetAlbumApiCommandController(httpRespose, null, null, null);
+            var controller = GetAlbumApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -97,9 +97,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var album = AlbumDataSet.GetAlbum();
             var content = JsonConvert.SerializeObject(album);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden, content);
 
-            var controller = GetAlbumApiCommandController(httpRespose, null, null, null);
+            var controller = GetAlbumApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -122,8 +122,8 @@ namespace ImageGallery.Client.Test.Controllers
         [Trait("Category", "Unit")]
         public async Task Delete_Album_Returns_Success()
         {
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
-            var controller = GetAlbumApiCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetAlbumApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -138,8 +138,8 @@ namespace ImageGallery.Client.Test.Controllers
         [Trait("Category", "Unit")]
         public async Task Delete_Album_Returns_Api_Unauthorized()
         {
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
-            var controller = GetAlbumApiCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetAlbumApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -154,8 +154,8 @@ namespace ImageGallery.Client.Test.Controllers
         [Trait("Category", "Unit")]
         public async Task Delete_Album_Returns_Api_Forbidden()
         {
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden);
-            var controller = GetAlbumApiCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden);
+            var controller = GetAlbumApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act

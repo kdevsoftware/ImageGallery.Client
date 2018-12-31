@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using FluentValidation.AspNetCore;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
 using Loggly;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,7 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
+
 
 namespace ImageGallery.Client
 {
@@ -72,9 +75,16 @@ namespace ImageGallery.Client
             services.AddCustomDataprotection(Configuration);
             services.AddCustomSwagger(Configuration);
 
-            services.AddCors();
+            // Validators
 
-            services.AddMvc();
+            services.AddCors();
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddFluentValidation(o =>
+                {
+                    o.RegisterValidatorsFromAssemblyContaining<Startup>();
+                });
+
             services.AddCustomAuthentication(Configuration);
             services.AddCustomAuthorization(Configuration);
 
@@ -276,6 +286,7 @@ namespace ImageGallery.Client
                         },
                     });
                     options.IncludeXmlComments(GetXmlCommentsPath());
+                    options.AddFluentValidationRules();
                 });
             }
 

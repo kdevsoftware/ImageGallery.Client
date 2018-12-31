@@ -37,9 +37,9 @@ namespace ImageGallery.Client.Test.Controllers
             int tagCount = 5;
             var albumMetadata = AlbumDataSet.GetAlbumMetaData(tagCount);
             var content = JsonConvert.SerializeObject(albumMetadata);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var albumMetadataController = GetAlbumMetadataQueryController(httpRespose, null, null);
+            var albumMetadataController = GetAlbumMetadataQueryController(httpResponse, null, null);
             albumMetadataController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -66,9 +66,9 @@ namespace ImageGallery.Client.Test.Controllers
             int tagCount = 5;
             var albumMetadata = AlbumDataSet.GetAlbumMetaData(tagCount);
             var content = JsonConvert.SerializeObject(albumMetadata);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var albumMetadataController = GetAlbumMetadataQueryController(httpRespose, null, null);
+            var albumMetadataController = GetAlbumMetadataQueryController(httpResponse, null, null);
             albumMetadataController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act

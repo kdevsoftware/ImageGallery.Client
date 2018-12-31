@@ -4,17 +4,17 @@ using ImageGallery.Client.ValidationRules.Gallery;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ImageGallery.Client.Test.ValidationRules
+namespace ImageGallery.Client.Test.ValidationRules.Gallery
 {
-    public class EditImageViewModelRuleTest
+    public class AddImageViewModelRuleTest
     {
-        private readonly EditImageViewModelRule _validator;
+        private readonly AddImageViewModelRule _validator;
 
         private readonly ITestOutputHelper _output;
 
-        public EditImageViewModelRuleTest(ITestOutputHelper output)
+        public AddImageViewModelRuleTest(ITestOutputHelper output)
         {
-            _validator = new EditImageViewModelRule();
+            _validator = new AddImageViewModelRule();
             _output = output;
         }
 
@@ -29,7 +29,7 @@ namespace ImageGallery.Client.Test.ValidationRules
         [Trait("Category", "Unit")]
         public void Should_Pass_Validation_On_ValidModel()
         {
-            var data = ImageDataSet.GetValidEditImage();
+            var data = ImageDataSet.GetValidAddImage();
             var result = _validator.Validate(data);
 
             _output.WriteLine(result.IsValid.ToString());

@@ -33,9 +33,9 @@ namespace ImageGallery.Client.Test.Controllers.UserManagement
         {
             var userProfile = UserProfileDataSet.GetUserProfileUpdateViewModel();
             var content = JsonConvert.SerializeObject(userProfile);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var controller = GetUserProfileApiCommandController(httpRespose);
+            var controller = GetUserProfileApiCommandController(httpResponse);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -89,9 +89,9 @@ namespace ImageGallery.Client.Test.Controllers.UserManagement
         {
             var userProfile = UserProfileDataSet.GetUserProfileUpdateViewModel();
             var content = JsonConvert.SerializeObject(userProfile);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var controller = GetUserProfileApiCommandController(httpRespose);
+            var controller = GetUserProfileApiCommandController(httpResponse);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act

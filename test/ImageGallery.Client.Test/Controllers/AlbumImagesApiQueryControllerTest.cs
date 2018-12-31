@@ -33,9 +33,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 5;
             var albumImages = ImageDataSet.GetAlbumImages(count);
             var content = JsonConvert.SerializeObject(albumImages);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
+            var albumImagesController = GetAlbumImagesApiQueryController(httpResponse, null, null, null);
             albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -63,9 +63,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 5;
             var albumImages = ImageDataSet.GetAlbumImages(count);
             var content = JsonConvert.SerializeObject(albumImages);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
+            var albumImagesController = GetAlbumImagesApiQueryController(httpResponse, null, null, null);
             albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -89,9 +89,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 10;
             var albumImages = ImageDataSet.GetAlbumImages(count);
             var content = JsonConvert.SerializeObject(albumImages);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
+            var albumImagesController = GetAlbumImagesApiQueryController(httpResponse, null, null, null);
             albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -119,9 +119,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 10;
             var albumImages = ImageDataSet.GetAlbumImages(count);
             var content = JsonConvert.SerializeObject(albumImages);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var albumImagesController = GetAlbumImagesApiQueryController(httpRespose, null, null, null);
+            var albumImagesController = GetAlbumImagesApiQueryController(httpResponse, null, null, null);
             albumImagesController.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act

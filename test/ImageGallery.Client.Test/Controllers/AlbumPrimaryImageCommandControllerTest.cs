@@ -25,8 +25,8 @@ namespace ImageGallery.Client.Test.Controllers
         [Trait("Category", "Unit")]
         public async Task Update_Image_Properties_Returns_Success()
         {
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
-            var controller = GetAlbumPrimaryImageCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetAlbumPrimaryImageCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -41,8 +41,8 @@ namespace ImageGallery.Client.Test.Controllers
         [Trait("Category", "Unit")]
         public async Task Update_Image_Properties_Returns_Api_Unauthorized()
         {
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
-            var controller = GetAlbumPrimaryImageCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetAlbumPrimaryImageCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act

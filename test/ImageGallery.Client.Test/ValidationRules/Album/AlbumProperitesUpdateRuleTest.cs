@@ -8,7 +8,7 @@ using ImageGallery.Model.Models.Albums;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ImageGallery.Client.Test.ValidationRules
+namespace ImageGallery.Client.Test.ValidationRules.Album
 {
     public class AlbumProperitesUpdateRuleTest
     {

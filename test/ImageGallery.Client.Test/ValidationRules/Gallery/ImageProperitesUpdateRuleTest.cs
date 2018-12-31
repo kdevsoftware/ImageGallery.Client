@@ -9,7 +9,7 @@ using ImageGallery.Model.Models.Images;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ImageGallery.Client.Test.ValidationRules
+namespace ImageGallery.Client.Test.ValidationRules.Gallery
 {
     public class ImageProperitesUpdateRuleTest
     {

@@ -29,8 +29,8 @@ namespace ImageGallery.Client.Test.Controllers
         public async Task Delete_Image_From_Album_Returns_Success()
         {
             // Arrange
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
-            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
+            var controller = GetAlbumImagesApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -50,8 +50,8 @@ namespace ImageGallery.Client.Test.Controllers
         public async Task Delete_Image_From_Album_Returns_Api_Unauthorized()
         {
             // Arrange
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
-            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
+            var controller = GetAlbumImagesApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -71,8 +71,8 @@ namespace ImageGallery.Client.Test.Controllers
         public async Task Delete_Image_From_Album_Returns_Api_Forbidden()
         {
             // Arrange
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden);
-            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden);
+            var controller = GetAlbumImagesApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -92,9 +92,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
             var content = JsonConvert.SerializeObject(albumImages);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            var controller = GetAlbumImagesApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             var result = await controller.UpdateAlbumSort(It.IsAny<Guid>(), albumImages);
@@ -115,9 +115,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
             var content = JsonConvert.SerializeObject(albumImages);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            var controller = GetAlbumImagesApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             var result = await controller.UpdateAlbumSort(It.IsAny<Guid>(), albumImages);
@@ -138,9 +138,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
             var content = JsonConvert.SerializeObject(albumImages);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden, content);
 
-            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            var controller = GetAlbumImagesApiCommandController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             var result = await controller.UpdateAlbumSort(It.IsAny<Guid>(), albumImages);

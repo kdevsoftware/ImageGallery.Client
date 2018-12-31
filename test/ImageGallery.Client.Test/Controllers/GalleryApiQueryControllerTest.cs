@@ -35,9 +35,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 5;
             var images = ImageDataSet.GetImageTableData(count);
             var content = JsonConvert.SerializeObject(images);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var controller = GetGalleryImagesApiQueryController(httpRespose, null, null, null);
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
             controller.Response.Headers.Add("x-inlinecount", "10");
 
@@ -67,9 +67,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 5;
             var images = ImageDataSet.GetImageTableData(count);
             var content = JsonConvert.SerializeObject(images);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var controller = GetGalleryImagesApiQueryController(httpRespose, null, null, null);
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -93,9 +93,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 10;
             var images = ImageDataSet.GetImageTableData(count);
             var content = JsonConvert.SerializeObject(images);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var controller = GetGalleryImagesApiQueryController(httpRespose, null, null, null);
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -124,9 +124,9 @@ namespace ImageGallery.Client.Test.Controllers
             int count = 10;
             var images = ImageDataSet.GetImageTableData(count);
             var content = JsonConvert.SerializeObject(images);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var controller = GetGalleryImagesApiQueryController(httpRespose, null, null, null);
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -149,9 +149,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var image = ImageDataSet.GetImageData();
             var content = JsonConvert.SerializeObject(image);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var controller = GetGalleryImagesApiQueryController(httpRespose, null, null, null);
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
@@ -180,9 +180,9 @@ namespace ImageGallery.Client.Test.Controllers
         {
             var image = ImageDataSet.GetImageData();
             var content = JsonConvert.SerializeObject(image);
-            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
 
-            var controller = GetGalleryImagesApiQueryController(httpRespose, null, null, null);
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act

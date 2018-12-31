@@ -42,8 +42,27 @@ namespace ImageGallery.Client.Test.Data
             return new EditImageViewModel
             {
                 Id = image.Id,
-                Category = image.Category,
                 Title = image.Title,
+                Category = image.Category,
+            };
+        }
+
+        public static AddImageViewModel GetValidAddImage()
+        {
+            var image = GetImageData();
+            return new AddImageViewModel
+            {
+                Title = image.Title,
+                Category = image.Category,
+            };
+        }
+
+        public static UpdateImageViewModel GetValidUpateImage()
+        {
+            var image = GetImageData();
+            return new UpdateImageViewModel
+            {
+                Id = image.Id,
             };
         }
 
