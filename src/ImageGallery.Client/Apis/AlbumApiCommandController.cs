@@ -8,6 +8,7 @@ using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
+using ImageGallery.Client.ValidationRules.Constants;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
@@ -56,7 +57,8 @@ namespace ImageGallery.Client.Apis
         {
             if (id == Guid.Empty)
             {
-                return BadRequest();
+                ModelState.AddModelError("id", ValidationConstants.InvalidGuidMessage);
+                return BadRequest(ModelState);
             }
 
             // call the API
