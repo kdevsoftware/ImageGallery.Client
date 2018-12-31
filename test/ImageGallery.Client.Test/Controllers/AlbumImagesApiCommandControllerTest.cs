@@ -25,6 +25,7 @@ namespace ImageGallery.Client.Test.Controllers
     public class AlbumImagesApiCommandControllerTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Image_From_Album_Returns_Success()
         {
             // Arrange
@@ -45,6 +46,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Image_From_Album_Returns_Api_Unauthorized()
         {
             // Arrange
@@ -65,6 +67,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Image_Sort_Returns_Success()
         {
             var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
@@ -87,6 +90,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Image_Sort_Returns_Api_Unauthorized()
         {
             var albumImages = ImageDataSet.GetAlbumImagesSortList(5);

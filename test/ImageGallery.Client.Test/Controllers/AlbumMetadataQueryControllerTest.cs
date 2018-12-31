@@ -31,6 +31,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbum_Metadata_ReturnsData()
         {
             int tagCount = 5;
@@ -59,6 +60,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbum_Metadata_Api_Unauthorized()
         {
             int tagCount = 5;

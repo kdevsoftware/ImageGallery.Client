@@ -24,12 +24,14 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Have_Validation_Error_When_Empty_Properties()
         {
             _validator.ShouldHaveValidationErrorFor(x => x.Title, (string)null);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Have_Validation_Errors_When_InValid_Property_Is_Supplied()
         {
             var item = new ImageProperitesUpdate
@@ -47,6 +49,7 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Pass_Validation_On_ValidModel()
         {
             var data = ImageDataSet.GetValidImageProperitesUpdate();

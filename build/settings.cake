@@ -8,13 +8,15 @@ public static class Settings
 
     public static string SonarName => "ImageGalleryClient";
 
-    public static string SonarExclude => "/d:sonar.exclusions=**/wwwroot/**,*.js";
+    public static string SonarExclude => "/d:sonar.exclusions=**/wwwroot/**,*.js,Program.cs";
 
     public static string SonarExcludeDuplications => "/d:sonar.cpd.exclusions=**/GalleryContextExtensions.cs";
 
     /// ./test/**/*.csproj (All)
-    public static string UnitTestingProjects  => "./test/ImageGallery.Client.Test/*.csproj";
+    public static string UnitTestingProjects => "./test/ImageGallery.Client.Test/*.csproj";
 
-    public static string E2ETestingProjects  => "./test/ImageGallery.Client.Test.UI/*.csproj";
+    public static string E2ETestingProjects => "./test/ImageGallery.Client.Test.UI/*.csproj";
+
+    public static string CoverageTestFilter => "Category=\"Unit\"";
 
 }

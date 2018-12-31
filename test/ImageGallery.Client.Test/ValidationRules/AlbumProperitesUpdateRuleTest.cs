@@ -23,6 +23,7 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Have_Validation_Error_When_Empty_Properties()
         {
             _validator.ShouldHaveValidationErrorFor(x => x.Title, (string)null);
@@ -30,6 +31,7 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Have_Validation_Errors_When_InValid_Property_Is_Supplied()
         {
             var item = new AlbumProperitesUpdate
@@ -55,6 +57,7 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Pass_Validation_On_ValidModel()
         {
             var data = AlbumDataSet.GetAlbumProperitesUpdateModel();

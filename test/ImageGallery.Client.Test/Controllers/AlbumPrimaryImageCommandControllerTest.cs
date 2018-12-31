@@ -22,6 +22,7 @@ namespace ImageGallery.Client.Test.Controllers
     {
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Image_Properties_Returns_Success()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
@@ -37,6 +38,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Image_Properties_Returns_Api_Unauthorized()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);

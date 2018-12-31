@@ -16,18 +16,21 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Have_Validation_Error_When_Empty_Properties()
         {
             _validator.ShouldHaveValidationErrorFor(x => x.FirstName, (string)null);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Have_Valid_Properties()
         {
             _validator.ShouldNotHaveValidationErrorFor(x => x.FirstName, "testfirstname");
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Not_Have_Validation_Errors_When_ValidModel_Is_Supplied()
         {
             var item = new UserProfileUpdateViewModel
@@ -42,6 +45,7 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Not_Have_Validation_Errors_When_ValidProperty_Is_Supplied()
         {
             var item = new UserProfileUpdateViewModel

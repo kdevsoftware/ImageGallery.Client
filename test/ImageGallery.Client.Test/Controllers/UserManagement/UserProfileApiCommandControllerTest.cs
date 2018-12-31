@@ -28,6 +28,7 @@ namespace ImageGallery.Client.Test.Controllers.UserManagement
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Properties_Returns_Success()
         {
             var userProfile = UserProfileDataSet.GetUserProfileUpdateViewModel();
@@ -83,6 +84,7 @@ namespace ImageGallery.Client.Test.Controllers.UserManagement
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Properties_Returns_Api_Unauthorized()
         {
             var userProfile = UserProfileDataSet.GetUserProfileUpdateViewModel();

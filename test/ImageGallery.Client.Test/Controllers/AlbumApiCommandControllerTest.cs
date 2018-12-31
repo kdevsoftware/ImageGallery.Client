@@ -24,6 +24,7 @@ namespace ImageGallery.Client.Test.Controllers
     public class AlbumApiCommandControllerTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Properties_Returns_Success()
         {
             var album = AlbumDataSet.GetAlbum();
@@ -47,6 +48,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Invalid_Guid_Returns_Failure()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
@@ -62,6 +64,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Properties_Returns_Api_Unauthorized()
         {
             var album = AlbumDataSet.GetAlbum();
@@ -85,6 +88,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Album_Returns_Success()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
@@ -100,6 +104,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Album_Returns_Api_Unauthorized()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);

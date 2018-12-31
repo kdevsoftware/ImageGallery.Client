@@ -48,6 +48,19 @@
     <ProjectReference Include="..\..\src\ImageGallery.Service\ImageGallery.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Testing.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+
   <ItemGroup Condition=" '$(OS)' == 'Windows_NT'">
     <AdditionalFiles Include="$(SolutionDir)_stylecop/stylecop.json" Link="stylecop.json" />
   </ItemGroup>

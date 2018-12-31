@@ -24,6 +24,7 @@ namespace ImageGallery.Client.Test.Controllers
     public class GalleryApiCommandControllerTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Add_Image_Returns_Success()
         {
             // Arrange
@@ -51,6 +52,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Add_Image_Returns_Api_Unauthorized()
         {
             // Arrange
@@ -78,6 +80,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Image_Returns_Success()
         {
             // Arrange
@@ -104,6 +107,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Image_Returns_Api_Unauthorized()
         {
             // Arrange
@@ -130,6 +134,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Image_Properties_Returns_Success()
         {
             var album = ImageDataSet.GetImageData();
@@ -153,6 +158,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Image_Properties_Returns_Api_Unauthorized()
         {
             var album = ImageDataSet.GetImageData();
@@ -176,6 +182,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Edit_Image_Properties_Returns_Success()
         {
             // Arrange
@@ -203,6 +210,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Edit_Image_Properties_Returns_Api_Unauthorized()
         {
             // Arrange
@@ -230,6 +238,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Image_Returns_Success()
         {
             // Arrange
@@ -250,6 +259,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Image_Returns_Api_Unauthorized()
         {
             // Arrange

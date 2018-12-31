@@ -35,6 +35,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbums_ReturnsData()
         {
             int count = 100;
@@ -69,6 +70,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbums_Returns_Api_Unauthorized()
         {
             int count = 100;
@@ -93,6 +95,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbums_Paging_ReturnsData()
         {
             int count = 10;
@@ -129,6 +132,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbums_Paging_Returns_Api_Unauthorized()
         {
             int count = 10;
@@ -155,6 +159,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbum_ReturnsData()
         {
             var album = AlbumDataSet.GetAlbum();
@@ -174,6 +179,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbum_Returns_Api_Unauthorized()
         {
             var album = AlbumDataSet.GetAlbum();

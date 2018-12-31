@@ -28,6 +28,7 @@ namespace ImageGallery.Client.Test.Controllers
     public class GalleryApiQueryControllerTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Images_ReturnsData()
         {
             // Arrange
@@ -59,6 +60,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Images_Returns_Api_Unauthorized()
         {
             // Arrange
@@ -84,6 +86,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Images_Paging_ReturnsData()
         {
             // Arrange
@@ -114,6 +117,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Images_Paging_Returns_Api_Unauthorized()
         {
             // Arrange
@@ -140,6 +144,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Image_Properties_ReturnsData()
         {
             var image = ImageDataSet.GetImageData();
@@ -166,6 +171,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Image_Properties_Api_Unauthorized()
         {
             var image = ImageDataSet.GetImageData();
@@ -189,6 +195,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact(Skip = "TODO")]
+        [Trait("Category", "Unit")]
         public async Task Get_Image_Base64_Text_ReturnsData()
         {
             Assert.True(false);

@@ -1,5 +1,4 @@
 ﻿using ImageGallery.Client.Filters;
-using ImageGallery.Client.Test.Helpers;
 using ImageGallery.Service.Helpers;
 using Xunit;
 using Xunit.Abstractions;
@@ -13,13 +12,6 @@ namespace ImageGallery.Client.Test.Mock
         public GalleryControllerMock(ITestOutputHelper output)
         {
             _output = output;
-        }
-
-        [Fact(Skip = "TODO: Setup MockTesting")]
-        [Trait("Category", "Mock")]
-        public void Test1()
-        {
-            Assert.True(true);
         }
 
         [Fact]

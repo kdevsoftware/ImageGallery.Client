@@ -33,16 +33,22 @@ namespace ImageGallery.Client
     {
         /// <summary />
         /// <param name="configuration"></param>
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Log.Information("Startup:ImageGallery.Client");
             Configuration = configuration;
+            HostingEnvironment = env;
         }
 
         /// <summary>
         ///
         /// </summary>
         public IConfiguration Configuration { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IHostingEnvironment HostingEnvironment { get; }
 
         /// <summary>
         ///

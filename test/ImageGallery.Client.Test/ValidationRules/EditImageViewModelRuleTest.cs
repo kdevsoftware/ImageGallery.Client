@@ -19,12 +19,14 @@ namespace ImageGallery.Client.Test.ValidationRules
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Have_Validation_Error_When_Empty_Properties()
         {
             _validator.ShouldHaveValidationErrorFor(x => x.Title, (string)null);
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void Should_Pass_Validation_On_ValidModel()
         {
             var data = ImageDataSet.GetValidEditImage();

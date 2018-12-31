@@ -28,6 +28,7 @@ namespace ImageGallery.Client.Test.Controllers.UserManagement
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_UserProfile_ReturnsData()
         {
             var userProfile = UserProfileDataSet.GetUserProfile();
@@ -83,6 +84,7 @@ namespace ImageGallery.Client.Test.Controllers.UserManagement
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_UserProfile_Returns_Api_Unauthorized()
         {
             var userProfile = UserProfileDataSet.GetUserProfile();

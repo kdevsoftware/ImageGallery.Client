@@ -26,6 +26,7 @@ namespace ImageGallery.Client.Test.Controllers
     public class AlbumImagesApiQueryControllerTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Album_Images_ReturnsData()
         {
             // Arrange
@@ -55,6 +56,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Album_Images_Returns_Api_Unauthorized()
         {
             // Arrange
@@ -80,6 +82,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Album_Images_Paging_ReturnsData()
         {
             // Arrange
@@ -109,6 +112,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Get_Album_Images_Paging_Returns_Api_Unauthorized()
         {
             // Arrange

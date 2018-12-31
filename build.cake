@@ -160,7 +160,8 @@ Task("Coverage")
                 {
                     Configuration = configuration,
                     NoRestore = true,
-                    NoBuild = true
+                    NoBuild = true,
+                    Filter = Settings.CoverageTestFilter
                 });
             }
         },

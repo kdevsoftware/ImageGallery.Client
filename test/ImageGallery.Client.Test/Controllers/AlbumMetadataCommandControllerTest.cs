@@ -22,6 +22,7 @@ namespace ImageGallery.Client.Test.Controllers
     public class AlbumMetadataCommandControllerTest
     {
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Add_Album_Tag_Returns_Success()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
@@ -38,6 +39,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Add_Album_Tag_Returns_Api_Unauthorized()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
@@ -54,6 +56,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Album_Tag_Returns_Success()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK);
@@ -69,6 +72,7 @@ namespace ImageGallery.Client.Test.Controllers
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Album_Tag_Returns_Api_Unauthorized()
         {
             var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized);
