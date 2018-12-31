@@ -32,6 +32,7 @@ namespace ImageGallery.Client.Controllers
         public IActionResult Index()
         {
             _logger.LogInformation($"Index() of {typeof(GalleryController)}");
+            _logger.LogInformation($"ApplicationSettings {ApplicationSettings}");
 
             return View();
         }

@@ -159,6 +159,9 @@ namespace ImageGallery.Client.Test.Controllers
 
             // Assert
             Assert.IsType<Image>(image);
+            Assert.Equal(image.Width < image.Height ? 240 : 320, image.Width);
+            Assert.Equal(image.Width > image.Height ? 320 : 240, image.Width);
+
             Assert.NotNull(result);
             Assert.IsType<OkObjectResult>(result);
 
@@ -168,6 +171,7 @@ namespace ImageGallery.Client.Test.Controllers
 
             var imageViewModel = objectResult.Value as ImageViewModel;
             Assert.IsType<ImageViewModel>(imageViewModel);
+            Assert.Equal($"{CommonConstants.ImagesUri}{image.FileName}", imageViewModel.ImageUrl);
         }
 
         [Fact]

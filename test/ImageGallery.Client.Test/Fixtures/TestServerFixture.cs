@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Http;
+using ImageGallery.Client.Test.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -14,11 +15,10 @@ namespace ImageGallery.Client.Test.Fixtures
         public TestServerFixture()
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Testing";
-            var contentRootPath = Path.GetFullPath(@"../../../../../src/ImageGallery.Client");
 
             var builder = new WebHostBuilder()
                     .UseEnvironment(environment)
-                    .UseContentRoot(contentRootPath)
+                    .UseContentRoot(WebTestHelpers.GetWebApplicationPath())
                     .UseConfiguration(Configuration)
                     .UseStartup<TestStartup>();
 
@@ -36,10 +36,22 @@ namespace ImageGallery.Client.Test.Fixtures
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Testing"}.json", optional: true)
             .Build();
 
+        /// <summary>
+        ///
+        /// </summary>
         public void Dispose()
         {
-            Client.Dispose();
-            _testServer.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && Client != null)
+            {
+                Client.Dispose();
+                _testServer.Dispose();
+            }
         }
     }
 }

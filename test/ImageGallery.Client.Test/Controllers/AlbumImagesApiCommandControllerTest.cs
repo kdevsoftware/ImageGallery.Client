@@ -68,6 +68,26 @@ namespace ImageGallery.Client.Test.Controllers
 
         [Fact]
         [Trait("Category", "Unit")]
+        public async Task Delete_Image_From_Album_Returns_Api_Forbidden()
+        {
+            // Arrange
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden);
+            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await controller.Delete(It.IsAny<Guid>(), It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<ForbidResult>(result);
+
+            var objectResult = result as ForbidResult;
+            Assert.NotNull(objectResult);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Album_Image_Sort_Returns_Success()
         {
             var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
@@ -110,6 +130,27 @@ namespace ImageGallery.Client.Test.Controllers
             var objectResult = result as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async Task Update_Album_Image_Sort_Returns_Api_Forbidden()
+        {
+            var albumImages = ImageDataSet.GetAlbumImagesSortList(5);
+            var content = JsonConvert.SerializeObject(albumImages);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden, content);
+
+            var controller = GetAlbumImagesApiCommandController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            var result = await controller.UpdateAlbumSort(It.IsAny<Guid>(), albumImages);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<ForbidResult>(result);
+
+            var objectResult = result as ForbidResult;
+            Assert.NotNull(objectResult);
         }
 
         private AlbumImagesApiCommandController GetAlbumImagesApiCommandController(

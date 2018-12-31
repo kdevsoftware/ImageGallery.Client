@@ -33,6 +33,7 @@ namespace ImageGallery.Client
     {
         /// <summary />
         /// <param name="configuration"></param>
+        /// <param name="env"></param>
         public Startup(IConfiguration configuration, IHostingEnvironment env)
         {
             Log.Information("Startup:ImageGallery.Client");

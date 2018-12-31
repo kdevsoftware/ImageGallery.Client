@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using ImageGallery.Client.Controllers;
+using ImageGallery.Client.Test.Helpers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,8 +39,7 @@ namespace ImageGallery.Client.Test.Main
         }
 
         public static IConfiguration Configuration { get; } = new ConfigurationBuilder()
-            // .SetBasePath(Directory.GetCurrentDirectory())
-            .SetBasePath(Path.GetFullPath(@"../../../../../src/ImageGallery.Client"))
+            .SetBasePath(Path.GetFullPath(WebTestHelpers.GetWebApplicationPath()))
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false)
             .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}.json", optional: true)
             .Build();

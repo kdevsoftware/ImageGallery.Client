@@ -160,6 +160,31 @@ namespace ImageGallery.Client.Test.Controllers
 
         [Fact]
         [Trait("Category", "Unit")]
+        public async Task GetAlbums_Paging_Returns_Api_Forbidden()
+        {
+            int count = 10;
+            var albums = AlbumDataSet.GetAlbumTableData(count);
+            var content = JsonConvert.SerializeObject(albums);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden, content);
+
+            var controller = GetAlbumApiQueryController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            var query = new AlbumRequestModel { };
+
+            // Act
+            var result = await controller.Get(query, count, 1);
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<ForbidResult>(result);
+
+            var objectResult = result as ForbidResult;
+            Assert.NotNull(objectResult);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
         public async Task GetAlbum_ReturnsData()
         {
             var album = AlbumDataSet.GetAlbum();
@@ -200,6 +225,28 @@ namespace ImageGallery.Client.Test.Controllers
             var objectResult = result as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async Task GetAlbum_Returns_Api_Forbidden()
+        {
+            var album = AlbumDataSet.GetAlbum();
+            var content = JsonConvert.SerializeObject(album);
+            var httpRespose = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Forbidden, content);
+
+            var controller = GetAlbumApiQueryController(httpRespose, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var result = await controller.GetAlbum(It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(result);
+            Assert.IsType<ForbidResult>(result);
+
+            var objectResult = result as ForbidResult;
+            Assert.NotNull(objectResult);
         }
 
         private AlbumApiQueryController GetAlbumApiQueryController(
