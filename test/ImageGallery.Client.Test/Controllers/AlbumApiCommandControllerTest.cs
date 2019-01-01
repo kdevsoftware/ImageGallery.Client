@@ -56,11 +56,11 @@ namespace ImageGallery.Client.Test.Controllers
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await controller.PatchAlbum(It.IsAny<Guid>(), It.IsAny<List<PatchDto>>());
+            var result = await controller.PatchAlbum(Guid.Empty, It.IsAny<List<PatchDto>>());
 
             // Assert
             Assert.NotNull(result);
-            Assert.IsType<BadRequestResult>(result);
+            Assert.IsType<BadRequestObjectResult>(result);
         }
 
         [Fact]
