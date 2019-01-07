@@ -26,7 +26,6 @@ using Serilog;
 using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Swagger;
 
-
 namespace ImageGallery.Client
 {
     /// <summary>
@@ -50,7 +49,7 @@ namespace ImageGallery.Client
         public IConfiguration Configuration { get; }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public IHostingEnvironment HostingEnvironment { get; }
 
@@ -72,10 +71,8 @@ namespace ImageGallery.Client
             services.Configure<ApplicationOptions>(Configuration.GetSection("applicationSettings"));
 
             services.DisplayConfiguration(Configuration);
-            services.AddCustomDataprotection(Configuration);
+            services.AddCustomDataProtection(Configuration);
             services.AddCustomSwagger(Configuration);
-
-            // Validators
 
             services.AddCors();
             services.AddMvc()
@@ -88,38 +85,10 @@ namespace ImageGallery.Client
             services.AddCustomAuthentication(Configuration);
             services.AddCustomAuthorization(Configuration);
 
-            services.AddHttpClient("imagegallery-api", async (s, x) =>
-            {
-                var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
-                    .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-
-                if (!string.IsNullOrWhiteSpace(accessToken))
-                    x.SetBearerToken(accessToken);
-
-                var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ApiUri;
-                x.BaseAddress = new Uri(apiUri);
-                x.DefaultRequestHeaders.Accept.Clear();
-                x.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-            })
-            .AddTypedClient<ImageGalleryHttpClient>();
-
-            services.AddHttpClient("user-management", async (s, x) =>
-            {
-                var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
-                    .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-
-                if (!string.IsNullOrWhiteSpace(accessToken))
-                    x.SetBearerToken(accessToken);
-
-                var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ClientConfiguration?.ApiUserManagementUri;
-
-                x.BaseAddress = new Uri(apiUri);
-                x.DefaultRequestHeaders.Accept.Clear();
-                x.DefaultRequestHeaders.Accept.Add(
-                    new MediaTypeWithQualityHeaderValue("application/json"));
-            })
-            .AddTypedClient<UserManagementHttpClient>();
+            // Http Clients
+            services.AddHttpClientImageGalleryApi(Configuration);
+            services.AddHttpClientUserManagementApi(Configuration);
+            // TODO: NavigatorIdentityHttpClient
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -293,16 +262,59 @@ namespace ImageGallery.Client
             return services;
         }
 
-        public static IServiceCollection AddCustomDataprotection(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomDataProtection(this IServiceCollection services, IConfiguration configuration)
         {
             var config = configuration.Get<ApplicationOptions>();
 
-            Console.WriteLine($"Dataprotection Enabled:{config.Dataprotection.Enabled}");
+            Console.WriteLine($"Data Protection Enabled:{config.Dataprotection.Enabled}");
             if (config.Dataprotection.Enabled)
             {
                 var redis = ConnectionMultiplexer.Connect(config.Dataprotection.RedisConnection);
                 services.AddDataProtection().PersistKeysToRedis(redis, config.Dataprotection.RedisKey);
             }
+
+            return services;
+        }
+
+        /* Http Clients */
+        public static IServiceCollection AddHttpClientImageGalleryApi(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient("imagegallery-api", async (s, x) =>
+                {
+                    var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
+                        .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+                    if (!string.IsNullOrWhiteSpace(accessToken))
+                        x.SetBearerToken(accessToken);
+
+                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ApiUri;
+                    x.BaseAddress = new Uri(apiUri);
+                    x.DefaultRequestHeaders.Accept.Clear();
+                    x.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                })
+                .AddTypedClient<ImageGalleryHttpClient>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddHttpClientUserManagementApi(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient("user-management", async (s, x) =>
+                {
+                    var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
+                        .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+                    if (!string.IsNullOrWhiteSpace(accessToken))
+                        x.SetBearerToken(accessToken);
+
+                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ClientConfiguration?.ApiUserManagementUri;
+                    x.BaseAddress = new Uri(apiUri);
+                    x.DefaultRequestHeaders.Accept.Clear();
+                    x.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                })
+                .AddTypedClient<UserManagementHttpClient>();
 
             return services;
         }

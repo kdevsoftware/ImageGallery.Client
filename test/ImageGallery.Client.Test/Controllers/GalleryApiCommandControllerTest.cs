@@ -255,7 +255,7 @@ namespace ImageGallery.Client.Test.Controllers
                 Title = It.IsAny<string>(),
             };
 
-            var result = await controller.EditImagePropeties(model);
+            var result = await controller.EditImageProperties(model);
 
             // Assert
             Assert.NotNull(result);
@@ -284,7 +284,7 @@ namespace ImageGallery.Client.Test.Controllers
                 Title = null,
             };
 
-            var result = await controller.EditImagePropeties(model);
+            var result = await controller.EditImageProperties(model);
 
             // Assert
             Assert.NotNull(result);
@@ -312,7 +312,7 @@ namespace ImageGallery.Client.Test.Controllers
                 Title = It.IsAny<string>(),
             };
 
-            var result = await controller.EditImagePropeties(model);
+            var result = await controller.EditImageProperties(model);
 
             // Assert
             Assert.NotNull(result);

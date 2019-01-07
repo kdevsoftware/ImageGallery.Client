@@ -6,7 +6,6 @@ using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
-using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Client.ViewModels.Gallery;
 using ImageGallery.Model.Models.Albums;

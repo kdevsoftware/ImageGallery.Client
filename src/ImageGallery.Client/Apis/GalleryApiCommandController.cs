@@ -51,13 +51,13 @@ namespace ImageGallery.Client.Apis
         /// <summary>
         /// Edit Image Properties.
         /// </summary>
-        /// <param name="editImageViewModel">Image Properties</param>
+        /// <param name="editImageViewModel">Image Properties.</param>
         /// <returns></returns>
         [HttpPost]
         [Route("edit")]
         [Consumes("application/json")]
         [Authorize(Roles = "PayingUser")]
-        public async Task<IActionResult> EditImagePropeties([FromBody] EditImageViewModel editImageViewModel)
+        public async Task<IActionResult> EditImageProperties([FromBody] EditImageViewModel editImageViewModel)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -6,13 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
-using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
 namespace ImageGallery.Client.Apis.UserManagement
@@ -25,7 +23,6 @@ namespace ImageGallery.Client.Apis.UserManagement
     public class UserProfileApiCommandController : BaseController
     {
         private const string InternalUserProfileRoute = "api/UserProfile";
-
 
         private readonly UserManagementHttpClient _userManagementClient;
         private readonly ILogger<UserProfileApiCommandController> _logger;

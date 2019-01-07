@@ -19,6 +19,11 @@ SonarQube (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStat
 AppVeyor |[![Build status](https://ci.appveyor.com/api/projects/status/iub0tbs42d9ut0g7?svg=true)](https://ci.appveyor.com/project/StuartShay/imagegallery-client)
 
 
+![](assets/web.png)
+
+
+
+
 ### Demo
 ```
 https://dev.informationcart.com
