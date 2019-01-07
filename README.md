@@ -18,10 +18,11 @@ JS Web Tests (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildS
 SonarQube (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-sonarqube)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-sonarqube/)
 AppVeyor |[![Build status](https://ci.appveyor.com/api/projects/status/iub0tbs42d9ut0g7?svg=true)](https://ci.appveyor.com/project/StuartShay/imagegallery-client)
 
+### About:
+
+Image Gallery Client is a .NET Core WebAPI/Angular Web Application, this project is a front end for managing and categorizing my large collection of New York City Landmarks and Attractions. 
 
 ![](assets/web.png)
-
-
 
 
 ### Demo
