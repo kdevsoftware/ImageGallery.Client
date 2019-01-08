@@ -5,7 +5,7 @@ services:
     external_links:
     - NavigatorIdentity/navigator-identity-sqlserver:navigator-identity-sqlserver
   imagegallery-client:
-    image: stuartshay/imagegallery-client:2.0-build
+    image: stuartshay/imagegallery-client:2.0-build-v4
     environment:
       LOGGLY_TOKEN: c3176aed-1b75-4315-9ee6-21cf1bd84dd8
     stdin_open: true
@@ -21,7 +21,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
   imagegallery-api:
-    image: stuartshay/imagegallery-api:2.0-build
+    image: stuartshay/imagegallery-api:2.2.13-build
     stdin_open: true
     external_links:
     - NavigatorIdentity/navigator-identity-sqlserver:database
@@ -34,3 +34,4 @@ services:
     image: rancher/dns-service
     external_links:
     - NavigatorIdentity/navigator-identity-redis:navigator-identity-redis
+

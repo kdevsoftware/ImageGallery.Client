@@ -3,13 +3,13 @@ services:
   database:
     start_on_create: true
   imagegallery-client:
-    scale: 2
+    scale: 1
     start_on_create: true
   imagegallery-client-development:
-    scale: 1
+    scale: 3
     start_on_create: true
   imagegallery-api:
-    scale: 1
+    scale: 3
     start_on_create: true
   redis:
     start_on_create: true

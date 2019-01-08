@@ -113,7 +113,7 @@
           </div>
         </div>
 
-        <div style="margin-top:10px;">
+        <div *ngIf="f.inventory" style="margin-top:10px;">
           <span style="padding-right:5px;">{{ f.inventory.materials }}</span><span>{{ f.inventory.dimensions }}</span>
         </div>
      
