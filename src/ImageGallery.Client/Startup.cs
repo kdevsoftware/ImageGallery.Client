@@ -84,7 +84,6 @@ namespace ImageGallery.Client
 
             services.AddCustomAuthentication(Configuration);
             services.AddCustomAuthorization(Configuration);
-            services.AddCustomCookiePolicy(Configuration);
 
             // Http Clients
             services.AddHttpClientImageGalleryApi(Configuration);
@@ -191,6 +190,7 @@ namespace ImageGallery.Client
                     options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultSignOutScheme = JwtBearerDefaults.AuthenticationScheme;
                 })
                 .AddJwtBearer(options =>
                 {
@@ -309,7 +309,8 @@ namespace ImageGallery.Client
                     if (!string.IsNullOrWhiteSpace(accessToken))
                         x.SetBearerToken(accessToken);
 
-                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ImagesUri;
+                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ClientConfiguration?.ApiUserManagementUri;
+
                     x.BaseAddress = new Uri(apiUri);
                     x.DefaultRequestHeaders.Accept.Clear();
                     x.DefaultRequestHeaders.Accept.Add(
@@ -324,30 +325,13 @@ namespace ImageGallery.Client
         {
             services.AddHttpClient("image-endpoint", async (s, x) =>
                 {
-                    var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
-                        .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
-
-                    if (!string.IsNullOrWhiteSpace(accessToken))
-                        x.SetBearerToken(accessToken);
-
-                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.OpenIdConnectConfiguration.Authority;
+                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ImagesUri;
                     x.BaseAddress = new Uri(apiUri);
                     x.DefaultRequestHeaders.Accept.Clear();
                     x.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json"));
                 })
                 .AddTypedClient<ImageEndpointHttpClient>();
-
-            return services;
-        }
-
-        public static IServiceCollection AddCustomCookiePolicy(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
 
             return services;
         }
