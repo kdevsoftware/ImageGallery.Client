@@ -69,5 +69,7 @@ export interface IUserProfileViewModel {
   address2: string;
   city: string;
   state: string;
+  postalCode: string;
   country: string;
+  language: string;
 }

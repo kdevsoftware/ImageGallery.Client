@@ -40,8 +40,10 @@ export class LayoutComponent implements OnInit, OnDestroy {
       address: new FormControl(['', Validators.required]),
       address2: new FormControl(['', Validators.required]),
       city: new FormControl(['', Validators.required]),
-      country: new FormControl(['', Validators.required]),
       state: new FormControl(['', Validators.required]),
+      postalCode: new FormControl(['', Validators.required]),
+      country: new FormControl(['', Validators.required]),
+      language: new FormControl(['', Validators.required]),
     });
   }
 
@@ -75,9 +77,11 @@ export class LayoutComponent implements OnInit, OnDestroy {
         this.form.controls.lastName.patchValue(res.lastName);
         this.form.controls.address.patchValue(res.address);
         this.form.controls.address2.patchValue(res.address2);
-        this.form.controls.state.patchValue(res.state);
         this.form.controls.city.patchValue(res.city);
+        this.form.controls.state.patchValue(res.state);
+        this.form.controls.postalCode.patchValue(res.postalCode);
         this.form.controls.country.patchValue(res.country);
+        this.form.controls.language.patchValue(res.language);
       }
     });
   }
