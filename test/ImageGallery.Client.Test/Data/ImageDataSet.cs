@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using Bogus;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Model.Models.Albums;
 using ImageGallery.Model.Models.Images;
+using Image = ImageGallery.Model.Models.Images.Image;
 
 namespace ImageGallery.Client.Test.Data
 {
@@ -131,6 +135,21 @@ namespace ImageGallery.Client.Test.Data
             }
 
             return list;
+        }
+
+        public static byte[] GetImageFile(int maxXCells, int maxYCells, int cellXPosition, int cellYPosition)
+        {
+            using (var bmp = new System.Drawing.Bitmap(maxXCells, maxYCells))
+            {
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    // Do your drawing here
+                }
+
+                var memStream = new MemoryStream();
+                bmp.Save(memStream, ImageFormat.Jpeg);
+                return memStream.ToArray();
+            }
         }
     }
 }

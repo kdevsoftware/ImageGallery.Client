@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis;
 using ImageGallery.Client.Configuration;
@@ -19,7 +18,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Moq.Protected;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -42,14 +40,14 @@ namespace ImageGallery.Client.Test.Controllers
             controller.Response.Headers.Add("x-inlinecount", "10");
 
             // Act
-            var result = await controller.GalleryIndexViewModel();
+            var sut = await controller.GalleryIndexViewModel();
 
             // Assert
             Assert.IsType<List<Image>>(images);
-            Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkObjectResult>(sut);
 
-            var objectResult = result as OkObjectResult;
+            var objectResult = sut as OkObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
             // Assert.Equal("10", controller.Response.Headers["x-inlinecount"]);
@@ -64,10 +62,29 @@ namespace ImageGallery.Client.Test.Controllers
         public async Task Get_Images_Returns_Api_Unauthorized()
         {
             // Arrange
-            int count = 5;
-            var images = ImageDataSet.GetImageTableData(count);
-            var content = JsonConvert.SerializeObject(images);
-            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, null);
+
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var sut = await controller.GalleryIndexViewModel();
+
+            // Assert
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
+
+            var objectResult = sut as UnauthorizedResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async Task Get_Images_Returns_Api_Exception()
+        {
+            // Arrange
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.ExpectationFailed);
 
             var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
@@ -76,13 +93,13 @@ namespace ImageGallery.Client.Test.Controllers
             var result = await controller.GalleryIndexViewModel();
 
             // Assert
-            Assert.IsType<List<Image>>(images);
             Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.IsType<UnprocessableEntityObjectResult>(result);
 
-            var objectResult = result as UnauthorizedResult;
+            var objectResult = result as UnprocessableEntityObjectResult;
             Assert.NotNull(objectResult);
-            Assert.True(objectResult.StatusCode == 401);
+            Assert.True(objectResult.StatusCode == 422);
+            Assert.Equal("Expectation Failed", objectResult.Value);
         }
 
         [Fact]
@@ -100,14 +117,14 @@ namespace ImageGallery.Client.Test.Controllers
 
             // Act
             var requestModel = new GalleryRequestModel { };
-            var result = await controller.Get(requestModel, count, 0);
+            var sut = await controller.Get(requestModel, count, 0);
 
             // Assert
             Assert.IsType<List<Image>>(images);
-            Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkObjectResult>(sut);
 
-            var objectResult = result as OkObjectResult;
+            var objectResult = sut as OkObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
 
@@ -122,25 +139,47 @@ namespace ImageGallery.Client.Test.Controllers
         {
             // Arrange
             int count = 10;
-            var images = ImageDataSet.GetImageTableData(count);
-            var content = JsonConvert.SerializeObject(images);
-            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, null);
 
             var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
             var requestModel = new GalleryRequestModel { };
-            var result = await controller.Get(requestModel, count, 0);
+            var sut = await controller.Get(requestModel, count, 0);
 
             // Assert
-            Assert.IsType<List<Image>>(images);
-            Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
 
-            var objectResult = result as UnauthorizedResult;
+            var objectResult = sut as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async Task Get_Images_Paging_Returns_Api_Exception()
+        {
+            // Arrange
+            int count = 10;
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.ExpectationFailed);
+
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var requestModel = new GalleryRequestModel { };
+            var sut = await controller.Get(requestModel, count, 0);
+
+            // Assert
+            Assert.NotNull(sut);
+            Assert.IsType<UnprocessableEntityObjectResult>(sut);
+
+            var objectResult = sut as UnprocessableEntityObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 422);
+            Assert.Equal("Expectation Failed", objectResult.Value);
         }
 
         [Fact]
@@ -155,17 +194,17 @@ namespace ImageGallery.Client.Test.Controllers
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await controller.GetImageProperties(It.IsAny<Guid>());
+            var sut = await controller.GetImageProperties(It.IsAny<Guid>());
 
             // Assert
             Assert.IsType<Image>(image);
             Assert.Equal(image.Width < image.Height ? 240 : 320, image.Width);
             Assert.Equal(image.Width > image.Height ? 320 : 240, image.Width);
 
-            Assert.NotNull(result);
-            Assert.IsType<OkObjectResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkObjectResult>(sut);
 
-            var objectResult = result as OkObjectResult;
+            var objectResult = sut as OkObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
 
@@ -178,24 +217,45 @@ namespace ImageGallery.Client.Test.Controllers
         [Trait("Category", "Unit")]
         public async Task Get_Image_Properties_Api_Unauthorized()
         {
-            var image = ImageDataSet.GetImageData();
-            var content = JsonConvert.SerializeObject(image);
-            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, content);
+            // Arrange
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.Unauthorized, null);
 
             var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await controller.GetImageProperties(It.IsAny<Guid>());
+            var sut = await controller.GetImageProperties(It.IsAny<Guid>());
 
             // Assert
-            Assert.IsType<Image>(image);
-            Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
 
-            var objectResult = result as UnauthorizedResult;
+            var objectResult = sut as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async Task Get_Image_Properties_Api_Exception()
+        {
+            // Arrange
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.ExpectationFailed, null);
+
+            var controller = GetGalleryImagesApiQueryController(httpResponse, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var sut = await controller.GetImageProperties(It.IsAny<Guid>());
+
+            // Assert
+            Assert.NotNull(sut);
+            Assert.IsType<UnprocessableEntityObjectResult>(sut);
+
+            var objectResult = sut as UnprocessableEntityObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 422);
+            Assert.Equal("Expectation Failed", objectResult.Value);
         }
 
         private GalleryApiQueryController GetGalleryImagesApiQueryController(

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis;
 using ImageGallery.Client.Configuration;
@@ -10,6 +8,7 @@ using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.Test.Data;
 using ImageGallery.Client.Test.Helpers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -20,18 +19,17 @@ namespace ImageGallery.Client.Test.Controllers
 {
     public class ImageEndpointControllerTest
     {
-
-        [Fact(Skip = "TODO")]
+        [Fact]
         [Trait("Category", "Unit")]
         public async Task Get_Image_Base64_Text_ReturnsData()
         {
-            var album = AlbumDataSet.GetAlbum();
-            var content = JsonConvert.SerializeObject(album);
+            var image = ImageDataSet.GetImageData();
+            var content = JsonConvert.SerializeObject(image);
             var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content);
 
-            var album2 = AlbumDataSet.GetAlbum();
-            var content2 = JsonConvert.SerializeObject(album2);
-            var httpResponse2 = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, content2);
+            var imageFile = ImageDataSet.GetImageFile(1000, 1000, 100, 100);
+            var contentImage = JsonConvert.SerializeObject(imageFile);
+            var httpResponse2 = MockHelpers.SetHttpResponseMessage(HttpStatusCode.OK, contentImage);
 
             var controller = GetImageEndpointController(httpResponse, httpResponse2, null, null, null);
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
@@ -41,6 +39,11 @@ namespace ImageGallery.Client.Test.Controllers
 
             // Assert
             Assert.NotNull(sut);
+            Assert.IsType<ContentResult>(sut);
+
+            var objectResult = sut as ContentResult;
+            Assert.NotNull(objectResult);
+            Assert.NotNull(objectResult.Content);
         }
 
         private ImageEndpointController GetImageEndpointController(
@@ -65,7 +68,6 @@ namespace ImageGallery.Client.Test.Controllers
                 BaseAddress = new Uri(CommonConstants.BaseAddress),
             };
             imageGalleryHttpClient = imageGalleryHttpClient ?? new ImageGalleryHttpClient(httpClient, applicationOptionsMock.Object, new Mock<IHttpContextAccessor>().Object);
-
 
             // ImageEndpointHttpClient
             var handlerMock2 = MockHelpers.GetHttpMessageHandlerMock(imageEndpointResponseMessage);

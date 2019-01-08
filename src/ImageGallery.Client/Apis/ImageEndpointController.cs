@@ -70,9 +70,9 @@ namespace ImageGallery.Client.Apis
                 };
 
                 var externalUri = ApplicationSettings.ImagesUri;
-                var externalimagesRoute = $"{externalUri}{imageViewModel.FileName}";
+                var externalImagesRoute = $"{externalUri}{imageViewModel.FileName}";
 
-                var result = await _imageEndpoint.Instance.GetAsync(externalimagesRoute);
+                var result = await _imageEndpoint.Instance.GetAsync(externalImagesRoute);
                 if (result.IsSuccessStatusCode)
                 {
                     var content = await result.Content.ReadAsByteArrayAsync();

@@ -1,18 +1,10 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using ImageGallery.Client.Configuration;
+﻿using ImageGallery.Client.Configuration;
 using ImageGallery.Client.Controllers;
-using ImageGallery.Client.Test.Fixtures;
-using Loggly;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Newtonsoft.Json;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace ImageGallery.Client.Test.TestServerIntegration
 {
@@ -53,6 +45,5 @@ namespace ImageGallery.Client.Test.TestServerIntegration
 
             return new GalleryController(settings, logger);
         }
-
     }
 }

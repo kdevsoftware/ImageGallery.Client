@@ -40,13 +40,13 @@ namespace ImageGallery.Client.Test.Controllers
                 File = MockHelpers.GetMockIFormFile().Object,
             };
 
-            var result = await controller.AddImage(model);
+            var sut = await controller.AddImage(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkResult>(sut);
 
-            var objectResult = result as OkResult;
+            var objectResult = sut as OkResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
         }
@@ -68,13 +68,13 @@ namespace ImageGallery.Client.Test.Controllers
                 File = MockHelpers.GetMockIFormFile().Object,
             };
 
-            var result = await controller.AddImage(model);
+            var sut = await controller.AddImage(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
 
-            var objectResult = result as UnauthorizedResult;
+            var objectResult = sut as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
         }
@@ -97,13 +97,13 @@ namespace ImageGallery.Client.Test.Controllers
                 File = MockHelpers.GetMockIFormFile().Object,
             };
 
-            var result = await controller.AddImage(model);
+            var sut = await controller.AddImage(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<BadRequestObjectResult>(sut);
 
-            var objectResult = result as BadRequestObjectResult;
+            var objectResult = sut as BadRequestObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 400);
         }
@@ -124,13 +124,13 @@ namespace ImageGallery.Client.Test.Controllers
                 File = MockHelpers.GetMockIFormFile().Object,
             };
 
-            var result = await controller.UpdateImage(model);
+            var sut = await controller.UpdateImage(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkResult>(sut);
 
-            var objectResult = result as OkResult;
+            var objectResult = sut as OkResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
         }
@@ -151,13 +151,13 @@ namespace ImageGallery.Client.Test.Controllers
                 File = MockHelpers.GetMockIFormFile().Object,
             };
 
-            var result = await controller.UpdateImage(model);
+            var sut = await controller.UpdateImage(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
 
-            var objectResult = result as UnauthorizedResult;
+            var objectResult = sut as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
         }
@@ -179,13 +179,13 @@ namespace ImageGallery.Client.Test.Controllers
                 File = MockHelpers.GetMockIFormFile().Object,
             };
 
-            var result = await controller.UpdateImage(model);
+            var sut = await controller.UpdateImage(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<BadRequestObjectResult>(sut);
 
-            var objectResult = result as BadRequestObjectResult;
+            var objectResult = sut as BadRequestObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 400);
         }
@@ -207,11 +207,11 @@ namespace ImageGallery.Client.Test.Controllers
                 new PatchDto { PropertyName = "Title", PropertyValue = "Test" },
             };
 
-            var result = await controller.PatchImageProperties(Guid.NewGuid(), patchDtos);
+            var sut = await controller.PatchImageProperties(Guid.NewGuid(), patchDtos);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkResult>(sut);
         }
 
         [Fact]
@@ -231,11 +231,11 @@ namespace ImageGallery.Client.Test.Controllers
                 new PatchDto { PropertyName = "Title", PropertyValue = "Test" },
             };
 
-            var result = await controller.PatchImageProperties(Guid.NewGuid(), patchDtos);
+            var sut = await controller.PatchImageProperties(Guid.NewGuid(), patchDtos);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
         }
 
         [Fact]
@@ -255,13 +255,13 @@ namespace ImageGallery.Client.Test.Controllers
                 Title = It.IsAny<string>(),
             };
 
-            var result = await controller.EditImageProperties(model);
+            var sut = await controller.EditImageProperties(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkResult>(sut);
 
-            var objectResult = result as OkResult;
+            var objectResult = sut as OkResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
         }
@@ -284,13 +284,13 @@ namespace ImageGallery.Client.Test.Controllers
                 Title = null,
             };
 
-            var result = await controller.EditImageProperties(model);
+            var sut = await controller.EditImageProperties(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<BadRequestObjectResult>(sut);
 
-            var objectResult = result as BadRequestObjectResult;
+            var objectResult = sut as BadRequestObjectResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 400);
         }
@@ -312,13 +312,13 @@ namespace ImageGallery.Client.Test.Controllers
                 Title = It.IsAny<string>(),
             };
 
-            var result = await controller.EditImageProperties(model);
+            var sut = await controller.EditImageProperties(model);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
 
-            var objectResult = result as UnauthorizedResult;
+            var objectResult = sut as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
         }
@@ -333,13 +333,13 @@ namespace ImageGallery.Client.Test.Controllers
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await controller.DeleteImage(It.IsAny<Guid>());
+            var sut = await controller.DeleteImage(It.IsAny<Guid>());
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<OkResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<OkResult>(sut);
 
-            var objectResult = result as OkResult;
+            var objectResult = sut as OkResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 200);
         }
@@ -354,16 +354,19 @@ namespace ImageGallery.Client.Test.Controllers
             controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
             // Act
-            var result = await controller.DeleteImage(It.IsAny<Guid>());
+            var sut = await controller.DeleteImage(It.IsAny<Guid>());
 
             // Assert
-            Assert.NotNull(result);
-            Assert.IsType<UnauthorizedResult>(result);
+            Assert.NotNull(sut);
+            Assert.IsType<UnauthorizedResult>(sut);
 
-            var objectResult = result as UnauthorizedResult;
+            var objectResult = sut as UnauthorizedResult;
             Assert.NotNull(objectResult);
             Assert.True(objectResult.StatusCode == 401);
         }
+
+
+
 
         private GalleryApiCommandController GetGalleryApiCommandController(
             HttpResponseMessage responseMessage,
