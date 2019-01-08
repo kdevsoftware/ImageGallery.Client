@@ -1,5 +1,5 @@
 ﻿using ImageGallery.Client.Filters;
-using ImageGallery.Service.Helpers;
+using ImageGallery.Client.Helpers;
 using Xunit;
 using Xunit.Abstractions;
 

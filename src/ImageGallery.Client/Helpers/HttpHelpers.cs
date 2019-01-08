@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Linq;
 
-namespace ImageGallery.Service.Helpers
+namespace ImageGallery.Client.Helpers
 {
+    /// <summary>
+    ///
+    /// </summary>
     public static class HttpHelpers
     {
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static string ToQueryString(this object obj)
         {
             var result = string.Join("&", obj.GetType()

@@ -1,7 +1,10 @@
 ﻿using System;
 
-namespace ImageGallery.Service.Helpers
+namespace ImageGallery.Client.Helpers
 {
+    /// <summary>
+    ///
+    /// </summary>
     public class QueryStringAttribute : Attribute
     {
     }

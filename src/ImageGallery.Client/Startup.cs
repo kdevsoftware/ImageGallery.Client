@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using ImageGallery.Client.Configuration;
 using ImageGallery.Client.HttpClients;
@@ -89,6 +90,7 @@ namespace ImageGallery.Client
             services.AddHttpClientImageGalleryApi(Configuration);
             services.AddHttpClientUserManagementApi(Configuration);
             services.AddHttpClientImageEndpointApi(Configuration);
+            services.AddHttpClientNavigatorIdentityApi(Configuration);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -331,6 +333,21 @@ namespace ImageGallery.Client
                         new MediaTypeWithQualityHeaderValue("application/json"));
                 })
                 .AddTypedClient<ImageEndpointHttpClient>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddHttpClientNavigatorIdentityApi(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient("navigator-identity", async (s, x) =>
+                {
+                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.OpenIdConnectConfiguration.Authority;
+                    x.BaseAddress = new Uri(apiUri);
+                    x.DefaultRequestHeaders.Accept.Clear();
+                    x.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                })
+                .AddTypedClient<NavigatorIdentityHttpClient>();
 
             return services;
         }

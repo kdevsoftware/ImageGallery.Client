@@ -1,5 +1,5 @@
 ﻿using ImageGallery.Client.Filters.Base;
-using ImageGallery.Service.Helpers;
+using ImageGallery.Client.Helpers;
 
 namespace ImageGallery.Client.Filters
 {
