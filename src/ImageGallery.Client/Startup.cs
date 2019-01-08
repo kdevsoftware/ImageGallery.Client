@@ -84,11 +84,12 @@ namespace ImageGallery.Client
 
             services.AddCustomAuthentication(Configuration);
             services.AddCustomAuthorization(Configuration);
+            services.AddCustomCookiePolicy(Configuration);
 
             // Http Clients
             services.AddHttpClientImageGalleryApi(Configuration);
             services.AddHttpClientUserManagementApi(Configuration);
-            // TODO: NavigatorIdentityHttpClient
+            services.AddHttpClientImageEndpointApi(Configuration);
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -169,8 +170,8 @@ namespace ImageGallery.Client
         {
             var config = configuration.Get<ApplicationOptions>();
 
-            Console.WriteLine($"Dataprotection Enabled: {config.Dataprotection.Enabled}");
-            Console.WriteLine($"Dataprotection Redis: {config.Dataprotection.RedisConnection}");
+            Console.WriteLine($"Data Protection Enabled: {config.Dataprotection.Enabled}");
+            Console.WriteLine($"Data Protection Redis: {config.Dataprotection.RedisConnection}");
             Console.WriteLine($"RedisKey: {config.Dataprotection.RedisKey}");
 
             Console.WriteLine($"ApiAttractionsUri: {config.ClientConfiguration.ApiAttractionsUri}");
@@ -308,13 +309,45 @@ namespace ImageGallery.Client
                     if (!string.IsNullOrWhiteSpace(accessToken))
                         x.SetBearerToken(accessToken);
 
-                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ClientConfiguration?.ApiUserManagementUri;
+                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ImagesUri;
                     x.BaseAddress = new Uri(apiUri);
                     x.DefaultRequestHeaders.Accept.Clear();
                     x.DefaultRequestHeaders.Accept.Add(
                         new MediaTypeWithQualityHeaderValue("application/json"));
                 })
                 .AddTypedClient<UserManagementHttpClient>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddHttpClientImageEndpointApi(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHttpClient("image-endpoint", async (s, x) =>
+                {
+                    var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
+                        .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+                    if (!string.IsNullOrWhiteSpace(accessToken))
+                        x.SetBearerToken(accessToken);
+
+                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.OpenIdConnectConfiguration.Authority;
+                    x.BaseAddress = new Uri(apiUri);
+                    x.DefaultRequestHeaders.Accept.Clear();
+                    x.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                })
+                .AddTypedClient<ImageEndpointHttpClient>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddCustomCookiePolicy(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
 
             return services;
         }

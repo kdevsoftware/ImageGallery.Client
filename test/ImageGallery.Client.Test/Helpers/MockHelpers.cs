@@ -2,8 +2,11 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using Moq.Protected;
 
 namespace ImageGallery.Client.Test.Helpers
 {
@@ -44,6 +47,21 @@ namespace ImageGallery.Client.Test.Helpers
             }
 
             return httpResponseMessage;
+        }
+
+        public static Mock<HttpMessageHandler> GetHttpMessageHandlerMock(HttpResponseMessage responseMessage)
+        {
+            var httpMessageHandlerMock = new Mock<HttpMessageHandler>();
+            httpMessageHandlerMock
+                .Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.IsAny<HttpRequestMessage>(),
+                    ItExpr.IsAny<CancellationToken>())
+                .ReturnsAsync(responseMessage)
+                .Verifiable();
+
+            return httpMessageHandlerMock;
         }
     }
 }

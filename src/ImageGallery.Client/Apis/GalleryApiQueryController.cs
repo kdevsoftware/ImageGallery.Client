@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
 using ImageGallery.Client.Apis.Constants;
@@ -181,52 +180,6 @@ namespace ImageGallery.Client.Apis
             }
 
             return UnprocessableEntity(response.ReasonPhrase);
-        }
-
-        /// <summary>
-        ///  Get Image File(Base64).
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [Authorize]
-        [Produces("text/plain")]
-        [HttpGet("text/{id}")]
-        public async Task<IActionResult> GetImageBase64File(Guid id)
-        {
-            var imagesRoute = $"{InternalImagesRoute}/{id}";
-            var response = await _imageGalleryClient.Instance.GetAsync(imagesRoute).ConfigureAwait(false);
-
-            _logger.LogInformation($"Call {imagesRoute} return {response.StatusCode}.");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var imageAsString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                var deserializedImage = JsonConvert.DeserializeObject<Image>(imageAsString);
-
-                var imageViewModel = new ImageViewModel(ApplicationSettings.ImagesUri)
-                {
-                    FileName = deserializedImage.FileName,
-                };
-
-                var externalUri = ApplicationSettings.ImagesUri;
-                var externalimagesRoute = $"{externalUri}{imageViewModel.FileName}";
-
-                using (var client = new HttpClient())
-                {
-                    using (var result = await client.GetAsync(externalimagesRoute))
-                    {
-                        if (result.IsSuccessStatusCode)
-                        {
-                            var content = await result.Content.ReadAsByteArrayAsync();
-                            var base64 = Convert.ToBase64String(content);
-
-                            return Content("data:image/jpeg;base64," + base64);
-                        }
-                    }
-                }
-            }
-
-            return UnprocessableEntity();
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using FluentValidation;
+﻿using FluentValidation;
 using ImageGallery.Client.ValidationRules.Constants;
 using ImageGallery.Client.ViewModels;
 
@@ -14,7 +10,7 @@ namespace ImageGallery.Client.ValidationRules.Gallery
     public class AddImageViewModelRule : AbstractValidator<AddImageViewModel>
     {
         /// <summary>
-        ///
+        /// Initializes a new instance of the <see cref="AddImageViewModelRule"/> class.
         /// </summary>
         public AddImageViewModelRule()
         {

@@ -90,6 +90,11 @@
           <span class="label label-primary">{{word}}</span>
         </div>
 
+        <h5>Machine Tags</h5>
+        <div *ngFor="let mt of f.machineTags">
+          <span class="label label-inverse">{{mt.tag}}</span>
+        </div>
+
         <div>
           <div *ngIf="f.inventory.sculptor">
             <span style="font-weight:bold;padding-right:5px">Sculptor:</span><span>{{ f.inventory.sculptor }}</span>

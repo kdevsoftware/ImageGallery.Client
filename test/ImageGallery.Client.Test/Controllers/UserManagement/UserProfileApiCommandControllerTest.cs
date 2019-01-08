@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.UserManagement;
 using ImageGallery.Client.HttpClients;
@@ -11,7 +10,6 @@ using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Moq.Protected;
 using Newtonsoft.Json;
 using Xunit;
 using Xunit.Abstractions;
@@ -112,17 +110,7 @@ namespace ImageGallery.Client.Test.Controllers.UserManagement
             UserManagementHttpClient client = null,
             ILogger<UserProfileApiCommandController> logger = null)
         {
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(responseMessage)
-                .Verifiable();
-
+            var handlerMock = MockHelpers.GetHttpMessageHandlerMock(responseMessage);
             var httpClient = new HttpClient(handlerMock.Object)
             {
                 BaseAddress = new Uri(CommonConstants.BaseAddress),

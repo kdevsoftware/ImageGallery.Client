@@ -25,7 +25,7 @@ namespace ImageGallery.Client.ValidationRules
         }
 
         /// <summary>
-        /// 
+        ///  Validate Single Properties.
         /// </summary>
         /// <param name="validator"></param>
         /// <param name="target"></param>

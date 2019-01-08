@@ -15,6 +15,7 @@ namespace ImageGallery.Client.Test.Mock
         }
 
         [Fact]
+        [Trait("Category", "Unit")]
         public void QueryStringBuilder_Test()
         {
             var galleryRequestModel1 = new GalleryRequestModel { Search = "Search_Test_1" };

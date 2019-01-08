@@ -13,6 +13,7 @@ export class AboutComponent implements OnInit {
   public id_token: string;
   public access_token: string;
   public userData: any;
+  public refresh_token: string;
 
   constructor(
     private oauthService: OAuthService,
@@ -24,6 +25,7 @@ export class AboutComponent implements OnInit {
     this.id_token = this.oauthService.getIdToken();
     this.access_token = this.oauthService.getAccessToken();
     this.userData = this.oauthService.getIdentityClaims();
+    this.refresh_token = this.oauthService.getRefreshToken();
 
     console.log(`User data: ${this.userData}`);
   }

@@ -8,17 +8,17 @@ namespace ImageGallery.Client.HttpClients
     /// <summary>
     /// Instance of NavigatorIdentity HttpClient.
     /// </summary>
-    public class NavigatorIdentityHttpClient
+    public class ImageEndpointHttpClient
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NavigatorIdentityHttpClient"/> class.
+        /// Initializes a new instance of the <see cref="ImageEndpointHttpClient"/> class.
         /// </summary>
         /// <param name="client"></param>
         /// <param name="settings"></param>
         /// <param name="httpContextAccessor"></param>
-        public NavigatorIdentityHttpClient(HttpClient client, IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
+        public ImageEndpointHttpClient(HttpClient client, IOptions<ApplicationOptions> settings, IHttpContextAccessor httpContextAccessor)
         {
             Instance = client;
             ApplicationSettings = settings.Value;

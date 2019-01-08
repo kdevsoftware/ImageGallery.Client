@@ -101,17 +101,7 @@ namespace ImageGallery.Client.Test.Controllers
 
             logger = logger ?? new Mock<ILogger<AlbumMetadataCommandController>>().Object;
 
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(responseMessage)
-                .Verifiable();
-
+            var handlerMock = MockHelpers.GetHttpMessageHandlerMock(responseMessage);
             var httpClient = new HttpClient(handlerMock.Object)
             {
                 BaseAddress = new Uri(CommonConstants.BaseAddress),

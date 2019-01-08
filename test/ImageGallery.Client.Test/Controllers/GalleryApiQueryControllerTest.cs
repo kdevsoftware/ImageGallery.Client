@@ -198,13 +198,6 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.True(objectResult.StatusCode == 401);
         }
 
-        [Fact(Skip = "TODO")]
-        [Trait("Category", "Unit")]
-        public async Task Get_Image_Base64_Text_ReturnsData()
-        {
-            Assert.True(false);
-        }
-
         private GalleryApiQueryController GetGalleryImagesApiQueryController(
             HttpResponseMessage responseMessage,
             ImageGalleryHttpClient imageGalleryHttpClient = null,
@@ -215,17 +208,7 @@ namespace ImageGallery.Client.Test.Controllers
             // TODO Add to Helper
             responseMessage.Headers.Add("x-inlinecount", "10");
 
-            var handlerMock = new Mock<HttpMessageHandler>();
-            handlerMock
-                .Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.IsAny<HttpRequestMessage>(),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(responseMessage)
-                .Verifiable();
-
+            var handlerMock = MockHelpers.GetHttpMessageHandlerMock(responseMessage);
             var httpClient = new HttpClient(handlerMock.Object)
             {
                 BaseAddress = new Uri(CommonConstants.BaseAddress),
