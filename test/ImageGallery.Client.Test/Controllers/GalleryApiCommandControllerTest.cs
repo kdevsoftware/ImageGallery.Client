@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis;
 using ImageGallery.Client.Configuration;
@@ -15,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
-using Moq.Protected;
 using Newtonsoft.Json;
 using Xunit;
 
@@ -192,6 +190,34 @@ namespace ImageGallery.Client.Test.Controllers
 
         [Fact]
         [Trait("Category", "Unit")]
+        public async Task Update_Image_Returns_Api_Exception()
+        {
+            // Arrange
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.ExpectationFailed);
+            var controller = GetGalleryApiCommandController(httpResponse, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            UpdateImageViewModel model = new UpdateImageViewModel
+            {
+                Id = Guid.NewGuid(),
+                File = MockHelpers.GetMockIFormFile().Object,
+            };
+
+            var sut = await controller.UpdateImage(model);
+
+            // Assert
+            Assert.NotNull(sut);
+            Assert.IsType<UnprocessableEntityObjectResult>(sut);
+
+            var objectResult = sut as UnprocessableEntityObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 422);
+            Assert.Equal("Expectation Failed", objectResult.Value);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
         public async Task Update_Image_Properties_Returns_Success()
         {
             var album = ImageDataSet.GetImageData();
@@ -236,6 +262,33 @@ namespace ImageGallery.Client.Test.Controllers
             // Assert
             Assert.NotNull(sut);
             Assert.IsType<UnauthorizedResult>(sut);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async Task Update_Image_Properties_Returns_Api_Exception()
+        {
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.ExpectationFailed, null);
+
+            var controller = GetGalleryApiCommandController(httpResponse, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            var patchDtos = new List<PatchDto>
+            {
+                new PatchDto { PropertyName = "Title", PropertyValue = "Test" },
+            };
+
+            var sut = await controller.PatchImageProperties(Guid.NewGuid(), patchDtos);
+
+            // Assert
+            Assert.NotNull(sut);
+            Assert.IsType<UnprocessableEntityObjectResult>(sut);
+
+            var objectResult = sut as UnprocessableEntityObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 422);
+            Assert.Equal("Expectation Failed", objectResult.Value);
         }
 
         [Fact]
@@ -325,6 +378,35 @@ namespace ImageGallery.Client.Test.Controllers
 
         [Fact]
         [Trait("Category", "Unit")]
+        public async Task Edit_Image_Properties_Returns_Api_Exception()
+        {
+            // Arrange
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.ExpectationFailed);
+            var controller = GetGalleryApiCommandController(httpResponse, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
+
+            // Act
+            EditImageViewModel model = new EditImageViewModel
+            {
+                Id = It.IsAny<Guid>(),
+                Category = It.IsAny<string>(),
+                Title = It.IsAny<string>(),
+            };
+
+            var sut = await controller.EditImageProperties(model);
+
+            // Assert
+            Assert.NotNull(sut);
+            Assert.IsType<UnprocessableEntityObjectResult>(sut);
+
+            var objectResult = sut as UnprocessableEntityObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 422);
+            Assert.Equal("Expectation Failed", objectResult.Value);
+        }
+
+        [Fact]
+        [Trait("Category", "Unit")]
         public async Task Delete_Image_Returns_Success()
         {
             // Arrange
@@ -365,8 +447,27 @@ namespace ImageGallery.Client.Test.Controllers
             Assert.True(objectResult.StatusCode == 401);
         }
 
+        [Fact]
+        [Trait("Category", "Unit")]
+        public async Task Delete_Image_Returns_Api_Exception()
+        {
+            // Arrange
+            var httpResponse = MockHelpers.SetHttpResponseMessage(HttpStatusCode.ExpectationFailed);
+            var controller = GetGalleryApiCommandController(httpResponse, null, null, null);
+            controller.ControllerContext = WebTestHelpers.GetHttpContextWithUser();
 
+            // Act
+            var sut = await controller.DeleteImage(It.IsAny<Guid>());
 
+            // Assert
+            Assert.NotNull(sut);
+            Assert.IsType<UnprocessableEntityObjectResult>(sut);
+
+            var objectResult = sut as UnprocessableEntityObjectResult;
+            Assert.NotNull(objectResult);
+            Assert.True(objectResult.StatusCode == 422);
+            Assert.Equal("Expectation Failed", objectResult.Value);
+        }
 
         private GalleryApiCommandController GetGalleryApiCommandController(
             HttpResponseMessage responseMessage,
