@@ -33,7 +33,7 @@ namespace ImageGallery.Client.Apis.Authorization
         /// <param name="httpContextAccessor"></param>
         /// <param name="settings"></param>
         /// <param name="logger"></param>
-        public AuthorizationApiController(IHttpClientFactory clientFactory, IHttpContextAccessor httpContextAccessor,  IOptions<ApplicationOptions> settings, ILogger<AuthorizationApiController> logger)
+        public AuthorizationApiController(IHttpClientFactory clientFactory, IHttpContextAccessor httpContextAccessor, IOptions<ApplicationOptions> settings, ILogger<AuthorizationApiController> logger)
         {
             ApplicationSettings = settings.Value;
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
