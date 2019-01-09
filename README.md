@@ -35,7 +35,6 @@ https://www.flickr.com/photos/stuartshay/
 
 ![](assets/web.png)
 
-
 ### Project Structure
 ```
 ├── build   # Cake Build Configuration
@@ -44,27 +43,21 @@ https://www.flickr.com/photos/stuartshay/
 │   └── imagegallery-client-base.dockerfile
 │   └── ...
 │   └── ...
-├── e2e    # End to End Tests 
-│   │   
+├── e2e    # End to End Tests
+│   │
 │   └── ImageGallery.Client.Test.UI # Selenium
 |
-├── scripts    # Docker Image Scripts 
+├── scripts    # Docker Image Scripts
 │   └── *.sh
 |
-├── src    
-│   │   
+├── src
 │   └── ImageGallery.Client # .NET Core Web
 |       |
 │       └── wwwroot # Angular Application
-└── test    
-   │   
+└── test
+   │
    └── ImageGallery.Client.Test
 ```
-
-
-
-
-
 
 ### Prerequisites
 
