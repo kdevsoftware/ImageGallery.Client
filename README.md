@@ -44,7 +44,6 @@ https://www.flickr.com/photos/stuartshay/
 │   └── imagegallery-client-base.dockerfile
 │   └── ...
 │   └── ...
-|
 ├── e2e    # End to End Tests 
 │   │   
 │   └── ImageGallery.Client.Test.UI # Selenium
