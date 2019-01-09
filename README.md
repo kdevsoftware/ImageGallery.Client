@@ -11,14 +11,14 @@
 
  Jenkins | Status  
 ------------ | -------------
-Base Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-base)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-base/)
-Application Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-build)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-build/)
-Local Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-local)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-local/)
+Docker Base Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-base)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-base/)
+Docker Application Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-build)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-build/)
+Docker Local Image (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-local)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-local/)
 Angular Lint Report (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-report-check)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-report-check/)
 SonarQube (Auth) | [![Build Status](https://jenkins.navigatorglass.com/buildStatus/icon?job=ImageGallery-Auth/ImageGallery-Auth-sonarqube)](https://jenkins.navigatorglass.com/job/ImageGallery-Auth/job/ImageGallery-Auth-sonarqube/)
-AppVeyor |[![Build status](https://ci.appveyor.com/api/projects/status/iub0tbs42d9ut0g7?svg=true)](https://ci.appveyor.com/project/StuartShay/imagegallery-client)
+AppVeyor CI Build |[![Build status](https://ci.appveyor.com/api/projects/status/iub0tbs42d9ut0g7?svg=true)](https://ci.appveyor.com/project/StuartShay/imagegallery-client)
 
-### Demo
+### Demo:
 ```
 https://dev.informationcart.com
 L: Claire P: password
@@ -28,12 +28,12 @@ L: Claire P: password
 
 Image Gallery Client is a .NET Core WebAPI/Angular Web Application, this project is a front end for managing and categorizing my large collection of New York City Landmarks and Attractions. 
 
-The Collection can be viewed here    
+The Collection can be viewed here  
+```  
 https://www.flickr.com/photos/stuartshay/
-
+```
 
 ![](assets/web.png)
-
 
 ### Prerequisites
 
@@ -41,9 +41,7 @@ https://www.flickr.com/photos/stuartshay/
 Node v9.3.0
 NET Core SDK 2.1.403
 NET Core Runtime 2.1.5
-VS Code 1.19.1 or VS 2017 15.8.4
 ```
-
 ### Install & Run
 
 ```
@@ -95,4 +93,3 @@ dotnet tool list -g
 ```
  .\build.ps1 -target sonar
 ```
-

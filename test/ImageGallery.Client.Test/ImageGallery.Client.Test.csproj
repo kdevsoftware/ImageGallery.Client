@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="25.0.2" />
+    <PackageReference Include="Bogus" Version="25.0.3" />
     <PackageReference Include="CountryData.Bogus" Version="1.11.0" />
     <PackageReference Include="FluentAssertions" Version="5.5.3" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.1" />
