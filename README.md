@@ -41,7 +41,6 @@ https://www.flickr.com/photos/stuartshay/
 ├── build   # Cake Build Configuration
 |
 ├── docker  # Docker Build Files
-│   │   
 │   └── imagegallery-client-base.dockerfile
 │   └── ...
 │   └── ...
@@ -58,7 +57,6 @@ https://www.flickr.com/photos/stuartshay/
 │   └── ImageGallery.Client # .NET Core Web
 |       |
 │       └── wwwroot # Angular Application
-|
 └── test    
    │   
    └── ImageGallery.Client.Test
