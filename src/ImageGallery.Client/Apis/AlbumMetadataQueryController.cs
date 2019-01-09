@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
-using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Constants;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Model.Models.Albums;
 using Microsoft.AspNetCore.Authorization;
@@ -16,7 +16,7 @@ namespace ImageGallery.Client.Apis
     /// <summary>
     ///  Album Metadata Controller.
     /// </summary>
-    [Route(AlbumRoutes.AlbumsRoute)]
+    [Route(ApiRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
     [ApiController]
     public class AlbumMetadataQueryController : BaseController

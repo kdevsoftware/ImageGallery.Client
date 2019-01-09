@@ -8,8 +8,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 export class AuthenticationService {
 
-    baseUrl: string = '/api/images';
-
+    baseUrl: string = '/api/authorization';
     constructor(private httpClient: HttpClient) {
     }
 

@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
-using ImageGallery.Client.Apis.Constants;
+using ImageGallery.Client.Constants;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels.UserManagement;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +19,7 @@ namespace ImageGallery.Client.Apis.UserManagement
     /// User Properties.
     /// </summary>
     [Authorize]
-    [Route(UserManagementRoutes.UserProfile)]
+    [Route(ApiRoutes.UserProfileRoute)]
     public class UserProfileApiCommandController : BaseController
     {
         private const string InternalUserProfileRoute = "api/UserProfile";

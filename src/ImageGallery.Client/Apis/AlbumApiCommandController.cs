@@ -5,8 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
-using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Constants;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ValidationRules.Constants;
 using ImageGallery.Client.ViewModels;
@@ -22,7 +22,7 @@ namespace ImageGallery.Client.Apis
     /// <summary>
     /// Album Api CommandController.
     /// </summary>
-    [Route(AlbumRoutes.AlbumsRoute)]
+    [Route(ApiRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
     [ApiController]
     public class AlbumApiCommandController : BaseController

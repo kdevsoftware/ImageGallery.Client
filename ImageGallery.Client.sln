@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27009.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A68B4FC4-7FD1-4584-8075-2F5A1C3B6373}"
 EndProject
@@ -13,9 +13,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{49B52D2E-9
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Client.Test", "test\ImageGallery.Client.Test\ImageGallery.Client.Test.csproj", "{8DF74D69-2F32-48B7-8624-EFFEB2677711}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Client.Test.UI", "test\ImageGallery.Client.Test.UI\ImageGallery.Client.Test.UI.csproj", "{8DF74D69-2F32-48B7-8624-EFFEB2677710}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "e2e", "e2e", "{4AD191E7-796F-4959-BCE2-B117B5C3CC08}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Service", "src\ImageGallery.Service\ImageGallery.Service.csproj", "{8DF74D69-2F32-48B7-8624-EFFEB2677712}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageGallery.Client.Test.UI", "e2e\ImageGallery.Client.Test.UI\ImageGallery.Client.Test.UI.csproj", "{8DF74D69-2F32-48B7-8624-EFFEB2677710}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +39,6 @@ Global
 		{8DF74D69-2F32-48B7-8624-EFFEB2677710}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DF74D69-2F32-48B7-8624-EFFEB2677710}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DF74D69-2F32-48B7-8624-EFFEB2677710}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8DF74D69-2F32-48B7-8624-EFFEB2677712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8DF74D69-2F32-48B7-8624-EFFEB2677712}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8DF74D69-2F32-48B7-8624-EFFEB2677712}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8DF74D69-2F32-48B7-8624-EFFEB2677712}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,8 +47,7 @@ Global
 		{8DF74D69-2F32-48B7-8624-EFFEB2677713} = {A68B4FC4-7FD1-4584-8075-2F5A1C3B6373}
 		{8DF74D69-2F32-48B7-8624-EFFEB2677714} = {A68B4FC4-7FD1-4584-8075-2F5A1C3B6373}
 		{8DF74D69-2F32-48B7-8624-EFFEB2677711} = {49B52D2E-9DCB-49F9-A4AE-F99D3C9852AA}
-		{8DF74D69-2F32-48B7-8624-EFFEB2677710} = {49B52D2E-9DCB-49F9-A4AE-F99D3C9852AA}
-		{8DF74D69-2F32-48B7-8624-EFFEB2677712} = {A68B4FC4-7FD1-4584-8075-2F5A1C3B6373}
+		{8DF74D69-2F32-48B7-8624-EFFEB2677710} = {4AD191E7-796F-4959-BCE2-B117B5C3CC08}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D0C774B9-E784-4231-8C30-94E6E325992A}

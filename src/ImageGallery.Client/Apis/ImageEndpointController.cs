@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
-using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Constants;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels;
 using ImageGallery.Model.Models.Images;
@@ -18,7 +18,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [ApiController]
-    [Route(GalleryRoutes.GalleryRoute)]
+    [Route(ApiRoutes.GalleryRoute)]
     public class ImageEndpointController : BaseController
     {
         private const string InternalImagesRoute = "api/images";

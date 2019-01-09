@@ -2,8 +2,8 @@
 using System.Net;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
-using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Constants;
 using ImageGallery.Client.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ namespace ImageGallery.Client.Apis
     ///
     /// </summary>
     [ApiController]
-    [Route(AlbumRoutes.AlbumsRoute)]
+    [Route(ApiRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
     public class AlbumPrimaryImageCommandController : BaseController
     {

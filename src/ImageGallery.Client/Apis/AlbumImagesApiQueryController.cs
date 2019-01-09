@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ImageGallery.Client.Apis.Base;
-using ImageGallery.Client.Apis.Constants;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Constants;
 using ImageGallery.Client.HttpClients;
 using ImageGallery.Client.ViewModels.Album;
 using ImageGallery.Client.ViewModels.Gallery;
@@ -21,7 +21,7 @@ namespace ImageGallery.Client.Apis
     /// Album Images Query Api.
     /// </summary>
     [ApiController]
-    [Route(AlbumRoutes.AlbumsRoute)]
+    [Route(ApiRoutes.AlbumsRoute)]
     [Authorize(Roles = "PayingUser, FreeUser")]
     public class AlbumImagesApiQueryController : BaseController
     {

@@ -62,7 +62,7 @@ export class AuthService {
     localStorage.removeItem('albums');
     localStorage.removeItem('currentUser');
 
-    this.httpClient.get(`/api/images/logout`).subscribe(res => {
+    this.httpClient.get(`/api/authorization/logout`).subscribe(res => {
       this.oAuthService.logOut(true);
       this.router.navigate(['/login']);
     });

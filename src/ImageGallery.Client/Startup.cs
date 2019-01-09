@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 using FluentValidation.AspNetCore;
 using ImageGallery.Client.Configuration;
+using ImageGallery.Client.Constants;
 using ImageGallery.Client.HttpClients;
 using Loggly;
 using Microsoft.AspNetCore.Authentication;
@@ -281,7 +281,7 @@ namespace ImageGallery.Client
         /* Http Clients */
         public static IServiceCollection AddHttpClientImageGalleryApi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient("imagegallery-api", async (s, x) =>
+            services.AddHttpClient(HttpClientConstants.ImageGalleryApiHttpClient, async (s, x) =>
                 {
                     var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
                         .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
@@ -302,7 +302,7 @@ namespace ImageGallery.Client
 
         public static IServiceCollection AddHttpClientUserManagementApi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient("user-management", async (s, x) =>
+            services.AddHttpClient(HttpClientConstants.UserManagementApiHttpClient, async (s, x) =>
                 {
                     var accessToken = await s.GetRequiredService<IHttpContextAccessor>().HttpContext
                         .GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
@@ -324,7 +324,7 @@ namespace ImageGallery.Client
 
         public static IServiceCollection AddHttpClientImageEndpointApi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient("image-endpoint", async (s, x) =>
+            services.AddHttpClient(HttpClientConstants.ImageEndpointApiHttpClient,  (s, x) =>
                 {
                     var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ImagesUri;
                     x.BaseAddress = new Uri(apiUri);
@@ -339,7 +339,7 @@ namespace ImageGallery.Client
 
         public static IServiceCollection AddHttpClientNavigatorIdentityApi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient("navigator-identity", async (s, x) =>
+            services.AddHttpClient(HttpClientConstants.NavigatorIdentityApiHttpClient,  (s, x) =>
                 {
                     var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.OpenIdConnectConfiguration.Authority;
                     x.BaseAddress = new Uri(apiUri);
