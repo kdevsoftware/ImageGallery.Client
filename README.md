@@ -40,9 +40,10 @@ https://www.flickr.com/photos/stuartshay/
 ├── build   # Cake Build Configuration
 |
 ├── docker  # Docker Build Files
-│   └── imagegallery-client-base.dockerfile
-│   └── ...
-│   └── ...
+│   └── *.dockerfile
+|       └── .dockerignore
+|       └── Dockerfile
+|
 ├── e2e    # End to End Tests
 │   │
 │   └── ImageGallery.Client.Test.UI # Selenium
