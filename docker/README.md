@@ -1,4 +1,4 @@
-## ImageGallery Docker Build Scripts
+## ImageGallery Dockerfiles
 
 [![This image on DockerHub](https://img.shields.io/docker/pulls/stuartshay/imagegallery-client.svg)](https://hub.docker.com/r/stuartshay/imagegallery-client/)
 
