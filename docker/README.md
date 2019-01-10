@@ -4,7 +4,10 @@
 
  Image | Desc | Size
 -------|----- | -------------
-Base  2.1.18 | Base Build Image (nuget/npm)|[![](https://images.microbadger.com/badges/image/stuartshay/imagegallery-client:2.1.18-build-auth.svg)](https://microbadger.com/images/stuartshay/imagegallery-client:2.1.18-build-auth "Get your own image badge on microbadger.com")
+Base  2.1.17 | Base Build Image (nuget/npm)|[![](https://images.microbadger.com/badges/image/stuartshay/imagegallery-client:2.1.7-base-auth.svg)](https://microbadger.com/images/stuartshay/imagegallery-client:2.1.7-base-auth "Get your own image badge on microbadger.com")
+Build  2.1.18 | Deployment Build Image |[![](https://images.microbadger.com/badges/image/stuartshay/imagegallery-client:2.1.18-build-auth.svg)](https://microbadger.com/images/stuartshay/imagegallery-client:2.1.18-build-auth "Get your own image badge on microbadger.com")
+
+
 
 
 ```
