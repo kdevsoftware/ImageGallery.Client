@@ -1,0 +1,60 @@
+<div>
+  <h3>{{ image.title }}</h3>
+  <div>
+    <span>{{ image.loc.location }}</span>
+  </div>
+  <div>
+    <span>{{ image.loc.city }}, {{ image.loc.state }}</span>
+  </div>
+
+  <div style="margin-top:10px;">
+    <span *ngFor="let word of image.keywords">
+      <span class="label label-primary">{{ word }}</span
+      >&nbsp;
+    </span>
+  </div>
+
+  <!-- <h5>Machine Tags</h5>
+          <div *ngFor="let mt of image.machineTags">
+            <span class="label label-inverse">{{mt.tag}}</span>
+          </div> -->
+
+  <div *ngIf="image.inventory" style="margin-top:10px;">
+    <div *ngIf="image.inventory.sculptor">
+      <span style="font-weight:bold;padding-right:5px">Sculptor:</span
+      ><span>{{ image.inventory.sculptor }}</span>
+    </div>
+    <div *ngIf="image.inventory.artist">
+      <span style="font-weight:bold;padding-right:5px">Artist:</span
+      ><span>{{ image.inventory.artist }}</span>
+    </div>
+    <div *ngIf="image.inventory.architect">
+      <span style="font-weight:bold;padding-right:5px">Architect:</span
+      ><span>{{ image.inventory.architect }}</span>
+    </div>
+    <div *ngIf="image.inventory.founder">
+      <span style="font-weight:bold;padding-right:5px">Founder:</span
+      ><span>{{ image.inventory.founder }}</span>
+    </div>
+    <div *ngIf="image.inventory.fabricator">
+      <span style="font-weight:bold;padding-right:5px">Fabricator:</span
+      ><span>{{ image.inventory.fabricator }}</span>
+    </div>
+  </div>
+
+  <div *ngIf="image.inventory" style="margin-top:10px;">
+    <span style="padding-right:5px;">{{ image.inventory.materials }}</span
+    ><span>{{ image.inventory.dimensions }}</span>
+  </div>
+
+  <h4 *ngIf="image.references">References</h4>
+  <div *ngFor="let reference of image.references">
+    <div class="panel panel-info">
+      <div class="panel-body">
+        <div>{{ reference.type }}</div>
+        <div>{{ reference.name }}</div>
+        <div>{{ reference.title }}</div>
+      </div>
+    </div>
+  </div>
+</div>

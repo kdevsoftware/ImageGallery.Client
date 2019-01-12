@@ -15,6 +15,10 @@ import { AlbumSortComponent } from './album-view/album-sort/album-sort.component
 import { DragDropModule } from "@angular/cdk/drag-drop";
 import { TagInputModule } from 'ngx-chips';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ImageDetailsComponent } from '../../shared/image/details/image-details.component';
+import { ImageMapComponent } from '../../shared/image/map/image-map.component';
+import { ImageJsonComponent } from '../../shared/image/json/image-json.component';
+import { AceEditorModule } from 'ng2-ace-editor';
 
 @NgModule({
     imports: [
@@ -25,8 +29,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         DragDropModule,
         BrowserAnimationsModule,
         TagInputModule,
+        AceEditorModule
     ],
-    declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, GalleryAddComponent, AboutComponent, KeysPipe],
+  declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, ImageDetailsComponent, ImageMapComponent, ImageJsonComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
         RouterModule,
         GalleryComponent,
@@ -38,6 +43,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         PaginationModule,
         NgxLoadingSpinnerModule,
         AlbumSortComponent,
+        ImageDetailsComponent,
+        ImageMapComponent,
+        ImageJsonComponent
     ]
 })
 export class GalleryModule { }
