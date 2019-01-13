@@ -37,7 +37,7 @@
     "bootstrap": "^4.2.1",
     "classlist.js": "1.1.20150312",
     "clean-webpack-plugin": "1.0.0",
-    "core-js": "2.6.1",
+    "core-js": "2.6.2",
     "css": "2.2.4",
     "css-loader": "^2.0.2",
     "es6-shim": "0.35.4",
@@ -48,7 +48,7 @@
     "intl": "1.2.5",
     "jquery": "3.3.1",
     "jquery.flot.tooltip": "github:krzysu/flot.tooltip",
-    "license-checker": "^24.1.0",
+    "license-checker": "^25.0.1",
     "loaders.css": "0.1.2",
     "lodash": "4.17.11",
     "modernizr": "3.6.0",
@@ -85,12 +85,12 @@
     "zone.js": "0.8.26"
   },
   "devDependencies": {
-    "@angular/cli": "^7.1.4",
+    "@angular/cli": "^7.2.1",
     "@auth0/angular-jwt": "^2.1.0",
-    "angular-auth-oidc-client": "^8.0.3",
+    "angular-auth-oidc-client": "^9.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "sonarqube-scanner": "^2.1.2",
-    "webpack": "^4.28.3",
+    "webpack": "^4.28.4",
     "webpack-dev-middleware": "^3.5.0"
   }
 }
