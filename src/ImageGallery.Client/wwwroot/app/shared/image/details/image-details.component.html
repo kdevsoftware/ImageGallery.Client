@@ -14,10 +14,11 @@
     </span>
   </div>
 
-  <!-- <h5>Machine Tags</h5>
-          <div *ngFor="let mt of image.machineTags">
-            <span class="label label-inverse">{{mt.tag}}</span>
-          </div> -->
+  <div *ngIf="image.machineTags" style="margin-top:10px;">
+    <div *ngFor="let mt of image.machineTags">
+      <span class="label label-inverse">{{mt.tag}}</span>
+    </div>
+  </div>
 
   <div *ngIf="image.inventory" style="margin-top:10px;">
     <div *ngIf="image.inventory.sculptor">
