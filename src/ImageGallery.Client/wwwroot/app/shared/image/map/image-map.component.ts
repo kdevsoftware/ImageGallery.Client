@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { GalleryService } from '../../../gallery.service';
 
+declare var google: any;
+
 @Component({
   selector: 'app-image-map',
   templateUrl: './image-map.component.html',
