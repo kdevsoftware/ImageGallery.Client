@@ -15,6 +15,7 @@ import { AboutComponent } from './gallery/about/about.component';
 //Guards
 import { HasPayingUserRoleAuthenticationGuard } from '../guards/hasPayingUserRoleAuthenticationGuard';
 import { AuthGuard } from '../guards/authGuard';
+import { UserManagementService } from '../services/user.service';
 
 export const routes = [
 
@@ -29,8 +30,11 @@ export const routes = [
       { path: 'album-view/:id', component: AlbumViewComponent },
       { path: 'gallery-edit/:id', component: GalleryEditComponent },
       { path: 'about', component: AboutComponent }
-    ]
-    , canActivate: [AuthGuard]
+    ],
+    canActivate: [AuthGuard],
+    resolve: {
+      data: UserManagementService
+    }
   },
 
   // Not lazy-loaded routes
