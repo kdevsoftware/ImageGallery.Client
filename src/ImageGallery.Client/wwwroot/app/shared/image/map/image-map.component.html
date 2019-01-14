@@ -1,1 +1,14 @@
-<div class="g-map" #gmap></div>
+<div *ngIf="image">
+  <agm-map [latitude]="image.map.center.latitude" [longitude]="image.map.center.longitude" [zoom]="image.map.zoom"
+    [disableDefaultUI]="false" [zoomControl]="true">
+
+    <agm-marker [latitude]="image.loc.lat" [longitude]="image.loc.lon" [label]="image.title" [markerDraggable]="false">
+
+      <agm-info-window>
+        <strong>{{image.title}}</strong>
+      </agm-info-window>
+
+    </agm-marker>
+
+  </agm-map>
+</div>
