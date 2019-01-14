@@ -1,7 +1,30 @@
 .navbar-inverse {
-  background-color: #090909;
+  background: #090909 !important;
 }
 
 .navbar-green {
-  background-color: #31708F;
+  background: #31708F !important;
+  min-height: 50px !important;
+  .navbar-header {
+    .navbar-brand {
+      color: #9d9d9d;
+      cursor: pointer;
+      &:hover {
+        color: white;
+      }
+    }
+  }
+  .navbar-nav {
+    .nav-item {
+      .nav-link {
+        font-size: 15px;
+        padding: 0.8rem 1rem;
+        cursor: pointer;
+        color: #9d9d9d;
+        &:hover {
+          color: white;
+        }
+      }
+    }
+  }
 }
