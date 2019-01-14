@@ -39,7 +39,7 @@
 .primary-image {
   margin-left: 10px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
   color: #5d9cec;
 }
 
@@ -142,4 +142,16 @@ a.crud-btn-pointer {
 .tab-content {
   padding: 0!important;
   border: none!important;
+}
+
+.breadcrumb {
+  margin: 0;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  padding: 10px 0;
+}
+
+.panel-primary {
+  border-color: #337ab7;
 }
