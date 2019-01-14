@@ -1,49 +1,47 @@
 <!-- <div *ngIf="userType?'PayingUser':navbarType1,navbarType2">
 
 </div> -->
-<div class="navbar navbar-fixed-top" [class.navbar-green]="userType === 'PayingUser'" [class.navbar-inverse]="userType !== 'PayingUser'">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a *ngIf="isAuthorized" routerLink="/" class="navbar-brand">Image Gallery</a>
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a *ngIf="isAuthorized" id="home" [routerLink]="['/']">Home</a>
-                </li>
-                <li>
-                    <a *ngIf="isAuthorized" id="albums" [routerLink]="['/albums']">Albums</a>
-                </li>
-                <li>
-                    <a *ngIf="(isAuthorized && hasPayingUserRole)" id="add_mage" routerLink="/gallery-add">Add an image</a>
-                </li>
-                <li>
-                    <a *ngIf="isAuthorized" id="about" routerLink="/about">About</a>
-                </li>
-                <li>
-                    <a *ngIf="isAuthorized" id="input_logout" href="#" (click)="logout()">Logout</a>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a *ngIf="isAuthorized" id="user_properties" href="#" (click)="openModal(template)">Welcome {{name}}</a>
-                </li>
-            </ul>
-        </div>
+
+<div class="navbar topnavbar" [class.navbar-green]="userType === 'PayingUser'" [class.navbar-inverse]="userType !== 'PayingUser'">
+    <div class="navbar-header">
+        <a *ngIf="isAuthorized" routerLink="/" class="navbar-brand">Image Gallery</a>
     </div>
+
+    <ul class="navbar-nav mr-auto flex-row">
+        <li class="nav-item">
+            <a class="nav-link d-none d-lg-block d-xl-block" *ngIf="isAuthorized" id="home" [routerLink]="['/']">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-none d-lg-block d-xl-block" *ngIf="isAuthorized" id="albums" [routerLink]="['/albums']">Albums</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-none d-lg-block d-xl-block" *ngIf="(isAuthorized && hasPayingUserRole)" id="add_mage"
+                routerLink="/gallery-add">Add
+                an image</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-none d-lg-block d-xl-block" *ngIf="isAuthorized" id="about" routerLink="/about">About</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link d-none d-lg-block d-xl-block" *ngIf="isAuthorized" id="input_logout" href="#" (click)="logout()">Logout</a>
+        </li>
+    </ul>
+    <ul class="navbar-nav flex-row mr-4">
+        <li class="nav-item">
+            <a class="nav-link d-none d-lg-block d-xl-block" *ngIf="isAuthorized" id="user_properties" href="#" (click)="openModal(template)">Welcome
+                {{name}}</a>
+        </li>
+    </ul>
 </div>
-<div class="container body-content">
+
+<div class="content-wrapper">
     <router-outlet></router-outlet>
-    <hr />
-    <footer>
-        <p>&copy; Image Gallery</p>
-    </footer>
+    <div class="container">
+        <hr />
+        <footer>
+            <p>&copy; Image Gallery</p>
+        </footer>
+    </div>
 </div>
 
 <ng-template #template>
@@ -54,49 +52,67 @@
         </button>
     </div>
     <div class="modal-body">
-        <form class="form-inline" [formGroup]="form">
-            <div class="row">
-                <div class="col-sm-12">
-                    <label for="firstName">First Name:</label>
+        <form class="form-horizontal" [formGroup]="form">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">First Name:</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="firstName" formControlName="firstName">
                 </div>
-                <div class="col-sm-12">
-                    <label for="lastName">Last Name:</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Last Name:</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="lastName" formControlName="lastName">
                 </div>
-                <div class="col-sm-12">
-                    <label for="address">Address:</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Address 1:</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="address" formControlName="address">
                 </div>
-                <div class="col-sm-12">
-                    <label for="address2">Address2:</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Address 2:</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="address2" formControlName="address2">
                 </div>
-                <div class="col-sm-12">
-                    <label for="city">City:</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">City:</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="city" formControlName="city">
                 </div>
-                <div class="col-sm-12">
-                    <label for="state">State:</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">State:</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="state" formControlName="state">
                 </div>
-                <div class="col-sm-12">
-                    <label for="postalCode">Postal Code:</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Postal Code:</label>
+                <div class="col-sm-9">
                     <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
                 </div>
-                <div class="col-sm-12">
-                    <label for="country">Country:</label>
-                    <input type="text" class="form-control" id="country" formControlName="country">
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Country:</label>
+                <div class="col-sm-9">
+                    <ngx-select [items]="countries" optionValueField="key" optionTextField="value" placeholder="No city selected"
+                        id="country" formControlName="country"></ngx-select>
                 </div>
-                <div class="col-sm-12">
-                    <label for="language">Language:</label>
-                    <input type="text" class="form-control" id="language" formControlName="language">
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Language:</label>
+                <div class="col-sm-9">
+                    <ngx-select [items]="languages" optionValueField="key" optionTextField="value" placeholder="No language selected"
+                        id="language" formControlName="language"></ngx-select>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
         <button class="btn btn-success" (click)="saveUserInfo()">Save Changes</button>
+        <button class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
     </div>
 </ng-template>
