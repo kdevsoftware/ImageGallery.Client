@@ -3,7 +3,6 @@
 
 body {
     padding-bottom: 20px;
-    background: white!important;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;
 }
 
@@ -13,13 +12,6 @@ body {
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 30px;
-}
-
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
 }
 
 /* Carousel */
@@ -104,59 +96,11 @@ img{
     overflow: hidden;
 }
 
-/* .navbar-inverse .navbar-brand{
-    color: #9d9d9d!important;
-} */
-
-/* .navbar-inverse .navbar-brand{
-    color: #9d9d9d!important;
-} */
-
-
-.navbar{
-    min-height: 50px!important;
-}
-
-.navbar-nav > li > a{
-    padding-top: 15px!important;
-    padding-bottom: 15px!important;
-}
-
-.navbar-brand{
-    padding:15px!important;
-    color: #9d9d9d!important;
-}
-
-.navbar-brand:hover{
-    padding:15px!important;
-    color: white!important;
-}
-
-.navbar-fixed-top{
-    height: 51px;
-}
-
-.navbar-inverse .navbar-nav>li>a{
-    color: #9d9d9d!important;
-}
-
-.navbar-inverse .navbar-nav>li>a:hover{
-    color: white!important;
-}
-
-.navbar-green .navbar-nav>li>a{
-    color: #9d9d9d!important;
-}
-
-.navbar-green .navbar-nav>li>a:hover{
-    color: white!important;
-}
-
-app-gallery .container {
-    margin-top: 50px;
-}
-
 #ggl-recaptcha {
     transform: scale(.96);
     transform-origin: 0 0;
+}
+
+.user-profile .modal-footer{
+    justify-content: space-between;
 }
