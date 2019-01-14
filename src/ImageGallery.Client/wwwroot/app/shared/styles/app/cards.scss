@@ -74,3 +74,24 @@
         margin-bottom: 0;
     }
 }
+
+// Customize
+
+.card {
+    border: 1px solid #aaa;
+
+    .card-footer {
+        background-color: #fafafa;
+        border-top: 1px solid #eee;
+        border-bottom-right-radius: 3px;
+        border-bottom-left-radius: 3px;
+    }
+}
+
+.card-default {
+    border-color: #cfdbe2;
+}
+
+.card-flat {
+    border: 0;
+}

@@ -104,6 +104,14 @@ hr {
     }
 }
 
+.card-gallery {
+    border-color: $card-default-border-color;
+
+    .card-header {
+        background-color: #fff;
+    }
+}
+
 .well {
     border: 1px solid $gray;
 }
