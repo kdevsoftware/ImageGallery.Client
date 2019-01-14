@@ -19,6 +19,7 @@ import { ImageDetailsComponent } from '../../shared/image/details/image-details.
 import { ImageMapComponent } from '../../shared/image/map/image-map.component';
 import { ImageJsonComponent } from '../../shared/image/json/image-json.component';
 import { AceEditorModule } from 'ng2-ace-editor';
+import { AgmCoreModule } from '@agm/core';
 
 @NgModule({
     imports: [
@@ -29,7 +30,12 @@ import { AceEditorModule } from 'ng2-ace-editor';
         DragDropModule,
         BrowserAnimationsModule,
         TagInputModule,
-        AceEditorModule
+        AceEditorModule,
+        AgmCoreModule.forRoot({
+          // please get your own API key here:
+          // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en
+          apiKey: 'AIzaSyAvcDy5ZYc2ujCS6TTtI3RYX5QmuoV8Ffw'
+        })
     ],
   declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, ImageDetailsComponent, ImageMapComponent, ImageJsonComponent, GalleryAddComponent, AboutComponent, KeysPipe],
     exports: [
