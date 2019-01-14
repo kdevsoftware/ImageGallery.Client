@@ -75,5 +75,22 @@ namespace ImageGallery.Client.Apis.Authorization
                     throw new Exception("Problem encountered while revoking the access token.", revokeAccessTokenResponse.Exception);
             }
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("renew")]
+        public async Task<string> RenewTokens()
+        {
+            var client = _clientFactory.CreateClient(HttpClientConstants.NavigatorIdentityApiHttpClient);
+
+            // Get Refresh Token
+            var refreshToken = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+
+            var result = string.Empty;
+            return result;
+        }
     }
 }

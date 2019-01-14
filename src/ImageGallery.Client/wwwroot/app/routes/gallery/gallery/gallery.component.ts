@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GalleryService } from '../../../gallery.service';
 import { IGalleryIndexViewModel, IRouteTypeModel } from '../../../shared/interfaces';
@@ -17,7 +17,6 @@ import { TitleService } from '../../../services/title.service';
   providers: [GalleryService]
 })
 export class GalleryComponent implements OnInit {
-
   galleryIndexViewModel: IGalleryIndexViewModel;
   typeModel: IRouteTypeModel;
 
@@ -33,7 +32,7 @@ export class GalleryComponent implements OnInit {
   searchTerm = '';
 
   modalRef: BsModalRef;
-  flickrList = [];
+  flickrImage: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -138,11 +137,35 @@ export class GalleryComponent implements OnInit {
 
   public showModal(photo, template) {
     this.spinnerService.show();
-    this.galleryService.getPhotoAttraction(photo.photoId).subscribe((res: any) => {
-      this.flickrList = res;
-      this.modalRef = this.modalService.show(template);
-      this.spinnerService.hide();
-    });
+    this.galleryService.getPhotoAttraction(photo.photoId).subscribe(
+      (res: any) => {
+        this.spinnerService.hide();
+        if (res.length) {
+          this.flickrImage = res[0];
+          this.modalRef = this.modalService.show(template);
+        } else {
+          this.toastr.warning(
+            'Information about this photo is not available',
+            '',
+            { closeButton: true }
+          );
+        }
+      },
+      error => {
+        this.spinnerService.hide();
+        if (typeof error === 'string' && error.includes('Not Found')) {
+          this.toastr.warning(
+            'Information about this photo is not available',
+            '',
+            { closeButton: true }
+          );
+        } else {
+          this.toastr.warning('The Reference API is not reachable', '', {
+            closeButton: true
+          });
+        }
+      }
+    );
   }
 
   private searchImage() {
@@ -156,9 +179,9 @@ export class GalleryComponent implements OnInit {
 
   private loadGalleryModel(limit, page) {
     this.spinnerService.show();
-    
+
     this.storage.setPerUser('search-text', this.searchTerm);
-    
+
     this.galleryService.getGalleryIndexViewModel(limit, page, this.searchTerm)
       .then((response: any) => {
         this.galleryIndexViewModel = response.images;
