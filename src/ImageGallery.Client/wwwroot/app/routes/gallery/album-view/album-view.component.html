@@ -9,11 +9,11 @@
       <div class="topMarginDefault">
         <div class="row" *ngIf="albumViewModel && albumViewModel.images">
           <div class="col-sm-6 col-md-4" *ngFor="let album of albumViewModel.images">
-            <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage">
-              <div class="panel-body text-center">
+            <div class="card card-default" [class.card-primary]="album.isPrimaryImage">
+              <div class="card-body text-center">
                 <img src="{{albumViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
               </div>
-              <div class="panel-footer">
+              <div class="card-footer">
                 <div class="d-flex">
                   <div class="input-group-for">
                     <input (keyup.enter)="onSubmitImageTitle(album, inputTitle, $event)" (blur)="onCancelEditImageTitle(album, inputTitle)"
@@ -30,7 +30,7 @@
                   </div>
                 </div>
                 <div>
-                  <a (click)="openDeleteModal(album, template)" class="crud-btn-pointer">Delete</a>
+                  <a (click)="openDeleteModal(album, template)" class="crud-btn-pointer" href="javascript:;">Delete</a>
                 </div>
               </div>
             </div>
@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="row pagination" *ngIf="pagination.totalItems > 0">
+      <div class="row pagination py-5" *ngIf="pagination.totalItems > 0">
         <div class="col-md-3 col-sm-12 page-num-info">
           <div class="inline">
             <select [ngModel]="pagination.limit" (ngModelChange)="getAlbumViewModel($event)">

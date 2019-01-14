@@ -1,4 +1,26 @@
-﻿.page-title {
+﻿$break-small: 767px;
+.pagination {
+  display: flex;
+  align-items: center;
+  .page-num-info {
+    margin-bottom: 15px;
+    @media screen and (max-width: $break-small) {
+      text-align: center;
+    }
+  }
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+  }
+  .text-right {
+    margin-bottom: 15px;
+    @media screen and (max-width: $break-small) {
+      text-align: center !important;
+    }
+  }
+}
+
+.page-title {
     margin: 10px 0 20px;
 }
 
@@ -111,4 +133,13 @@
 
 .album-details-tab .property-par {
   margin: .75rem 0;
+}
+
+a.crud-btn-pointer {
+  margin-left: 3px;
+}
+
+.tab-content {
+  padding: 0!important;
+  border: none!important;
 }
