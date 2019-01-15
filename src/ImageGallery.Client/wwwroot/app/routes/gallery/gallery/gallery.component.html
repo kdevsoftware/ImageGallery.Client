@@ -28,7 +28,7 @@
         </div>
         <div class="card-footer">
           <div class="d-flex">
-            <div class="d-flex flex-10">
+            <div class="d-flex flex-10 flickr-section">
               <h5 class="mr-1 image-title">{{image.title}}</h5>
               <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png"
                 (click)="showModal(image, template)" />
