@@ -33,7 +33,8 @@
               <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png"
                 (click)="showModal(image, template)" />
             </div>
-            <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)" class="flickr-checkbox">
+            <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)"
+              class="flickr-checkbox">
           </div>
           <h5>{{image.category}}</h5>
           <div>
@@ -80,7 +81,58 @@
     <div class="table-responsive">
       <tabset [justified]="true">
         <tab heading="Details">
-          <app-image-details [image]="flickrImage"></app-image-details>
+          <div *ngFor="let f of flickrList">
+            <h3 class="mt-5">{{f.title}}</h3>
+            <div>
+              <span>{{f.loc.location }}</span>
+            </div>
+            <div>
+              <span>{{ f.loc.city }}, {{ f.loc.state }}</span>
+            </div>
+
+            <div style="margin-top:10px; margin-bottom: 10px;">
+              <span *ngFor="let word of f.keywords" class="label label-primary" style="margin-right: 6px;">{{word}}</span>
+            </div>
+            
+            <div *ngFor="let mt of f.machineTags">
+              <span class="label label-inverse">{{mt.tag}}</span>
+            </div>
+
+            <div style="margin-top: 10px;"></div>
+
+            <div *ngIf="f.inventory">
+              <div *ngIf="f.inventory.sculptor">
+                <span style="font-weight:bold;padding-right:5px">Sculptor:</span><span>{{ f.inventory.sculptor }}</span>
+              </div>
+              <div *ngIf="f.inventory.artist">
+                <span style="font-weight:bold;padding-right:5px">Artist:</span><span>{{ f.inventory.artist }}</span>
+              </div>
+              <div *ngIf="f.inventory.architect">
+                <span style="font-weight:bold;padding-right:5px">Architect:</span><span>{{ f.inventory.architect }}</span>
+              </div>
+              <div *ngIf="f.inventory.founder">
+                <span style="font-weight:bold;padding-right:5px">Founder:</span><span>{{ f.inventory.founder }}</span>
+              </div>
+              <div *ngIf="f.inventory.fabricator">
+                <span style="font-weight:bold;padding-right:5px">Fabricator:</span><span>{{ f.inventory.fabricator }}</span>
+              </div>
+            </div>
+
+            <div *ngIf="f.inventory" style="margin-top:10px;">
+              <span style="padding-right:5px;">{{ f.inventory.materials }}</span><span>{{ f.inventory.dimensions }}</span>
+            </div>
+
+            <h4 *ngIf="f.references" style="margin-top: 10px;">References</h4>
+            <div *ngFor="let reference of f.references">
+              <div class="card card-info">
+                <div class="card-body">
+                  <div>{{reference.type}}</div>
+                  <div>{{reference.name}}</div>
+                  <div>{{reference.title}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </tab>
         <tab heading="Map">
           <br>
@@ -91,7 +143,7 @@
           <app-image-json [image]="flickrImage"></app-image-json>
         </tab>
       </tabset>
-     
+
     </div>
   </div>
 </ng-template>

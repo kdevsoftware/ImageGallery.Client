@@ -34,6 +34,7 @@ export class GalleryComponent implements OnInit {
 
   modalRef: BsModalRef;
   flickrImage: any;
+  flickrList = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -140,6 +141,7 @@ export class GalleryComponent implements OnInit {
     this.spinnerService.show();
     this.galleryService.getPhotoAttraction(photo.photoId).subscribe(
       (res: any) => {
+        this.flickrList = res;
         this.spinnerService.hide();
         if (res.length) {
           this.flickrImage = res[0];
