@@ -53,6 +53,11 @@ button {
   max-width: calc(100% - 30px);
 }
 
+.flickr-img {
+  margin-bottom: 8px;
+  margin-left: 4px;
+}
+
 .flickr-img:hover {
   cursor: pointer;
 }
@@ -118,4 +123,68 @@ button {
 
 .img-card img {
   height: 100%;
+}
+
+.flickr-checkbox {
+  margin-bottom: 8px;
+}
+
+.tab-content {
+  padding: 0!important;
+  border: none!important;
+}
+
+.breadcrumb {
+  margin: 0;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  padding: 10px 0;
+}
+
+.panel-primary {
+  border-color: #337ab7;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 4px 4px 0 0;
+}
+
+.nav-tabs-justified > .active > a,
+.nav-tabs.nav-justified > .active > a,
+.nav-tabs-justified > .active > a:hover,
+.nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs-justified > .active > a:focus,
+.nav-tabs.nav-justified > .active > a:focus {
+  border-bottom-color: #f5f7fa !important;
+  border: 1px solid #ddd;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #dde6e9;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  background: transparent;
+}
+
+.nav-tabs {
+  border: 0px;
+}
+
+.nav-tabs > .nav-item > .nav-link.active,
+.nav-tabs > .nav-item > .nav-link.active:hover,
+.nav-tabs > .nav-item > .nav-link.active:focus {
+  color: #dde6e9;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  color: #5d9cec;
+  font-weight: normal;
 }

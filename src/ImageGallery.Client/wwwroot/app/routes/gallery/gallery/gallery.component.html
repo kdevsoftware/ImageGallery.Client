@@ -33,7 +33,7 @@
               <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png"
                 (click)="showModal(image, template)" />
             </div>
-            <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
+            <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)" class="flickr-checkbox">
           </div>
           <h5>{{image.category}}</h5>
           <div>
@@ -78,59 +78,20 @@
   </div>
   <div class="modal-body">
     <div class="table-responsive">
-      <div *ngFor="let f of flickrList">
-        <h3>{{f.title}}</h3>
-        <div>
-          <span>{{f.loc.location }}</span>
-        </div>
-        <div>
-          <span>{{ f.loc.city }}, {{ f.loc.state }}</span>
-        </div>
-
-        <div *ngFor="let word of f.keywords">
-          <span class="label label-primary">{{word}}</span>
-        </div>
-
-        <h5>Machine Tags</h5>
-        <div *ngFor="let mt of f.machineTags">
-          <span class="label label-inverse">{{mt.tag}}</span>
-        </div>
-
-        <div *ngIf="f.inventory">
-          <div *ngIf="f.inventory.sculptor">
-            <span style="font-weight:bold;padding-right:5px">Sculptor:</span><span>{{ f.inventory.sculptor }}</span>
-          </div>
-          <div *ngIf="f.inventory.artist">
-            <span style="font-weight:bold;padding-right:5px">Artist:</span><span>{{ f.inventory.artist }}</span>
-          </div>
-          <div *ngIf="f.inventory.architect">
-            <span style="font-weight:bold;padding-right:5px">Architect:</span><span>{{ f.inventory.architect }}</span>
-          </div>
-          <div *ngIf="f.inventory.founder">
-            <span style="font-weight:bold;padding-right:5px">Founder:</span><span>{{ f.inventory.founder }}</span>
-          </div>
-          <div *ngIf="f.inventory.fabricator">
-            <span style="font-weight:bold;padding-right:5px">Fabricator:</span><span>{{ f.inventory.fabricator }}</span>
-          </div>
-        </div>
-
-        <div *ngIf="f.inventory" style="margin-top:10px;">
-          <span style="padding-right:5px;">{{ f.inventory.materials }}</span><span>{{ f.inventory.dimensions }}</span>
-        </div>
-
-        <h4 *ngIf="f.references">References</h4>
-        <div *ngFor="let reference of f.references">
-          <div class="card card-info">
-            <div class="card-body">
-              <div>{{reference.type}}</div>
-              <div>{{reference.name}}</div>
-              <div>{{reference.title}}</div>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
+      <tabset [justified]="true">
+        <tab heading="Details">
+          <app-image-details [image]="flickrImage"></app-image-details>
+        </tab>
+        <tab heading="Map">
+          <br>
+          <app-image-map [image]="flickrImage"></app-image-map>
+        </tab>
+        <tab heading="JSON">
+          <br>
+          <app-image-json [image]="flickrImage"></app-image-json>
+        </tab>
+      </tabset>
+     
     </div>
   </div>
 </ng-template>

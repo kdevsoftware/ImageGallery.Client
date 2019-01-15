@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GalleryService } from '../../../gallery.service';
 import { IGalleryIndexViewModel, IRouteTypeModel } from '../../../shared/interfaces';
@@ -14,6 +14,7 @@ import { TitleService } from '../../../services/title.service';
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [GalleryService]
 })
 export class GalleryComponent implements OnInit {
