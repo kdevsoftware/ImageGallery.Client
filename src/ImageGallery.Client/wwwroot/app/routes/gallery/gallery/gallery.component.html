@@ -1,40 +1,37 @@
 <div class="container">
-
-  <div class="row mt-3">
+  <div class="row">
     <div class="col-md-7 col-centered text-center">
       <div>
         <div class="input-group stylish-input-group">
           <input [(ngModel)]="searchTerm" (keyup.enter)="onSearchImage()" type="text" class="form-control" placeholder="Search...">
           <span class="input-group-addon clear" *ngIf="searchTerm">
             <button class="clear-btn" (click)="onClickClearSearch()">
-              <i class="fas fa-times"></i>
+              <span class="glyphicon glyphicon-remove"></span>
             </button>
           </span>
           <span class="input-group-addon">
             <button (click)="onSearchImage()">
-              <i class="fas fa-search"></i>
+              <span class="glyphicon glyphicon-search"></span>
             </button>
           </span>
         </div>
       </div>
     </div>
   </div>
-
   <div class="row" *ngIf="galleryIndexViewModel">
-    <div class="col-sm-12 col-md-6 col-lg-4" *ngFor="let image of galleryIndexViewModel.images; let i = index">
-      <div class="card card-default" [class.card-warning]="albums[i]">
-        <div class="card-body text-center img-responsive center-block img-card">
-          <img src="{{galleryIndexViewModel.imagesUri + image.fileName}}">
+    <div class="col-sm-6 col-md-4" *ngFor="let image of galleryIndexViewModel.images; let i = index">
+      <div class="panel panel-default" [class.panel-warning]="albums[i]">
+        <div class="panel-body text-center img-responsive center-block img-panel">
+          <img src="{{galleryIndexViewModel.imagesUri + image.fileName}}"> 
         </div>
-        <div class="card-footer">
+        <div class="panel-footer">
           <div class="d-flex">
-            <div class="d-flex flex-10 flickr-section">
+            <div class="d-flex flex-10">
               <h5 class="mr-1 image-title">{{image.title}}</h5>
               <img class="flickr-img" *ngIf="image.dataSource === 'Flickr' && image.photoId" src="../../../../assets/img/flickr.png"
                 (click)="showModal(image, template)" />
             </div>
-            <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)"
-              class="flickr-checkbox">
+            <input *ngIf="image.dataSource === 'Flickr' && image.photoId" type="checkbox" [checked]="albums[i]" (click)="saveAlbum(i)">
           </div>
           <h5>{{image.category}}</h5>
           <div>
@@ -45,30 +42,30 @@
       </div>
     </div>
   </div>
+</div>
 
-  <div class="row pagination my-5" *ngIf="pagination.totalItems > 0">
-    <div class="col-md-3 col-sm-12 page-num-info">
-      <div class="inline">
-        <select [ngModel]="limit" (ngModelChange)="updateLimit($event)">
-          <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
-        </select>
-        per page
-      </div>
-    </div>
-    <div class="col-md-6 col-sm-12 text-center pagination-container">
-      <pagination [totalItems]="pagination.totalItems" [itemsPerPage]="limit" [maxSize]="5" [(ngModel)]="page"
-        [boundaryLinks]="true" [rotate]="false" (pageChanged)="getGalleryIndexViewModel($event)" class="pagination-sm">
-      </pagination>
-    </div>
-    <div class="col-md-3 col-sm-12 text-right">
-      Total Records: <span id="lbl_totalRecords">{{pagination.totalItems}}</span>
+<div class="row pagination" *ngIf="pagination.totalItems > 0">
+  <div class="col-md-3 col-sm-12 page-num-info">
+    <div class="inline">
+      <select [ngModel]="limit" (ngModelChange)="updateLimit($event)">
+        <option [value]="p" *ngFor="let p of perPage">{{p}}</option>
+      </select>
+      per page
     </div>
   </div>
-
-  <div class="no-message" *ngIf="pagination.totalItems == 0">There are No Images in your Gallery</div>
-
-  <ngx-loading-spinner> </ngx-loading-spinner>
+  <div class="col-md-6 col-sm-12 text-center pagination-container">
+    <pagination [totalItems]="pagination.totalItems" [itemsPerPage]="limit" [maxSize]="5" [(ngModel)]="page"
+      [boundaryLinks]="true" [rotate]="false" (pageChanged)="getGalleryIndexViewModel($event)" class="pagination-sm">
+    </pagination>
+  </div>
+  <div class="col-md-3 col-sm-12 text-right">
+    Total Records: <span id="lbl_totalRecords">{{pagination.totalItems}}</span>
+  </div>
 </div>
+
+<div class="no-message" *ngIf="pagination.totalItems == 0">There are No Images in your Gallery</div>
+
+<ngx-loading-spinner> </ngx-loading-spinner>
 
 <ng-template #template>
   <div class="modal-header">
@@ -81,58 +78,7 @@
     <div class="table-responsive">
       <tabset [justified]="true">
         <tab heading="Details">
-          <div *ngFor="let f of flickrList">
-            <h3 class="mt-5">{{f.title}}</h3>
-            <div>
-              <span>{{f.loc.location }}</span>
-            </div>
-            <div>
-              <span>{{ f.loc.city }}, {{ f.loc.state }}</span>
-            </div>
-
-            <div style="margin-top:10px; margin-bottom: 10px;">
-              <span *ngFor="let word of f.keywords" class="label label-primary" style="margin-right: 6px;">{{word}}</span>
-            </div>
-            
-            <div *ngFor="let mt of f.machineTags">
-              <span class="label label-inverse">{{mt.tag}}</span>
-            </div>
-
-            <div style="margin-top: 10px;"></div>
-
-            <div *ngIf="f.inventory">
-              <div *ngIf="f.inventory.sculptor">
-                <span style="font-weight:bold;padding-right:5px">Sculptor:</span><span>{{ f.inventory.sculptor }}</span>
-              </div>
-              <div *ngIf="f.inventory.artist">
-                <span style="font-weight:bold;padding-right:5px">Artist:</span><span>{{ f.inventory.artist }}</span>
-              </div>
-              <div *ngIf="f.inventory.architect">
-                <span style="font-weight:bold;padding-right:5px">Architect:</span><span>{{ f.inventory.architect }}</span>
-              </div>
-              <div *ngIf="f.inventory.founder">
-                <span style="font-weight:bold;padding-right:5px">Founder:</span><span>{{ f.inventory.founder }}</span>
-              </div>
-              <div *ngIf="f.inventory.fabricator">
-                <span style="font-weight:bold;padding-right:5px">Fabricator:</span><span>{{ f.inventory.fabricator }}</span>
-              </div>
-            </div>
-
-            <div *ngIf="f.inventory" style="margin-top:10px;">
-              <span style="padding-right:5px;">{{ f.inventory.materials }}</span><span>{{ f.inventory.dimensions }}</span>
-            </div>
-
-            <h4 *ngIf="f.references" style="margin-top: 10px;">References</h4>
-            <div *ngFor="let reference of f.references">
-              <div class="card card-info">
-                <div class="card-body">
-                  <div>{{reference.type}}</div>
-                  <div>{{reference.name}}</div>
-                  <div>{{reference.title}}</div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-image-details [image]="flickrImage"></app-image-details>
         </tab>
         <tab heading="Map">
           <br>
@@ -143,7 +89,7 @@
           <app-image-json [image]="flickrImage"></app-image-json>
         </tab>
       </tabset>
-
+     
     </div>
   </div>
 </ng-template>

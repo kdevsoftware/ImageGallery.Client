@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 
-import { Observable } from 'rxjs/Observable'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+
+import { Observable } from 'rxjs/Rx'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 
 import { IUserProfileViewModel } from '../shared/interfaces';
-import { resolve } from 'dns';
 
 @Injectable()
-export class UserManagementService implements Resolve<any> {
+export class UserManagementService {
     private apiEndpoint = '';
 
     constructor(
@@ -21,31 +20,17 @@ export class UserManagementService implements Resolve<any> {
         });
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
-        return [
-            this.getCountries(),
-            this.getLanguages()
-        ]
-    }
-
-    getCountries() {
-        return this.httpClient.get('https://user-management.informationcart.com/api/Reference/countries');
-    }
-
-    getLanguages() {
-        return this.httpClient.get('https://user-management.informationcart.com/api/Reference/languages');
-    }
-
     getConfig() {
         return this.httpClient.get('api/ClientAppSettings');
     }
 
     public getUserInfo() {
-        return this.httpClient.get<IUserProfileViewModel>(`/api/UserProfile`).catch(this.handleError);
+        return this.httpClient.get<IUserProfileViewModel>(`/api/UserProfile`)
+            .catch(this.handleError);
     }
 
     public updateUserInfo(userModel: IUserProfileViewModel) {
-        return this.httpClient.put<IUserProfileViewModel>('/api/UserProfile', userModel);
+       return this.httpClient.put<IUserProfileViewModel>('/api/UserProfile', userModel);
     }
 
     resetPassword(email) {
