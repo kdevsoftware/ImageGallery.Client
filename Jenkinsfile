@@ -8,11 +8,11 @@ node('docker') {
 
     stage('Build & Deploy Docker') {
          sh '''mv docker/imagegallery-client-build.dockerfile/.dockerignore .dockerignore
-         docker build -f docker/imagegallery-client-build.dockerfile/Dockerfile --build-arg BUILD_NUMBER=${BUILD_NUMBER} -t stuartshay/imagegallery-client:2.1.19-build-auth .'''
+         docker build -f docker/imagegallery-client-build.dockerfile/Dockerfile --build-arg BUILD_NUMBER=${BUILD_NUMBER} -t stuartshay/imagegallery-client:2.1.20-build-auth .'''
         withCredentials([usernamePassword(credentialsId: 'docker-hub-navigatordatastore', usernameVariable: 'DOCKER_HUB_LOGIN', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
             sh "docker login -u ${DOCKER_HUB_LOGIN} -p ${DOCKER_HUB_PASSWORD}"
         }
-        sh '''docker push stuartshay/imagegallery-client:2.1.19-build-auth'''
+        sh '''docker push stuartshay/imagegallery-client:2.1.20-build-auth'''
     }
 
     stage ('Deploy Stack') {
