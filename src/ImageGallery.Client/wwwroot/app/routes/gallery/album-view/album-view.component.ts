@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
 
 import 'rxjs/add/operator/first';
@@ -18,7 +18,6 @@ import { Observable } from 'rxjs';
   selector: 'app-album-view',
   templateUrl: './album-view.component.html',
   styleUrls: ['./album-view.component.scss'],
-  encapsulation: ViewEncapsulation.None,
   providers: [GalleryService]
 })
 export class AlbumViewComponent implements OnInit {

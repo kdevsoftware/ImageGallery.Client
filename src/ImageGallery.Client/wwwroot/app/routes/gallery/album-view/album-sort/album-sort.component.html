@@ -10,11 +10,11 @@
       <div cdkDropList *ngFor="let image of albumImages.images" 
                        [cdkDropListEnterPredicate]="enteredImage" 
                        (cdkDropListDropped)="onDropImage()">
-        <div cdkDrag class="card card-default active-panel">
-          <div class="card-body text-center">
+        <div cdkDrag class="panel panel-default active-panel">
+          <div class="panel-body text-center">
             <img src="{{albumImages.imagesUri + '/' + image.fileName}}" width="150px" height="150px">
           </div>
-          <div class="card-footer">
+          <div class="panel-footer">
             <div class="d-flex j-c-between a-items">
               <div>
                 <h5>{{image.title}}</h5>

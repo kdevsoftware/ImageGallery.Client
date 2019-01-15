@@ -1,20 +1,32 @@
 /*!
  *
- * Angle - Bootstrap Admin Template
+ * Angle - Bootstrap Admin App + AngularJS
  *
- * Version: 4.2
+ * Version: 3.8
  * Author: @themicon_co
  * Website: http://themicon.co
  * License: https://wrapbootstrap.com/help/licenses
  *
  */
 
-// Bootstrap
-@import "bootstrap/functions";
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
-// Variables
+// Override bootstrap variables
 @import "app/variables";
+
+// Bootstrap
+@import "bootstrap/bootstrap/_mixins";
+@import "bootstrap/bootstrap/_glyphicons";
+
+// Global definition of media queries
+@import "app/media-queries";
+// Utilities
+@import "app/utils-definitions";
+
+// Bootstrap reset
+// @import "app/bootstrap-reset";
+
+// Typography
+@import "app/typo";
+
 // Layout
 @import "app/layout";
 @import "app/layout-extra";
@@ -22,45 +34,59 @@
 @import "app/top-navbar";
 @import "app/sidebar";
 @import "app/offsidebar";
-@import "app/user-block";
-@import "app/settings";
-// Common
-@import "app/typo";
-@import "app/bootstrap-reset";
-@import "app/bootstrap-custom";
+
+// Components
+@import "app/breadcrumbs";
+@import "app/loading-bar";
+@import "app/animate";
 @import "app/button-extra";
 @import "app/placeholder";
-@import "app/cards";
-@import "app/circles";
-@import "app/dropdown-extra";
-@import "app/half-float";
-@import "app/animate";
-@import "app/slim-scroll";
-@import "app/inputs";
-@import "app/utils";
-@import "app/print";
-// Elements
-@import "app/spinner";
-// Charts
+@import "app/panels";
+@import "app/progress-extra";
 @import "app/radial-bar";
+@import "app/user-block";
+@import "app/circles";
+@import "app/timeline";
+@import "app/dropdown-extra";
+@import "app/row-extra";
+@import "app/half-float";
+@import "app/masonry-grid";
+@import "app/widget";
+@import "app/typeahead";
+@import "app/table-grid";
+@import "app/todo";
+@import "app/file-upload";
+
 @import "app/chart-flot";
 @import "app/chart-easypie";
-// Form elements
-@import "app/form-select2";
-@import "app/form-tags-input";
-@import "app/file-upload";
+@import "app/form-elements";
+
 @import "app/summernote";
-@import "app/typeahead";
+@import "app/code-editor";
+
 // Tables
 @import "app/table-extras";
 @import "app/table-angulargrid";
-// Maps
+// Plugins
+@import "app/slim-scroll";
+@import "app/calendar";
+@import "app/spinner";
 @import "app/gmap";
 @import "app/vector-map";
-// Extras
-@import "app/timeline";
-@import "app/todo";
-@import "app/calendar";
+
+// Mailbox
 @import "app/mailbox";
+
+// Plans
 @import "app/plans";
+
+// Utilities
+@import "app/utils";
+
+// Print CSS
+@import "app/print";
+
+// Settings
+@import "app/settings";
+
 @import "app/toastr";

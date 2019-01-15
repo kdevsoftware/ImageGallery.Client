@@ -18,7 +18,6 @@ import { TitleService } from '../../../services/title.service';
 export class GalleryAddComponent implements OnInit {
 
   addImageViewModel: IAddImageViewModel = { title: "", category: "Portraits", file: null };
-  fileName: string;
 
   categories: string[] = ['Landscapes', 'Portraits', 'Animals'];
 
@@ -27,9 +26,7 @@ export class GalleryAddComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private strage: StorageService,
-    private titleService: TitleService) {
-    this.fileName = 'Choose File';
-  }
+    private titleService: TitleService) { }
 
   ngOnInit() {
     this.titleService.set('Gallery Add Image');
@@ -40,7 +37,6 @@ export class GalleryAddComponent implements OnInit {
     let target: HTMLInputElement = <HTMLInputElement>eventObj.target;
     let files: FileList = target.files;
     this.addImageViewModel.file = files[0];
-    this.fileName = this.addImageViewModel.file.name;
   }
 
   public onSubmit() {

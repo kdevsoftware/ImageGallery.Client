@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Subscription } from 'rxjs';
 import { RolesConstants } from '../roles.constants';
@@ -21,8 +20,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
   isAuthorized: boolean;
   type: string;
   userType: string;
-  countries: any;
-  languages: any;
 
   isUserInRoleSubscription: Subscription;
   hasPayingUserRole: boolean;
@@ -36,9 +33,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     private modalService: BsModalService,
     private userManagementService: UserManagementService,
     private toastr: ToastrService,
-    private strage: StorageService,
-    private route: ActivatedRoute
-  ) {
+    private strage: StorageService) {
     this.form = new FormGroup({
       firstName: new FormControl(['', Validators.required]),
       lastName: new FormControl(['', Validators.required]),
@@ -50,16 +45,6 @@ export class LayoutComponent implements OnInit, OnDestroy {
       country: new FormControl(['', Validators.required]),
       language: new FormControl(['', Validators.required]),
     });
-
-    this.route.data.subscribe(res => {
-      res['data'][0].subscribe(res => {
-        this.countries = res;
-      })
-
-      res['data'][1].subscribe(res => {
-        this.languages = res;
-      })
-    });
   }
 
   ngOnInit() {
@@ -67,7 +52,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
     this.type = 'album';
     this.userType = this.strage.get('currentUser');
     console.log("currentUser", this.userType);
-    
+
     this.isAuthorizedSubscription = this.authService.getIsAuthorized().subscribe(
       (isAuthorized: boolean) => {
         console.log(`[AuthService] -> [getIsAuthorized] raised with ${isAuthorized}`);
@@ -84,7 +69,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
 
     let userInfo: any = this.authService.getUser();
     this.name = userInfo.given_name + ' ' + userInfo.family_name;
-    
+
     this.userManagementService.getUserInfo().subscribe((res: IUserProfileViewModel) => {
       if (res) {
         this.name = res.firstName + ' ' + res.lastName;
@@ -119,7 +104,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-md user-profile' });
+    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
   }
 
   saveUserInfo() {
