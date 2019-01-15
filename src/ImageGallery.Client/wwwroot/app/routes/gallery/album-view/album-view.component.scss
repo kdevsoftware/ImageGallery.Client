@@ -43,15 +43,16 @@
   color: #5d9cec;
 }
 
-.primary-image.glyphicon-star-empty {
+.primary-image.far.fa-star {
   visibility: hidden;
+  cursor: pointer;
 }
 
-.primary-image.glyphicon-star {
+.primary-image.fas.fa-star {
   cursor: default;
 }
 
-.primary-image-hover:hover .primary-image.glyphicon-star-empty {
+.primary-image-hover:hover .primary-image.far.fa-star {
   visibility: visible;
 }
 
@@ -84,6 +85,7 @@
 .input-group-for button {
   position: absolute;
   top: 50%;
+  right: -8px;
   transform: translate(-50%, -50%);
   padding: 0;
   width: 30px;  

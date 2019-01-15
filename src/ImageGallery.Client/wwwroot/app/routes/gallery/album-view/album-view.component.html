@@ -20,13 +20,13 @@
                       [value]="album.title" type="text" class="property-edit property-edit-focus" #inputTitle>
                     <span class="input-group-addon">
                       <button (mousedown)="onSubmitImageTitle(album, inputTitle)">
-                        <i class="fa fa-pencil"></i>
+                        <i class="fas fa-pencil-alt"></i>
                       </button>
                     </span>
                   </div>
                   <div class="primary-image-hover">
-                    <span class="primary-image fa" aria-hidden="true" (click)="updatePrimaryImage(album)"
-                      [ngClass]="{'fa-star': album.isPrimaryImage, 'glyphicon-star-empty': !album.isPrimaryImage}"></span>
+                    <span class="primary-image fa-star" aria-hidden="true" (click)="updatePrimaryImage(album)"
+                      [ngClass]="{'fas': album.isPrimaryImage, 'far': !album.isPrimaryImage}"></span>
                   </div>
                 </div>
                 <div>
@@ -73,7 +73,7 @@
                   [value]="albumDetails.title" type="text" class="property-edit property-edit-focus" #inputAlbumTitle>
                 <span class="input-group-addon">
                   <button (mousedown)="onSubmitAlbumTitle(albumDetails, inputAlbumTitle)">
-                    <span class="glyphicon glyphicon-pencil"></span>
+                    <i class="fas fa-pencil-alt"></i>
                   </button>
                 </span>
               </div>
@@ -86,7 +86,7 @@
                   #inputAlbumDescription>
                 <span class="input-group-addon">
                   <button (mousedown)="onSubmitAlbumDescription(albumDetails, inputAlbumDescription)">
-                    <span class="glyphicon glyphicon-pencil"></span>
+                    <i class="fas fa-pencil-alt"></i>
                   </button>
                 </span>
               </div>
