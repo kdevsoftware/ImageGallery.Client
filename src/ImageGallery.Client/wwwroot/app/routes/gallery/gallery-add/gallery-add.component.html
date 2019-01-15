@@ -1,30 +1,36 @@
-﻿<h2 class="leftMarginSmaller">Add Image</h2>
+﻿<div class="container">
+    <h2 class="page-header">Add Image</h2>
 
-<form asp-action="AddImage" method="post" class="form-horizontal" role="form" enctype="multipart/form-data" *ngIf="addImageViewModel" (ngSubmit)="onSubmit()">
+    <form asp-action="AddImage" method="post" class="form-horizontal gallery-add" role="form" enctype="multipart/form-data"
+        *ngIf="addImageViewModel" (ngSubmit)="onSubmit()">
 
-    <div class="form-horizontal leftMarginDefault">
+        <div class="form-horizontal">
 
-        <div class="form-group">
-            <div>You image's title</div>
-            <input name="title" class="form-control" [(ngModel)]="addImageViewModel.title" />
-        </div>
+            <div class="form-group">
+                <div>You image's title</div>
+                <input name="title" class="form-control" [(ngModel)]="addImageViewModel.title" />
+            </div>
 
-        <div class="form-group">
-            <div>Category</div>
-            <select class="form-control" name="category" [(ngModel)]="addImageViewModel.category">
-                <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <div>Category</div>
+                <select class="form-control" name="category" [(ngModel)]="addImageViewModel.category">
+                    <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <div>The image file</div>
-            <input name="diles" type="file" class="form-control" (change)="onUpload($event)" accept=".jpg,.jpeg" />
-        </div>
+            <div class="form-group">
+                <div>The image file</div>
+                <label for="file2" class="file-upload">
+                    <button class="btn btn-secondary btn-block">{{ fileName }}</button>
+                    <input name="diles" type="file" class="form-control" (change)="onUpload($event)" accept=".jpg,.jpeg" />
+                </label>
+            </div>
 
-        <div class="form-group">
-            <div>
-                <input type="submit" class="btn btn-primary" value="Add image" />
+            <div class="form-group">
+                <div>
+                    <input type="submit" class="btn btn-primary" value="Add image" />
+                </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+</div>

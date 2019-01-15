@@ -1,66 +1,93 @@
 <div class="wrapper">
-    <div class="block-center mt-xl wd-xl">
+    <div class="block-center mt-4 wd-xl">
         <!-- START panel-->
-        <div class="panel panel-dark panel-flat">
-            <div class="panel-heading text-center">
+        <div class="card card-flat">
+            <div class="card-header text-center bg-dark">
                 <a href="#">
-                    <img class="block-center img-rounded" src="assets/img/logo.png" alt="Image" />
+                    <img class="block-center rounded" src="assets/img/logo.png" alt="Image" />
                 </a>
             </div>
-            <div class="panel-body" *ngIf="step === 1">
-                <p class="text-center pv">PASSWORD RESET</p>
-                <form [formGroup]="emailForm" class="form-validate mb-lg" role="form" name="recoverForm" novalidate="" (submit)="submitStep1($event, emailForm.value)">
+            <div class="card-body" *ngIf="step === 1">
+                <p class="text-center py-2">PASSWORD RESET</p>
+                <form [formGroup]="emailForm" class="form-validate mb-3" role="form" name="recoverForm" novalidate="" (submit)="submitStep1($event, emailForm.value)">
                     <p class="text-center">Fill with your mail to receive instructions on how to reset your password.</p>
-                    <div class="form-group has-feedback">
+                    <div class="form-group">
                         <label class="text-muted">Email address</label>
-                        <input class="form-control" type="email" name="email" placeholder="Enter email" autocomplete="off" formControlName="email"/>
-                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
-                        <span class="text-danger" *ngIf="emailForm.controls['email'].hasError('required') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched)">This field is required</span>
-                        <span class="text-danger" *ngIf="emailForm.controls['email'].hasError('email') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched)">This field must be a valid email address</span>
+                        <div class="input-group with-focus">
+                            <input class="form-control border-right-0" type="email" name="email" placeholder="Enter email" autocomplete="off" formControlName="email"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text text-muted bg-transparent border-left-0">
+                                    <em class="fa fa-envelope"></em>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-danger" *ngIf="emailForm.controls['email'].hasError('required') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched)">This field is required</div>
+                        <div class="text-danger" *ngIf="emailForm.controls['email'].hasError('email') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched)">This field must be a valid email address</div>
                     </div>
-                    <button class="btn btn-primary btn-block mt-lg" type="submit">Continue</button>
+                    <button class="btn btn-block btn-primary mt-3" type="submit">Continue</button>
                 </form>
-                <a class="btn btn-default btn-block" [routerLink]="'/login'">Login</a>
+                <a class="btn btn-block btn-secondary" [routerLink]="'/login'">Login</a>
             </div>
-            <div class="panel-body" *ngIf="step === 2">
-                <p class="text-center pv">SIGN IN WITH TEMPORARY PASSWORD</p>
-                <form [formGroup]="passForm" class="form-validate mb-lg" role="form" name="recoverForm" novalidate="" (submit)="submitStep2($event, passForm.value)">
+            <div class="card-body" *ngIf="step === 2">
+                <p class="text-center py-2">SIGN IN WITH TEMPORARY PASSWORD</p>
+                <form [formGroup]="passForm" class="orm-validate mb-3" role="form" name="recoverForm" novalidate="" (submit)="submitStep2($event, passForm.value)">
                     <p class="text-center">Your password has been sent to</p>
                     <p class="text-center">{{email}}</p>
-                    <div class="form-group has-feedback">
+                    <div class="form-group">
                         <label class="text-muted">Password</label>
-                        <input class="form-control" type="password" name="password" placeholder="Enter password" autocomplete="off" formControlName="password"/>
-                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
-                        <span class="text-danger" *ngIf="passForm.controls['password'].hasError('required') && (passForm.controls['password'].dirty || passForm.controls['password'].touched)">This field is required</span>
+                        <div class="input-group with-focus">
+                            <input class="form-control border-right-0" type="password" name="password" placeholder="Enter password" autocomplete="off" formControlName="password"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text text-muted bg-transparent border-left-0">
+                                    <em class="fa fa-lock"></em>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-danger" *ngIf="passForm.controls['password'].hasError('required') && (passForm.controls['password'].dirty || passForm.controls['password'].touched)">This field is required</div>
                     </div>
-                    <button class="btn btn-primary btn-block mt-lg" type="submit">Continue</button>
+                    <button class="btn btn-block btn-primary mt-3" type="submit">Continue</button>
                 </form>
-                <a class="btn btn-default btn-block" [routerLink]="'/login'">Login</a>
+                <a class="btn btn-block btn-secondary" [routerLink]="'/login'">Login</a>
             </div>
-            <div class="panel-body" *ngIf="step === 3">
-                <p class="text-center pv">UPDATE YOUR INFORMATION</p>
-                <form [formGroup]="resetForm" class="form-validate mb-lg" role="form" name="recoverForm" novalidate="" (submit)="submitStep3($event, resetForm.value)">
+            <div class="card-body" *ngIf="step === 3">
+                <p class="text-center py-2">UPDATE YOUR INFORMATION</p>
+                <form [formGroup]="resetForm" class="form-validate mb-3" role="form" name="recoverForm" novalidate="" (submit)="submitStep3($event, resetForm.value)">
                     <p class="text-center">Create a new password</p>
-                    <div class="form-group has-feedback">
+                    <div class="form-group">
                         <label class="text-muted">New Password</label>
-                        <input class="form-control" type="password" name="password" placeholder="Enter password" autocomplete="off" formControlName="password"/>
-                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
-                        <span class="text-danger" *ngIf="resetForm.controls['password'].hasError('required') && (resetForm.controls['password'].dirty || resetForm.controls['password'].touched)">This field is required</span>
-                        <label class="text-muted">Confirm Password</label>
-                        <input class="form-control" type="password" name="confirmPassword" placeholder="Enter password" autocomplete="off" formControlName="confirmPassword"/>
-                        <span class="fa fa-envelope form-control-feedback text-muted"></span>
-                        <span class="text-danger" *ngIf="resetForm.controls['confirmPassword'].hasError('required') && (resetForm.controls['confirmPassword'].dirty || resetForm.controls['confirmPassword'].touched)">This field is required</span>
+                        <div class="input-group with-focus">
+                            <input class="form-control border-right-0" type="password" name="password" placeholder="Enter password" autocomplete="off" formControlName="password"/>
+                            <div class="input-group-append">
+                                <span class="input-group-text text-muted bg-transparent border-left-0">
+                                    <em class="fa fa-lock"></em>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-danger" *ngIf="resetForm.controls['password'].hasError('required') && (resetForm.controls['password'].dirty || resetForm.controls['password'].touched)">This field is required</div>
                     </div>
-                    <button class="btn btn-primary btn-block mt-lg" type="submit">Reset</button>
+
+                    <div class="form-group">
+                        <label class="text-muted">Confirm Password</label>
+                        <input class="form-control border-right-0" type="password" name="confirmPassword" placeholder="Enter password" autocomplete="off" formControlName="confirmPassword"/>
+                        <div class="input-group-append">
+                            <span class="input-group-text text-muted bg-transparent border-left-0">
+                                <em class="fa fa-lock"></em>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-danger" *ngIf="resetForm.controls['confirmPassword'].hasError('required') && (resetForm.controls['confirmPassword'].dirty || resetForm.controls['confirmPassword'].touched)">This field is required</div>
+
+                    <button class="btn btn-block btn-primary mt-3" type="submit">Reset</button>
                 </form>
-                <a class="btn btn-default btn-block" [routerLink]="'/login'">Login</a>
+                <a class="btn btn-block btn-secondary" [routerLink]="'/login'">Login</a>
             </div>
         </div>
+        
         <!-- END panel-->
-        <div class="p-lg text-center">
+        <div class="p-3 text-center">
             <span>&copy; </span>
             <span>{{ settings.app.year }}</span>
-            <span> - </span>
+            <span class="mx-2">-</span>
             <span>Navigator Photo Management</span>
         </div>
     </div>

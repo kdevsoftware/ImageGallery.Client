@@ -28,6 +28,7 @@ import { VectormapDirective } from './directives/vectormap/vectormap.directive';
 import { NowDirective } from './directives/now/now.directive';
 import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
 import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
+import { NgxSelectModule } from 'ngx-select-ex';
 
 // https://angular.io/styleguide#!#04-10
 @NgModule({
@@ -50,7 +51,8 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         TabsModule.forRoot(),
         TimepickerModule.forRoot(),
         TooltipModule.forRoot(),
-        TypeaheadModule.forRoot()
+        TypeaheadModule.forRoot(),
+        NgxSelectModule,
     ],
     providers: [
         ColorsService
@@ -91,7 +93,8 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         VectormapDirective,
         NowDirective,
         ScrollableDirective,
-        JqcloudDirective
+        JqcloudDirective,
+        NgxSelectModule,
     ]
 })
 

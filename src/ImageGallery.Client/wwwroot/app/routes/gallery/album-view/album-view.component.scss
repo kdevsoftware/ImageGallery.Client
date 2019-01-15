@@ -1,4 +1,26 @@
-﻿.page-title {
+﻿$break-small: 767px;
+.pagination {
+  display: flex;
+  align-items: center;
+  .page-num-info {
+    margin-bottom: 15px;
+    @media screen and (max-width: $break-small) {
+      text-align: center;
+    }
+  }
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+  }
+  .text-right {
+    margin-bottom: 15px;
+    @media screen and (max-width: $break-small) {
+      text-align: center !important;
+    }
+  }
+}
+
+.page-title {
     margin: 10px 0 20px;
 }
 
@@ -17,19 +39,20 @@
 .primary-image {
   margin-left: 10px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
   color: #5d9cec;
 }
 
-.primary-image.glyphicon-star-empty {
+.primary-image.far.fa-star {
   visibility: hidden;
+  cursor: pointer;
 }
 
-.primary-image.glyphicon-star {
+.primary-image.fas.fa-star {
   cursor: default;
 }
 
-.primary-image-hover:hover .primary-image.glyphicon-star-empty {
+.primary-image-hover:hover .primary-image.far.fa-star {
   visibility: visible;
 }
 
@@ -62,6 +85,7 @@
 .input-group-for button {
   position: absolute;
   top: 50%;
+  right: -8px;
   transform: translate(-50%, -50%);
   padding: 0;
   width: 30px;  
@@ -111,4 +135,68 @@
 
 .album-details-tab .property-par {
   margin: .75rem 0;
+}
+
+a.crud-btn-pointer {
+  margin-left: 3px;
+}
+
+.tab-content {
+  padding: 0!important;
+  border: none!important;
+}
+
+.breadcrumb {
+  margin: 0;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  padding: 10px 0;
+}
+
+.panel-primary {
+  border-color: #337ab7;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 4px 4px 0 0;
+}
+
+.nav-tabs-justified > .active > a,
+.nav-tabs.nav-justified > .active > a,
+.nav-tabs-justified > .active > a:hover,
+.nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs-justified > .active > a:focus,
+.nav-tabs.nav-justified > .active > a:focus {
+  border-bottom-color: #f5f7fa !important;
+  border: 1px solid #ddd;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #dde6e9;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  background: transparent;
+}
+
+.nav-tabs {
+  border: 0px;
+}
+
+.nav-tabs > .nav-item > .nav-link.active,
+.nav-tabs > .nav-item > .nav-link.active:hover,
+.nav-tabs > .nav-item > .nav-link.active:focus {
+  color: #dde6e9;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  color: #5d9cec;
+  font-weight: normal;
 }

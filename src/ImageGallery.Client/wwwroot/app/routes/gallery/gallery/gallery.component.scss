@@ -1,89 +1,111 @@
+$break-small: 767px;
+button {
+  cursor: pointer;
+}
 
 .pagination {
+  display: flex;
+  align-items: center;
+  .page-num-info {
+    margin-bottom: 15px;
+    @media screen and (max-width: $break-small) {
+      text-align: center;
+    }
+  }
+  .pagination-container {
     display: flex;
-    align-items: center;
+    justify-content: center;
+  }
+  .text-right {
+    margin-bottom: 15px;
+    @media screen and (max-width: $break-small) {
+      text-align: center !important;
+    }
+  }
 }
 
 .no-message {
-    display: inline-block;
-    border-radius: 10px;
-    padding: 15px 30px;
-    background-color: rgb(225, 225, 225);
-    margin: 20px 0;
-}
-
-.card {
-    border: 1px solid #aaa;
+  display: inline-block;
+  border-radius: 10px;
+  padding: 15px 30px;
+  background-color: rgb(225, 225, 225);
+  margin: 20px 0;
 }
 
 .d-flex {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .flex-10 {
-    flex: 10;
-    max-width: 100%;
+  flex: 10;
+  max-width: 100%;
 }
 
 .mr-1 {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .image-title {
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-    max-width: calc(100% - 30px);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: calc(100% - 30px);
+}
+
+.flickr-img {
+  margin-bottom: 8px;
+  margin-left: 4px;
 }
 
 .flickr-img:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .col-centered {
-    float: none;
-    margin: 0 auto;
+  float: none;
+  margin: 0 auto;
 }
 
 .stylish-input-group {
-    position: relative;
-    width: 100%;
-    margin-bottom: 30px;
+  position: relative;
+  width: 100%;
+  margin-bottom: 30px;
 }
 
 .stylish-input-group .form-control {
-    border-right: 0; 
-    max-width: 100%;
-    width: 100%;
-    height: 45px;
-    border-radius: 40px;
+  max-width: 100%;
+  width: 100%;
+  height: 45px;
+  border-radius: 40px;
+  padding-left: 22px;
+  padding-right: 80px;
 }
 
-.stylish-input-group .input-group-addon{
-    padding: 0;
-    height: 45px;
-    width: 45px;
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    border: none;
-    background: none; 
-    outline: none;
-    z-index: 100;
-    cursor: pointer;
+.stylish-input-group .input-group-addon {
+  padding: 0;
+  height: 45px;
+  width: 45px;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  outline: none;
+  z-index: 100;
+  cursor: pointer;
 }
 
-.stylish-input-group button{
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    padding: 0;
-    border:0;
-    background: transparent;
-    outline: none;
-    color: #1b72e2;
+.stylish-input-group button {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  outline: none;
+  color: #1b72e2;
 }
 
 .stylish-input-group .clear-btn {
@@ -91,12 +113,86 @@
   color: #d9534f;
 }
 
-.img-panel {
-    height: 280px;
-    width: 360px;
-    overflow: hidden;
+.img-card {
+  height: 280px;
+  width: 360px;
+  overflow: hidden;
+  max-width: 100%;
+  margin: auto;
 }
 
-.img-panel img {
-    height: 100%;
+.img-card img {
+  height: 100%;
+}
+
+.flickr-checkbox {
+  margin-bottom: 8px;
+}
+
+.tab-content {
+  padding: 0!important;
+  border: none!important;
+}
+
+.breadcrumb {
+  margin: 0;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  padding: 10px 0;
+}
+
+.panel-primary {
+  border-color: #337ab7;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  border-top: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  border-bottom: 1px solid #ddd;
+  border-radius: 4px 4px 0 0;
+}
+
+.nav-tabs-justified > .active > a,
+.nav-tabs.nav-justified > .active > a,
+.nav-tabs-justified > .active > a:hover,
+.nav-tabs.nav-justified > .active > a:hover,
+.nav-tabs-justified > .active > a:focus,
+.nav-tabs.nav-justified > .active > a:focus {
+  border-bottom-color: #f5f7fa !important;
+  border: 1px solid #ddd;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #dde6e9;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  background: transparent;
+}
+
+.nav-tabs {
+  border: 0px;
+}
+
+.nav-tabs > .nav-item > .nav-link.active,
+.nav-tabs > .nav-item > .nav-link.active:hover,
+.nav-tabs > .nav-item > .nav-link.active:focus {
+  color: #dde6e9;
+}
+
+.nav-tabs > .nav-item > .nav-link {
+  color: #5d9cec;
+  font-weight: normal;
+}
+
+.flickr-section {
+  justify-content: start;
+}
+
+.card-info {
+  border-color: #cfdbe2
 }

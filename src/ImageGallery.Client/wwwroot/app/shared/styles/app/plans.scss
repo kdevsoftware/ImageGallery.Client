@@ -5,12 +5,11 @@
 .plan {
     background-color: $gray-lighter;
     overflow: auto;
-    border-radius: $border-radius-base;
-    // margin-bottom: 60px;
+    border-radius: $border-radius; // margin-bottom: 60px;
     padding-bottom: 30px;
 
     .plan-header {
-        background-color: $brand-info;
+        background-color: $info;
         color: #fff;
         margin: 0;
         padding: 20px 10px;
@@ -25,7 +24,6 @@
         h2 {
             margin: 0;
         }
-
     }
 
     .plan-period {
@@ -51,24 +49,21 @@
         margin-bottom: 25px;
         text-align: left;
 
-        > li {
+        >li {
             padding: 8px 24px;
 
-            > em {
-                color: $brand-info;
+            >em {
+                color: $info;
                 margin-right: 7px;
             }
 
             &:last-child {
                 padding-bottom: 0;
             }
-
         }
-
     }
 
     .plan-feature-disable {
-        color: $brand-danger !important;
+        color: $danger !important;
     }
-
 }

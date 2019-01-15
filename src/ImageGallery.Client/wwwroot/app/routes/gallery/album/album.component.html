@@ -2,12 +2,12 @@
   <h2 class="page-header">Albums</h2>
   <div class="row" *ngIf="albumIndexViewModel">
     <div class="col-sm-6 col-md-4" *ngFor="let album of albumIndexViewModel.albums">
-      <div class="panel panel-default" [class.panel-primary]="album.isPrimaryImage" (click)="goToAlbumView(album)">
+      <div class="card card-default" [class.card-primary]="album.isPrimaryImage" (click)="goToAlbumView(album)">
         <div *ngIf="isEditMode" (click)="onTransparAreaClick()" class="transpar-area"></div>
-        <div class="panel-body text-center">
+        <div class="card-body text-center">
           <img src="{{albumIndexViewModel.imagesUri + '/' + album.fileName}}" width="{{album.width}}" height="{{album.height}}">
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <div class="input-group-for">
             <input (click)="onClickProperty($event)" (keyup.enter)="onSubmitTitle(album, inputTitle, $event)" (blur)="onCancelEditTitle(album, inputTitle)"
               [value]="album.title" type="text" class="property-edit property-edit-focus" #inputTitle>
@@ -28,14 +28,14 @@
             </span>
           </div>
           <div>
-            <a (click)="openDeleteModal(album, template, $event)" class="crud-btn-pointer">Delete</a>
+            <a (click)="openDeleteModal(album, template, $event)" class="crud-btn-pointer" href="javascript:;"> Delete</a>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row pagination" *ngIf="pagination.totalItems > 0">
+  <div class="row pagination my-5" *ngIf="pagination.totalItems > 0">
     <div class="col-md-3 col-sm-12 page-num-info">
       <div class="inline">
         <select [ngModel]="pagination.limit" (ngModelChange)="updateLimit($event)">
