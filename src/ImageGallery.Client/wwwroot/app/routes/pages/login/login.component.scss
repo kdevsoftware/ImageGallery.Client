@@ -1,0 +1,47 @@
+.block-center {
+   .img-rounded{
+      width: 35%;
+   }
+  .btn-yellow {
+    color: #fff;
+    background-color: #feb967;
+    border-color: #feb967;
+  }
+
+  .form-control, .text-center, .btn-color {
+    font-family: Segoe UI, Regular;
+    color: black;
+  }
+
+  .form-control {
+    //font-size: 16pt;
+    background-color: rgba(247,247,247,0.75);
+    border: none;
+  }
+   .checkbox{
+     label{
+       font-family: Segoe UI, Regular;
+       opacity: 0.7;
+       color: black;
+       font-size: 13px;
+     }
+   }
+  .btn-color, .pv {
+    opacity: 0.7;
+  }
+  .btn-yellow{
+    margin-top: 30px !important;
+  }
+  .p-lg > span {
+    color: #909FA7;
+  }
+   .text-muted{
+     font-size: 13px;
+   }
+  .clearfix{
+    margin-top: 22px;
+  }
+  .btn {
+    font-family: Segoe UI, Regular;
+  }
+}

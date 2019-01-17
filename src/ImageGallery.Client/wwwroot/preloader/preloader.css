@@ -15,40 +15,37 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background-color: #5bc0de;
-    background-image: -webkit-linear-gradient(90deg, #5bc0de 10%, #19a9d5 90%); /* Chrome 10+, Saf5.1+ */
-    background-image: -moz-linear-gradient(90deg, #5bc0de 10%, #19a9d5 90%); /* FF3.6+ */
-    background-image: -ms-linear-gradient(90deg, #5bc0de 10%, #19a9d5 90%); /* IE10 */
-    background-image: -o-linear-gradient(90deg, #5bc0de 10%, #19a9d5 90%); /* Opera 11.10+ */
-    background-image: linear-gradient(90deg, #5bc0de 10%, #19a9d5 90%); /* W3C */
+    background-size: cover;
+    background-color: #51bddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     z-index: 9999;
     transition: opacity .65s;
 }
 
 /*@noflip*/
 .preloader-progress {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100px;
-    height: 30px;
-    margin: auto;
+    width: 600px;
+    max-width: 600px;
+    height: 295px;
     overflow: auto;
-    background-image: url(../assets/img/preloader/preloader.empty.png);
-    background-size: 100px 30px;
+    background-image: url(../assets/img/preloader/logo_bg2.png);
+    background-size: 100%;
+    margin-bottom: 100px;
+    background-repeat: no-repeat;
 }
 
 /*@noflip*/
-.preloader-progress-bar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    min-width: 10px;
-    background-image: url(../assets/img/preloader/preloader.full.png);
-    background-size: 100px 30px;
+.preloader-progress-loader {
+    width: 46px;
+    height: 46px;
+    background-image: url(../assets/img/preloader/loader.png);
+    background-size: 100%;
+    -webkit-animation:spin 7s linear infinite;
+    -moz-animation:spin 7s linear infinite;
+    animation:spin 7s linear infinite;
 }
 
 .preloader-hidden {
@@ -69,3 +66,21 @@
     opacity: 0;
 }
 /* color="#818181" */
+
+@-moz-keyframes spin { 25% { -moz-transform: rotate(360deg); } 50% { -moz-transform: rotate(720deg); } 75% { -moz-transform: rotate(980deg); } 100% { -moz-transform: rotate(1340deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 25% { -webkit-transform: rotate(360deg); } 50% { -webkit-transform: rotate(720deg); } 75% { -webkit-transform: rotate(980deg); } 100% { -webkit-transform: rotate(1340deg); } }
+
+
+@media screen and (max-width: 600px){
+    .preloader-progress {
+        width: 320px;
+        max-width: 320px;
+        height: 150px;
+        overflow: auto;
+        background-image: url(../assets/img/preloader/logo_bg2.png);
+        background-size: 100%;
+        margin-bottom: 100px;
+        background-repeat: no-repeat;
+    }
+}
