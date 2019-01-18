@@ -21,6 +21,9 @@ export class LayoutComponent implements OnInit, OnDestroy {
   type: string;
   userType: string;
 
+  countries: Array<any>;
+  languages: Array<any>;
+
   isUserInRoleSubscription: Subscription;
   hasPayingUserRole: boolean;
   name = '';
@@ -70,6 +73,13 @@ export class LayoutComponent implements OnInit, OnDestroy {
     let userInfo: any = this.authService.getUser();
     this.name = userInfo.given_name + ' ' + userInfo.family_name;
 
+    this.userManagementService.getCountries().subscribe((res: Array<any>) => {
+      this.countries = res;
+    });
+
+    this.userManagementService.getLanguages().subscribe((res: Array<any>) => {
+      this.languages = res;
+    });
     this.userManagementService.getUserInfo().subscribe((res: IUserProfileViewModel) => {
       if (res) {
         this.name = res.firstName + ' ' + res.lastName;
@@ -104,7 +114,7 @@ export class LayoutComponent implements OnInit, OnDestroy {
   }
 
   openModal(template: TemplateRef<any>) {
-    this.modalRef = this.modalService.show(template, { class: 'modal-sm' });
+    this.modalRef = this.modalService.show(template);
   }
 
   saveUserInfo() {
