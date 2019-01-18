@@ -1,10 +1,10 @@
 <div class="wrapper">
-    <div class="block-center mt-xl wd-xl">
+    <div class="block-center new-form mt-xl wd-xl">
         <!-- START panel-->
-        <div class="panel panel-dark panel-flat">
+        <div class="panel panel-new panel-flat">
             <div class="panel-heading text-center">
                 <a href="#">
-                    <img class="block-center img-rounded" src="assets/img/logo.png" alt="Image" />
+                    <img class="block-center img-rounded" src="assets/img/logo1.png" alt="Image" />
                 </a>
             </div>
             <div class="panel-body">
@@ -33,11 +33,11 @@
                             <a class="text-muted" [routerLink]="'recover'">Forgot your password?</a>
                         </div>
                     </div>
-                    <button class="btn btn-block btn-primary mt-lg" type="submit">Login</button>
+                    <button class="btn btn-block btn-primary mt-lg btn-yellow" type="submit">Login</button>
                 </form>
                 <div id="val_alert_message" class="alert alert-danger text-center" *ngIf="alertMessage">{{alertMessage}}</div>
                 <!-- <div class="alert alert-danger text-center" ></div> -->
-                <a class="btn btn-block btn-default" [routerLink]="'register'">Register</a>
+                <a class="btn btn-block btn-default btn-color" [routerLink]="'register'">Register</a>
             </div>
         </div>
         <!-- END panel-->

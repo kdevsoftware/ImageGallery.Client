@@ -120,3 +120,7 @@
 .panel-dark {
   @include panel-variant($panel-global-border, #fff, $brand-dark, $brand-dark);
 }
+
+.panel-new {
+  @include panel-variant($panel-global-border, #fff, $brand-blue, $brand-blue);
+}
