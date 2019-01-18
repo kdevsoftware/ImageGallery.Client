@@ -1,10 +1,10 @@
 <div class="wrapper">
-    <div class="block-center mt-xl wd-xl">
+    <div class="block-center new-form mt-xl wd-xl">
         <!-- START panel-->
-        <div class="panel panel-dark panel-flat">
+        <div class="panel panel-dark panel-new panel-flat">
             <div class="panel-heading text-center">
                 <a href="#">
-                    <img class="block-center img-rounded" src="assets/img/logo.png" alt="Image" />
+                    <img class="block-center img-rounded" src="assets/img/logo1.png" alt="Image" />
                 </a>
             </div>
             <div class="panel-body" *ngIf="step === 1">
@@ -18,7 +18,7 @@
                         <span class="text-danger" *ngIf="emailForm.controls['email'].hasError('required') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched)">This field is required</span>
                         <span class="text-danger" *ngIf="emailForm.controls['email'].hasError('email') && (emailForm.controls['email'].dirty || emailForm.controls['email'].touched)">This field must be a valid email address</span>
                     </div>
-                    <button class="btn btn-primary btn-block mt-lg" type="submit">Continue</button>
+                    <button class="btn btn-yellow btn-block mt-lg" type="submit">Continue</button>
                 </form>
                 <a class="btn btn-default btn-block" [routerLink]="'/login'">Login</a>
             </div>
@@ -33,7 +33,7 @@
                         <span class="fa fa-envelope form-control-feedback text-muted"></span>
                         <span class="text-danger" *ngIf="passForm.controls['password'].hasError('required') && (passForm.controls['password'].dirty || passForm.controls['password'].touched)">This field is required</span>
                     </div>
-                    <button class="btn btn-primary btn-block mt-lg" type="submit">Continue</button>
+                    <button class="btn btn-yellow btn-block mt-lg" type="submit">Continue</button>
                 </form>
                 <a class="btn btn-default btn-block" [routerLink]="'/login'">Login</a>
             </div>
@@ -51,7 +51,7 @@
                         <span class="fa fa-envelope form-control-feedback text-muted"></span>
                         <span class="text-danger" *ngIf="resetForm.controls['confirmPassword'].hasError('required') && (resetForm.controls['confirmPassword'].dirty || resetForm.controls['confirmPassword'].touched)">This field is required</span>
                     </div>
-                    <button class="btn btn-primary btn-block mt-lg" type="submit">Reset</button>
+                    <button class="btn btn-yellow btn-block mt-lg" type="submit">Reset</button>
                 </form>
                 <a class="btn btn-default btn-block" [routerLink]="'/login'">Login</a>
             </div>

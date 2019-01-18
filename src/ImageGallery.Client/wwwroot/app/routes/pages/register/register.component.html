@@ -1,10 +1,10 @@
 <div class="wrapper">
-    <div class="block-center mt-xl wd-xl">
+    <div class="block-center new-form mt-xl wd-xl">
         <!-- START panel-->
-        <div class="panel panel-dark panel-flat">
+        <div class="panel panel-new panel-flat">
             <div class="panel-heading text-center">
                 <a href="#">
-                    <img class="block-center img-rounded" src="assets/img/logo.png" alt="Image" />
+                    <img class="block-center img-rounded" src="assets/img/logo1.png" alt="Image" />
                 </a>
             </div>
             <div class="panel-body">
@@ -65,7 +65,7 @@
                         </div>
                     </div>
                     <span class="text-danger" *ngIf="valForm.controls['accountagreed'].hasError('required') && (valForm.controls['accountagreed'].dirty || valForm.controls['accountagreed'].touched)">You must agree the terms</span>
-                    <button class="btn btn-block btn-primary mt-lg" type="submit">Create account</button>
+                    <button class="btn btn-block btn-yellow mt-lg" type="submit">Create account</button>
                 </form>
                 <a class="btn btn-block btn-default" [routerLink]="'/login'">Login</a>
             </div>
