@@ -1,7 +1,8 @@
 <!-- <div *ngIf="userType?'PayingUser':navbarType1,navbarType2">
 
 </div> -->
-<div class="navbar navbar-fixed-top" [class.navbar-green]="userType === 'PayingUser'" [class.navbar-inverse]="userType !== 'PayingUser'">
+<div class="navbar navbar-fixed-top" [class.navbar-green]="userType === 'PayingUser'"
+     [class.navbar-inverse]="userType !== 'PayingUser'">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -11,7 +12,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a *ngIf="isAuthorized" routerLink="/">
-                <img class="block-center img-rounded" src="assets/img/logo1.png" alt="Image" />
+                <img class="block-center img-rounded" src="assets/img/logo1.png" alt="Image"/>
             </a>
         </div>
         <div class="navbar-collapse collapse">
@@ -23,7 +24,8 @@
                     <a *ngIf="isAuthorized" id="albums" [routerLink]="['/albums']">Albums</a>
                 </li>
                 <li>
-                    <a *ngIf="(isAuthorized && hasPayingUserRole)" id="add_mage" routerLink="/gallery-add">Add an image</a>
+                    <a *ngIf="(isAuthorized && hasPayingUserRole)" id="add_mage" routerLink="/gallery-add">Add an
+                        image</a>
                 </li>
                 <li>
                     <a *ngIf="isAuthorized" id="about" routerLink="/about">About</a>
@@ -34,7 +36,8 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a *ngIf="isAuthorized" id="user_properties" href="#" (click)="openModal(template)">Welcome {{name}}</a>
+                    <a *ngIf="isAuthorized" id="user_properties" href="#"
+                       (click)="openModal(template)">Welcome {{name}}</a>
                 </li>
             </ul>
         </div>
@@ -42,63 +45,68 @@
 </div>
 <div class="container body-content">
     <router-outlet></router-outlet>
-    <hr />
+    <hr/>
     <footer>
         <p>&copy; Image Gallery</p>
     </footer>
 </div>
 
 <ng-template #template>
-    <div class="modal-header">
-        <h4 class="modal-title pull-left">Update User Properties</h4>
-        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form class="form-inline" [formGroup]="form">
-            <div class="row">
-                <div class="col-sm-12">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" class="form-control" id="firstName" formControlName="firstName">
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Update User Properties</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form class="form-inline" [formGroup]="form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="firstName">First Name:</label>
+                        <input type="text" class="form-control" id="firstName" formControlName="firstName">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="lastName">Last Name:</label>
+                        <input type="text" class="form-control" id="lastName" formControlName="lastName">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="address">Address:</label>
+                        <input type="text" class="form-control" id="address" formControlName="address">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="address2">Address2:</label>
+                        <input type="text" class="form-control" id="address2" formControlName="address2">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="city">City:</label>
+                        <input type="text" class="form-control" id="city" formControlName="city">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="state">State:</label>
+                        <input type="text" class="form-control" id="state" formControlName="state">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="postalCode">Postal Code:</label>
+                        <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="country">Country:</label>
+                        <select class="form-control" id="country" formControlName="country">
+                            <option [value]="country.key" *ngFor="let country of countries"> {{country.value}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-12">
+                        <label for="language">Language:</label>
+                        <select class="form-control" id="language" formControlName="language">
+                            <option [value]="language.key"
+                                    *ngFor="let language of languages"> {{language.value}}</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-sm-12">
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" class="form-control" id="lastName" formControlName="lastName">
-                </div>
-                <div class="col-sm-12">
-                    <label for="address">Address:</label>
-                    <input type="text" class="form-control" id="address" formControlName="address">
-                </div>
-                <div class="col-sm-12">
-                    <label for="address2">Address2:</label>
-                    <input type="text" class="form-control" id="address2" formControlName="address2">
-                </div>
-                <div class="col-sm-12">
-                    <label for="city">City:</label>
-                    <input type="text" class="form-control" id="city" formControlName="city">
-                </div>
-                <div class="col-sm-12">
-                    <label for="state">State:</label>
-                    <input type="text" class="form-control" id="state" formControlName="state">
-                </div>
-                <div class="col-sm-12">
-                    <label for="postalCode">Postal Code:</label>
-                    <input type="text" class="form-control" id="postalCode" formControlName="postalCode">
-                </div>
-                <div class="col-sm-12">
-                    <label for="country">Country:</label>
-                    <input type="text" class="form-control" id="country" formControlName="country">
-                </div>
-                <div class="col-sm-12">
-                    <label for="language">Language:</label>
-                    <input type="text" class="form-control" id="language" formControlName="language">
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
-        <button class="btn btn-success" (click)="saveUserInfo()">Save Changes</button>
-    </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+            <button class="btn btn-success" (click)="saveUserInfo()">Save Changes</button>
+        </div>
 </ng-template>

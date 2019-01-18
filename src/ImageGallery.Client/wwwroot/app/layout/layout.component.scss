@@ -10,3 +10,23 @@
   height: 46px;
   padding: 10px;
 }
+
+.modal-body{
+  .form-inline .form-control {
+    display: inline-block;
+    width: 450px;
+    max-width: 450px;
+    vertical-align: middle;
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-body{
+    .form-inline .form-control {
+      display: inline-block;
+      width: 70%;
+      max-width: 70%;
+      vertical-align: middle;
+    }
+  }
+}

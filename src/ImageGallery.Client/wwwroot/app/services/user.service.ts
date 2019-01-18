@@ -33,6 +33,14 @@ export class UserManagementService {
        return this.httpClient.put<IUserProfileViewModel>('/api/UserProfile', userModel);
     }
 
+    getCountries() {
+        return this.httpClient.get(`https://user-management.informationcart.com/api/Reference/countries`);
+    }
+
+    getLanguages() {
+        return this.httpClient.get(`https://user-management.informationcart.com/api/Reference/languages`);
+    }
+
     resetPassword(email) {
         return this.httpClient.post(`${this.apiEndpoint}/api/Account`, email);
     }
