@@ -16,6 +16,11 @@
         public string ImagesUri { get; set; }
 
         /// <summary>
+        /// Maps API Key.
+        /// </summary>
+        public string MapsApiKey { get; set; }
+
+        /// <summary>
         ///  ClientConfiguration.
         /// </summary>
         public ClientConfiguration ClientConfiguration { get; set; }

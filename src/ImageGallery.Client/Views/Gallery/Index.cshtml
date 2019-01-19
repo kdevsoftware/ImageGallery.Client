@@ -1,8 +1,9 @@
-﻿<app-root></app-root>
+﻿@model ImageGallery.Client.ViewModels.Gallery.GalleryViewModel
+<app-root></app-root>
 
 <div class="preloader">
     <div class="preloader-progress"></div>
-     <div class="preloader-progress-loader"></div>
+    <div class="preloader-progress-loader"></div>
 </div>
 
 <script src="~/dist/polyfills.js" asp-append-version="true"></script>
@@ -14,7 +15,7 @@
     window.reCaptchaCallback = function () { promiseDone(); }
 </script>
 <script src="https://www.google.com/recaptcha/api.js?onload=reCaptchaCallback&render=explicit" async defer></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhPzUk8HIyoEIzUBSzW2OsGcJhdUwkW5o"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=@Model.ApplicationOptions.MapsApiKey"></script>
 
 @section scripts {
     <script src="~/dist/main-client.js" asp-append-version="true"></script>

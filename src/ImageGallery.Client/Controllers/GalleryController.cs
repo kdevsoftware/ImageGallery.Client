@@ -1,4 +1,5 @@
 ﻿using ImageGallery.Client.Configuration;
+using ImageGallery.Client.ViewModels.Gallery;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -34,7 +35,12 @@ namespace ImageGallery.Client.Controllers
             _logger.LogInformation($"Index() of {typeof(GalleryController)}");
             _logger.LogInformation($"ApplicationSettings {ApplicationSettings}");
 
-            return View();
+            var model = new GalleryViewModel
+            {
+                ApplicationOptions = ApplicationSettings,
+            };
+
+            return View(model);
         }
     }
 }

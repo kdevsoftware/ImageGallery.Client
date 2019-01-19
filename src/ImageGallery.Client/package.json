@@ -82,7 +82,7 @@
     "webpack-hot-middleware": "2.24.3",
     "webpack-merge": "4.2.1",
     "webpack-node-externals": "1.7.2",
-    "zone.js": "0.8.26"
+    "zone.js": "0.8.27"
   },
   "devDependencies": {
     "@angular/cli": "^7.2.1",
