@@ -16,12 +16,8 @@ import { RatingModule } from 'ngx-bootstrap/rating';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
-
-
 import { ColorsService } from './colors/colors.service';
-import { CheckallDirective } from './directives/checkall/checkall.directive';
-import { NowDirective } from './directives/now/now.directive';
-import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
+
 
 
 @NgModule({
@@ -46,11 +42,6 @@ import { ScrollableDirective } from './directives/scrollable/scrollable.directiv
     providers: [
         ColorsService
     ],
-    declarations: [
-        CheckallDirective,
-        NowDirective,
-        ScrollableDirective
-    ],
     exports: [
         CommonModule,
         FormsModule,
@@ -68,10 +59,7 @@ import { ScrollableDirective } from './directives/scrollable/scrollable.directiv
         RatingModule,
         TabsModule,
         TooltipModule,
-        TypeaheadModule,
-        CheckallDirective,
-        NowDirective,
-        ScrollableDirective
+        TypeaheadModule
     ]
 })
 

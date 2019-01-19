@@ -35,6 +35,7 @@
     <Content Remove="wwwroot\app\polyfills.ts" />
     <Content Remove="wwwroot\app\reCaptchaCallback.ts" />
     <Content Remove="wwwroot\app\roles.constants.ts" />
+    <Content Remove="wwwroot\app\routes\gallery\reports\reports.component.ts" />
     <Content Remove="wwwroot\app\routes\gallery\about\about.component.ts" />
     <Content Remove="wwwroot\app\routes\gallery\gallery-add\gallery-add.component.ts" />
     <Content Remove="wwwroot\app\routes\gallery\gallery-edit\gallery-edit.component.ts" />
@@ -57,9 +58,6 @@
     <Content Remove="wwwroot\app\services\auth.service.ts" />
     <Content Remove="wwwroot\app\services\user.service.ts" />
     <Content Remove="wwwroot\app\shared\colors\colors.service.ts" />
-    <Content Remove="wwwroot\app\shared\directives\checkall\checkall.directive.ts" />
-    <Content Remove="wwwroot\app\shared\directives\now\now.directive.ts" />
-    <Content Remove="wwwroot\app\shared\directives\scrollable\scrollable.directive.ts" />
     <Content Remove="wwwroot\app\shared\interfaces.ts" />
     <Content Remove="wwwroot\app\shared\shared.module.ts" />
     <Content Remove="wwwroot\app\vendor.ts" />
@@ -190,6 +188,7 @@
     <TypeScriptCompile Include="wwwroot\app\polyfills.ts" />
     <TypeScriptCompile Include="wwwroot\app\reCaptchaCallback.ts" />
     <TypeScriptCompile Include="wwwroot\app\roles.constants.ts" />
+   <TypeScriptCompile Include="wwwroot\app\routes\gallery\reports\reports.component.ts" />
     <TypeScriptCompile Include="wwwroot\app\routes\gallery\about\about.component.ts" />
     <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery-add\gallery-add.component.ts" />
     <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery-edit\gallery-edit.component.ts" />
@@ -212,9 +211,7 @@
     <TypeScriptCompile Include="wwwroot\app\services\auth.service.ts" />
     <TypeScriptCompile Include="wwwroot\app\services\user.service.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\colors\colors.service.ts" />
-    <TypeScriptCompile Include="wwwroot\app\shared\directives\checkall\checkall.directive.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\directives\now\now.directive.ts" />
-    <TypeScriptCompile Include="wwwroot\app\shared\directives\scrollable\scrollable.directive.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\interfaces.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\shared.module.ts" />
     <TypeScriptCompile Include="wwwroot\app\vendor.ts" />

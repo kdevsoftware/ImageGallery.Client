@@ -11,6 +11,7 @@ import { AlbumViewComponent } from './gallery/album-view/album-view.component';
 import { GalleryModule } from './gallery/gallery.module';
 import { GalleryAddComponent } from './gallery/gallery-add/gallery-add.component';
 import { AboutComponent } from './gallery/about/about.component';
+import { ReportsComponent } from './gallery/reports/reports.component';
 
 //Guards
 import { HasPayingUserRoleAuthenticationGuard } from '../guards/hasPayingUserRoleAuthenticationGuard';
@@ -28,6 +29,7 @@ export const routes = [
       { path: 'gallery-add', component: GalleryAddComponent, canActivate: [HasPayingUserRoleAuthenticationGuard] },
       { path: 'album-view/:id', component: AlbumViewComponent },
       { path: 'gallery-edit/:id', component: GalleryEditComponent },
+      { path: 'reports', component: ReportsComponent },
       { path: 'about', component: AboutComponent }
     ]
     , canActivate: [AuthGuard]

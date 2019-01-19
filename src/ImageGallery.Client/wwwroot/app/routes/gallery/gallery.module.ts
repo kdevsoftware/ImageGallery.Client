@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../../shared/shared.module';
 import { GalleryAddComponent } from './gallery-add/gallery-add.component';
 import { AboutComponent } from './about/about.component';
+import { ReportsComponent } from './reports/reports.component';
 import { KeysPipe } from '../../pipes/keys.pipe';
 import { PaginationModule } from 'ngx-bootstrap';
 import { NgxLoadingSpinnerModule } from 'ngx-loading-spinner-fork';
@@ -37,7 +38,7 @@ import { AgmCoreModule } from '@agm/core';
           apiKey: 'AIzaSyAvcDy5ZYc2ujCS6TTtI3RYX5QmuoV8Ffw'
         })
     ],
-  declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, ImageDetailsComponent, ImageMapComponent, ImageJsonComponent, GalleryAddComponent, AboutComponent, KeysPipe],
+  declarations: [AlbumComponent, GalleryComponent, GalleryEditComponent, AlbumViewComponent, AlbumSortComponent, ImageDetailsComponent, ImageMapComponent, ImageJsonComponent, GalleryAddComponent, AboutComponent, ReportsComponent, KeysPipe],
     exports: [
         RouterModule,
         GalleryComponent,
@@ -46,6 +47,7 @@ import { AgmCoreModule } from '@agm/core';
         AlbumViewComponent,
         GalleryAddComponent,
         AboutComponent,
+        ReportsComponent,
         PaginationModule,
         NgxLoadingSpinnerModule,
         AlbumSortComponent,
