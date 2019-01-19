@@ -322,10 +322,6 @@ const Extras = {
             link: '/extras/forum'
         },
         {
-            text: 'Mailbox',
-            link: '/extras/mailbox'
-        },
-        {
             text: 'Timeline',
             link: '/extras/timeline'
         },

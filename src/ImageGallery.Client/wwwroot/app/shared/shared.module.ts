@@ -21,13 +21,11 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 
 
-import { SparklineDirective } from './directives/sparkline/sparkline.directive';
 import { ColorsService } from './colors/colors.service';
 import { CheckallDirective } from './directives/checkall/checkall.directive';
-import { VectormapDirective } from './directives/vectormap/vectormap.directive';
 import { NowDirective } from './directives/now/now.directive';
 import { ScrollableDirective } from './directives/scrollable/scrollable.directive';
-import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
+
 
 // https://angular.io/styleguide#!#04-10
 @NgModule({
@@ -56,12 +54,9 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         ColorsService
     ],
     declarations: [
-        SparklineDirective,
         CheckallDirective,
-        VectormapDirective,
         NowDirective,
-        ScrollableDirective,
-        JqcloudDirective
+        ScrollableDirective
     ],
     exports: [
         CommonModule,
@@ -84,12 +79,9 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         TimepickerModule,
         TooltipModule,
         TypeaheadModule,
-        SparklineDirective,
         CheckallDirective,
-        VectormapDirective,
         NowDirective,
-        ScrollableDirective,
-        JqcloudDirective
+        ScrollableDirective
     ]
 })
 
