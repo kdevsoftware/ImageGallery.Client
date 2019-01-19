@@ -246,34 +246,9 @@ fieldset {
   }
 }
 
-// CAROUSEL
-
-.carousel {
-  .carousel-indicators {
-    bottom: 0;
-  }
-  .carousel-control {
-    &.left,
-    &.right {
-      background-image: none;
-    }
-    // Add support for font awesome
-    em {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      z-index: 5;
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      margin-top: -10px;
-      margin-left: -10px;
-    }
-  }
-}
 
 // Angular UI.Bootstrap
-.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+.nav, .pagination, .panel-title a { cursor: pointer; }
 
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus {
   border-bottom: 0;
