@@ -56,7 +56,6 @@ module.exports = {
                 options: { limit: 100000 }
             }]
         },
-        { test: /jquery\.flot\.resize\.js$/, loader: 'imports-loader?this=>window' },
         { test: /\.scss$/, use: ['raw-loader', 'sass-loader'] }
         ]
     },

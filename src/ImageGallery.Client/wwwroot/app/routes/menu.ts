@@ -127,25 +127,6 @@ const Forms = {
     ]
 };
 
-const Charts = {
-    text: 'Charts',
-    link: '/charts',
-    icon: 'icon-graph',
-    submenu: [
-        {
-            text: 'Flot',
-            link: '/charts/flot'
-        },
-        {
-            text: 'Radial',
-            link: '/charts/radial'
-        },
-        {
-            text: 'ChartJS',
-            link: '/charts/chartjs'
-        }
-    ]
-};
 
 const Tables = {
     text: 'Tables',
@@ -399,7 +380,6 @@ export const menu = [
     headingComponents,
     Elements,
     Forms,
-    Charts,
     Tables,
     Maps,
     headingMore,

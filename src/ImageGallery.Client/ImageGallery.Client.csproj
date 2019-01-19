@@ -58,7 +58,6 @@
     <Content Remove="wwwroot\app\services\user.service.ts" />
     <Content Remove="wwwroot\app\shared\colors\colors.service.ts" />
     <Content Remove="wwwroot\app\shared\directives\checkall\checkall.directive.ts" />
-    <Content Remove="wwwroot\app\shared\directives\flot\flot.directive.ts" />
     <Content Remove="wwwroot\app\shared\directives\jqcloud\jqcloud.directive.ts" />
     <Content Remove="wwwroot\app\shared\directives\now\now.directive.ts" />
     <Content Remove="wwwroot\app\shared\directives\scrollable\scrollable.directive.ts" />
@@ -217,7 +216,6 @@
     <TypeScriptCompile Include="wwwroot\app\services\user.service.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\colors\colors.service.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\directives\checkall\checkall.directive.ts" />
-    <TypeScriptCompile Include="wwwroot\app\shared\directives\flot\flot.directive.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\directives\jqcloud\jqcloud.directive.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\directives\now\now.directive.ts" />
     <TypeScriptCompile Include="wwwroot\app\shared\directives\scrollable\scrollable.directive.ts" />

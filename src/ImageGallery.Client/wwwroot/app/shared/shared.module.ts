@@ -20,7 +20,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { DatepickerModule } from 'ngx-bootstrap/datepicker';
 
-import { FlotDirective } from './directives/flot/flot.directive';
+
 import { SparklineDirective } from './directives/sparkline/sparkline.directive';
 import { ColorsService } from './colors/colors.service';
 import { CheckallDirective } from './directives/checkall/checkall.directive';
@@ -56,7 +56,6 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         ColorsService
     ],
     declarations: [
-        FlotDirective,
         SparklineDirective,
         CheckallDirective,
         VectormapDirective,
@@ -85,7 +84,6 @@ import { JqcloudDirective } from './directives/jqcloud/jqcloud.directive';
         TimepickerModule,
         TooltipModule,
         TypeaheadModule,
-        FlotDirective,
         SparklineDirective,
         CheckallDirective,
         VectormapDirective,
