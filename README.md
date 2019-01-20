@@ -102,7 +102,7 @@ set-executionpolicy unrestricted
 Linux/Mac
 ```
 chmod +x build.sh
-"export PATH=\"\$PATH:\$HOME/.dotnet/tools\"" >> ~/.bash_profile
+echo "export PATH=\"\$PATH:\$HOME/.dotnet/tools\"" >> ~/.bash_profile
 source  ~/.bash_profile
 
 dotnet tool install -g Cake.Tool
