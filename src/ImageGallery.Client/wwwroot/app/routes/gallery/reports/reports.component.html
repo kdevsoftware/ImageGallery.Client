@@ -1,16 +1,28 @@
 <div class="container">
 
   <div class="topMarginDefault">
-    <h3>Reports</h3>
+    <h3>Excel Reports</h3>
   </div>
-
 
   <div>
-    <div>Book Reports</div>
-    <div>Catalog Reports</div>
-    <div>Reference Reports</div>
+    <div><b>Book</b></div>
+    <select class="form-control" type="number" name="bookReports" (change)="onSelectBook()" [(ngModel)]="selectedReport">
+      <option *ngFor="let book of bookReports" [ngValue]="book">{{ book.value }}
+      </option>
+    </select>
+    <div><b>Catalog</b></div>
+    <select class="form-control" type="number" name="catalogReports" (change)="onSelectCatalog()" [(ngModel)]="selectedReport">
+      <option *ngFor="let catalog of catalogReports" [ngValue]="catalog">{{ catalog.value }}
+      </option>
+    </select>
+    <div><b>Reference</b></div>
+    <select class="form-control" type="number" name="referenceReports" (change)="onSelectReference()" [(ngModel)]="selectedReport">
+      <option *ngFor="let reference of referenceReports" [ngValue]="reference">{{ reference.value }}
+      </option>
+    </select>
   </div>
 
+<!-- 
 
   <h3>Dropdowns</h3>
   <pre>
@@ -19,8 +31,8 @@
     https://api-reports.navigatorglass.com/api/Reference/references
   </pre>
 
-<h3>Query</h3>
-<pre>
+  <h3>Query</h3>
+  <pre>
   -- Book
   https://api-reports.navigatorglass.com/api/Reports?ReferenceId=[*REFERENCEID*]&ReportType=book
 
@@ -38,6 +50,6 @@
   
   Example
   https://api-reports.navigatorglass.com/api/Reports?ReferenceId=NRHP-Manhattan-59-110&ReportType=reference
-  </pre>
+  </pre> -->
 
 </div>

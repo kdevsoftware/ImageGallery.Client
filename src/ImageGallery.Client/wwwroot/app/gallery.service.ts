@@ -14,6 +14,7 @@ export class GalleryService {
   private baseUrl: string = '/api/images';
   private albumUrl: string = '/api/albums';
   private photoUrl = '';
+  private reportsUrl = 'https://api-reports.navigatorglass.com/api/Reference';
 
   constructor(private httpClient: HttpClient, private oauthService: OAuthService) {
     this.getConfig().subscribe((res: any) => {
@@ -202,6 +203,11 @@ export class GalleryService {
     headers.append("Content-Type", "application/json");
 
     return this.httpClient.put(`${this.albumUrl}/primaryimage/${id}?imageId=${imageId}`, {}, { headers: headers });
+  }
+
+  public getReports(reportType: string) {
+    return this.httpClient.get(`${this.reportsUrl}/${reportType}`, { headers: this.generateBearerHeaaders() })
+      .catch(this.handleError);
   }
 
   public getImageBase64(id: string) {
