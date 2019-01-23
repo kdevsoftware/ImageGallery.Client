@@ -36,8 +36,8 @@
     "aspnet-webpack": "^3.0.0",
     "bootstrap": "^4.2.1",
     "classlist.js": "1.1.20150312",
-    "clean-webpack-plugin": "1.0.0",
-    "core-js": "2.6.2",
+    "clean-webpack-plugin": "1.0.1",
+    "core-js": "2.6.3",
     "css": "2.2.4",
     "css-loader": "^2.0.2",
     "es6-shim": "0.35.4",
@@ -62,7 +62,7 @@
     "ngx-toastr": "^9.1.1",
     "node-sass": "4.11.0",
     "popper.js": "^1.14.6",
-    "preboot": "6.0.0-beta.6",
+    "preboot": "7.0.0",
     "raw-loader": "^1.0.0",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.3.3",
@@ -89,7 +89,7 @@
     "angular-auth-oidc-client": "^9.0.0",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "sonarqube-scanner": "^2.1.2",
-    "webpack": "^4.28.4",
+    "webpack": "^4.29.0",
     "webpack-dev-middleware": "^3.5.1"
   }
 }
