@@ -1,5 +1,5 @@
 # Build Stage
-FROM microsoft/dotnet:2.2-sdk
+FROM microsoft/dotnet:2.2.103-sdk
 
 # Declare constants
 ENV NVM_VERSION v0.33.8
