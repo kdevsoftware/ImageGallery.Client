@@ -64,8 +64,8 @@ https://www.flickr.com/photos/stuartshay/
 
 ```
 Node v9.3.0
-NET Core SDK 2.1.403
-NET Core Runtime 2.1.5
+NET Core SDK 2.2.100
+NET Core Runtime 2.2.0
 ```
 ### Install & Run
 
