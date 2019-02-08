@@ -13,7 +13,7 @@
   "dependencies": {
     "@agm/core": "^1.0.0-beta.5",
     "@angular/animations": "7.0.4",
-    "@angular/cdk": "^7.2.2",
+    "@angular/cdk": "^7.3.0",
     "@angular/common": "7.0.4",
     "@angular/compiler": "7.0.4",
     "@angular/core": "7.0.4",
@@ -76,7 +76,7 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "url-loader": "^1.1.2",
     "web-animations-js": "2.3.1",
-    "webpack-cli": "^3.2.0",
+    "webpack-cli": "^3.2.2",
     "webpack-externals-plugin": "1.0.0",
     "webpack-hot-middleware": "2.24.3",
     "webpack-merge": "4.2.1",
@@ -84,12 +84,12 @@
     "zone.js": "0.8.29"
   },
   "devDependencies": {
-    "@angular/cli": "^7.2.2",
+    "@angular/cli": "^7.2.3",
     "@auth0/angular-jwt": "^2.1.0",
     "angular-auth-oidc-client": "^9.0.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "sonarqube-scanner": "^2.1.2",
     "webpack": "^4.29.0",
-    "webpack-dev-middleware": "^3.5.1"
+    "webpack-dev-middleware": "^3.5.2"
   }
 }
