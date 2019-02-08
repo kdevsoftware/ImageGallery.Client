@@ -45,7 +45,7 @@ RUN dotnet tool install --global dotnet-setversion --version 2.0.0
 RUN dotnet tool list -g
 #RUN dotnet setversion 2.1.2.${BUILD_NUMBER};
 
-RUN dotnet publish -o /publish -c Release  -r debian.9-x64
+RUN dotnet publish -o /publish -c Release -f netcoreapp2.2 -r debian.9-x64
 
 # Runtime Image Stage
 FROM microsoft/dotnet:2.2-aspnetcore-runtime
