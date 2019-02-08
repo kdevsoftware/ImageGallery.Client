@@ -65,7 +65,7 @@
     "preboot": "7.0.0",
     "raw-loader": "^1.0.0",
     "reflect-metadata": "0.1.13",
-    "rxjs": "6.3.3",
+    "rxjs": "6.4.0",
     "rxjs-compat": "^6.4.0",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.23.1",
@@ -89,7 +89,7 @@
     "angular-auth-oidc-client": "^9.0.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "sonarqube-scanner": "^2.1.2",
-    "webpack": "^4.29.0",
+    "webpack": "^4.29.3",
     "webpack-dev-middleware": "^3.5.2"
   }
 }
