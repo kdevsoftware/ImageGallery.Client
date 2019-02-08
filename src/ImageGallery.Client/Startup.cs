@@ -108,7 +108,7 @@ namespace ImageGallery.Client
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+                //app.UseBrowserLink();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true,
@@ -324,14 +324,14 @@ namespace ImageGallery.Client
 
         public static IServiceCollection AddHttpClientImageEndpointApi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient(HttpClientConstants.ImageEndpointApiHttpClient,  (s, x) =>
-                {
-                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ImagesUri;
-                    x.BaseAddress = new Uri(apiUri);
-                    x.DefaultRequestHeaders.Accept.Clear();
-                    x.DefaultRequestHeaders.Accept.Add(
-                        new MediaTypeWithQualityHeaderValue("application/json"));
-                })
+            services.AddHttpClient(HttpClientConstants.ImageEndpointApiHttpClient, (s, x) =>
+               {
+                   var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.ImagesUri;
+                   x.BaseAddress = new Uri(apiUri);
+                   x.DefaultRequestHeaders.Accept.Clear();
+                   x.DefaultRequestHeaders.Accept.Add(
+                       new MediaTypeWithQualityHeaderValue("application/json"));
+               })
                 .AddTypedClient<ImageEndpointHttpClient>();
 
             return services;
@@ -339,14 +339,14 @@ namespace ImageGallery.Client
 
         public static IServiceCollection AddHttpClientNavigatorIdentityApi(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddHttpClient(HttpClientConstants.NavigatorIdentityApiHttpClient,  (s, x) =>
-                {
-                    var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.OpenIdConnectConfiguration.Authority;
-                    x.BaseAddress = new Uri(apiUri);
-                    x.DefaultRequestHeaders.Accept.Clear();
-                    x.DefaultRequestHeaders.Accept.Add(
-                        new MediaTypeWithQualityHeaderValue("application/json"));
-                })
+            services.AddHttpClient(HttpClientConstants.NavigatorIdentityApiHttpClient, (s, x) =>
+               {
+                   var apiUri = s.GetRequiredService<IOptions<ApplicationOptions>>()?.Value?.OpenIdConnectConfiguration.Authority;
+                   x.BaseAddress = new Uri(apiUri);
+                   x.DefaultRequestHeaders.Accept.Clear();
+                   x.DefaultRequestHeaders.Accept.Add(
+                       new MediaTypeWithQualityHeaderValue("application/json"));
+               })
                 .AddTypedClient<NavigatorIdentityHttpClient>();
 
             return services;

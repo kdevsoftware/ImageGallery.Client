@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
-    <RuntimeFrameworkVersion>2.1.6</RuntimeFrameworkVersion>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <RuntimeFrameworkVersion>2.2.0</RuntimeFrameworkVersion>
     <MvcRazorCompileOnPublish>true</MvcRazorCompileOnPublish>
     <RuntimeIdentifiers>win10-x64;debian.9-x64;ubuntu.16.04-x64;osx.10.12-x64</RuntimeIdentifiers>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
@@ -74,16 +74,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.10" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.1" />
+
     <PackageReference Include="FluentValidation" Version="8.1.3" />
     <PackageReference Include="FluentValidation.AspNetCore" Version="8.1.3" />
     <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="1.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.6" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.4.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.1.3" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Log4Net.AspNetCore" Version="2.2.6" />
     <PackageReference Include="IdentityModel" Version="3.10.6" />
     <PackageReference Include="BundlerMinifier.Core" Version="2.8.391" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
     <PackageReference Include="loggly-csharp" Version="4.6.1.64" />
@@ -188,7 +190,7 @@
     <TypeScriptCompile Include="wwwroot\app\polyfills.ts" />
     <TypeScriptCompile Include="wwwroot\app\reCaptchaCallback.ts" />
     <TypeScriptCompile Include="wwwroot\app\roles.constants.ts" />
-   <TypeScriptCompile Include="wwwroot\app\routes\gallery\reports\reports.component.ts" />
+    <TypeScriptCompile Include="wwwroot\app\routes\gallery\reports\reports.component.ts" />
     <TypeScriptCompile Include="wwwroot\app\routes\gallery\about\about.component.ts" />
     <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery-add\gallery-add.component.ts" />
     <TypeScriptCompile Include="wwwroot\app\routes\gallery\gallery-edit\gallery-edit.component.ts" />
@@ -218,11 +220,11 @@
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netcoreapp2.2\ImageGallery.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\netcoreapp2.1\ImageGallery.Client.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\netcoreapp2.2\ImageGallery.Client.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
