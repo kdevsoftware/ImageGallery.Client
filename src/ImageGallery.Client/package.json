@@ -28,7 +28,7 @@
     "@types/googlemaps": "^3.30.16",
     "@types/jquery": "3.3.29",
     "@types/moment": "2.13.0",
-    "@types/node": "^10.12.21",
+    "@types/node": "^10.12.24",
     "angular-oauth2-oidc": "^5.0.2",
     "angular2-router-loader": "0.3.5",
     "angular2-template-loader": "0.6.2",
@@ -59,7 +59,7 @@
     "ngx-chips": "^2.0.0-beta.0",
     "ngx-image-cropper": "^1.3.8",
     "ngx-loading-spinner-fork": "^1.0.2",
-    "ngx-toastr": "^9.1.1",
+    "ngx-toastr": "^9.1.2",
     "node-sass": "4.11.0",
     "popper.js": "^1.14.7",
     "preboot": "7.0.0",
@@ -88,7 +88,7 @@
     "@auth0/angular-jwt": "^2.1.0",
     "angular-auth-oidc-client": "^9.0.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "sonarqube-scanner": "^2.1.2",
+    "sonarqube-scanner": "^2.2.0",
     "webpack": "^4.29.3",
     "webpack-dev-middleware": "^3.5.2"
   }
