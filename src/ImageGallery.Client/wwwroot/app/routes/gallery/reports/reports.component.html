@@ -1,16 +1,46 @@
 <div class="container">
-
-  <div class="topMarginDefault">
-    <h3>Reports</h3>
+  <div class="panel panel-default topMarginDefault">
+    <div class="panel-heading">
+      <h4>Excel Reports</h4>
+    </div>
+    <div class="panel-body">
+      <div class="pull-left"><b>Book</b></div>
+      <div class="btn-group pull-right" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+          Download <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+          <li role="menuitem" *ngFor="let book of bookReports"><a class="dropdown-item" href="{{book.downloadUrl}}"
+              target="_blank">{{book.value}}</a></li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+      <br>
+      <div class="pull-left"><b>Catalog</b></div>
+      <div class="btn-group pull-right" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+          Download <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+          <li role="menuitem" *ngFor="let catalog of catalogReports"><a class="dropdown-item" href="{{catalog.downloadUrl}}"
+              target="_blank">{{catalog.value}}</a></li>
+        </ul>
+      </div>
+      <div class="clearfix"></div>
+      <br>
+      <div class="pull-left"><b>Reference</b></div>
+      <div class="btn-group pull-right" dropdown>
+        <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+          Download <span class="caret"></span>
+        </button>
+        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+          <li role="menuitem" *ngFor="let reference of referenceReports"><a class="dropdown-item" href="{{reference.downloadUrl}}"
+              target="_blank">{{reference.value}}</a></li>
+        </ul>
+      </div>
+    </div>
   </div>
-
-
-  <div>
-    <div>Book Reports</div>
-    <div>Catalog Reports</div>
-    <div>Reference Reports</div>
-  </div>
-
+  <!-- 
 
   <h3>Dropdowns</h3>
   <pre>
@@ -19,8 +49,8 @@
     https://api-reports.navigatorglass.com/api/Reference/references
   </pre>
 
-<h3>Query</h3>
-<pre>
+  <h3>Query</h3>
+  <pre>
   -- Book
   https://api-reports.navigatorglass.com/api/Reports?ReferenceId=[*REFERENCEID*]&ReportType=book
 
@@ -38,6 +68,7 @@
   
   Example
   https://api-reports.navigatorglass.com/api/Reports?ReferenceId=NRHP-Manhattan-59-110&ReportType=reference
-  </pre>
+  </pre> -->
 
+  <ngx-loading-spinner> </ngx-loading-spinner>
 </div>

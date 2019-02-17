@@ -35,6 +35,14 @@ https://www.flickr.com/photos/stuartshay/
 
 ![](assets/web.png)
 
+
+Photos are Submitted to the System with the assistance of custom Endpoints and Data sources to determine metadata about the photo.
+
+![](assets/metadata.png)
+
+![](assets/map.png)
+
+
 ### Project Structure
 ```
 ├── build   # Cake Build Configuration
@@ -64,8 +72,8 @@ https://www.flickr.com/photos/stuartshay/
 
 ```
 Node v9.3.0
-NET Core SDK 2.1.403
-NET Core Runtime 2.1.5
+NET Core SDK 2.2.100
+NET Core Runtime 2.2.0
 ```
 ### Install & Run
 
