@@ -35,6 +35,14 @@ https://www.flickr.com/photos/stuartshay/
 
 ![](assets/web.png)
 
+
+Photos are Submitted to the System with the assistance of custom Endpoints and Data sources to determine metadata about the photo.
+
+![](assets/metadata.png)
+
+![](assets/map.png)
+
+
 ### Project Structure
 ```
 ├── build   # Cake Build Configuration
