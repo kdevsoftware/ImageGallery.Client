@@ -4,5 +4,22 @@
 }
 
 .crop .img-preview img {
-  width: 50%;
+  width: 100%;
+}
+
+.image-form-wrap{
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #dde6e9;
+  border-radius: 0.25rem;
+  padding: 20px;
+  .form-control{
+    max-width: 100%;
+  }
+  .form-field{
+    margin: 10px 0;
+  }
+  .form-label{
+    margin-bottom: 10px;
+  }
 }

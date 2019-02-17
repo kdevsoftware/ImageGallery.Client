@@ -5,39 +5,49 @@
   </ol>
   <h2 class="leftMarginSmaller">Edit Image</h2>
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 image-form-wrap">
+
       <form method="post" class="form-horizontal" role="form" *ngIf="editImageViewModel" (ngSubmit)="onSubmit()">
-        <div class="form-horizontal leftMarginDefault">
-          <div class="form-group">
-            <div>You image's title</div>
+        <div class="form-horizontal">
+          <div class="form-field">
+            <div class="form-label">Title</div>
             <input name="title" [(ngModel)]="editImageViewModel.title" class="form-control" />
           </div>
 
-          <div class="form-group">
-            <div>Category</div>
+          <div  class="form-field">
+            <div class="form-label">Category</div>
             <select class="form-control" name="category" [(ngModel)]="editImageViewModel.category">
               <option *ngFor="let category of categories" [ngValue]="category">{{category}}</option>
             </select>
           </div>
 
-          <div class="form-group">
-            <div>
-              <input type="submit" class="btn btn-primary" value="Save" />
+          <div  class="form-field">
+            <div class="img-preview form-field">
+            <img *ngIf="croppedImage" [src]="croppedImage" />
             </div>
           </div>
+
+          <div  class="form-field">
+            <div>
+
+                <input type="submit" class="btn btn-primary" value="Save" />
+
+            </div>
+          </div>
+
         </div>
       </form>
     </div>
-    <div class="col-md-4 crop">
+    <div class="col-md-7 col-md-offset-1 image-form-wrap crop">
       <div *ngIf="editImageViewModel && imageBase64">
         <image-cropper [imageBase64]="imageBase64" [maintainAspectRatio]="true" [aspectRatio]="ratio" (imageCropped)="imageCropped($event)"
           (loadImageFailed)="loadImageFailed()"></image-cropper>
-        <div class="img-preview">
-          <img style="width: 50%" *ngIf="croppedImage" [src]="croppedImage" />
-        </div>
         <div class="form-group">
           <div class="crop-btn-container">
-           
+
+            <button type="button" class="btn btn-secondary" [class.active]="ratio == 4/3" (click)="ratio = 4/3">640x480</button>
+            <button type="button" class="btn btn-secondary" [class.active]="ratio == 3/4" (click)="ratio = 3/4">480x640</button>
+
             <button class="btn btn-primary" (click)="cropImage()">Crop image</button>
           </div>
         </div>
