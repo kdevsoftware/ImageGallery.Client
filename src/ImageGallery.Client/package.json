@@ -88,7 +88,7 @@
     "@auth0/angular-jwt": "^2.1.0",
     "angular-auth-oidc-client": "^9.0.2",
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
-    "sonarqube-scanner": "^2.2.0",
+    "sonarqube-scanner": "^2.3.0",
     "webpack": "^4.29.4",
     "webpack-dev-middleware": "^3.5.2"
   }
